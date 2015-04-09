@@ -1,9 +1,10 @@
-/*
- * GUI.cpp
- *
- *  Created on: 13 авг. 2014 г.
- *      Author: WinPooh32
- */
+/*!
+  boldtemple Gaming ©, http://gaming.boldtemple.net
+  OpenSource Project - Check Development, License & Readme Sections.
+  
+  BGE - boldtemple Cross Platform Game Engine
+  /gui/gui.cpp
+!*/
 
 #include "GUI.h"
 

@@ -1,3 +1,11 @@
+/*!
+  boldtemple Gaming ©, http://gaming.boldtemple.net
+  OpenSource Project - Check Development, License & Readme Sections.
+  
+  BGE - boldtemple Cross Platform Game Engine
+  /main.cpp
+!*/
+
 #include <iostream>
 
 #include "Engine.h"

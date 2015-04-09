@@ -1,9 +1,10 @@
-/*
- * Engine.cpp
- *
- *  Created on: 20 сент. 2014 г.
- *      Author: snickers
- */
+/*!
+  boldtemple Gaming ©, http://gaming.boldtemple.net
+  OpenSource Project - Check Development, License & Readme Sections.
+  
+  BGE - boldtemple Cross Platform Game Engine
+  /engine.cpp
+!*/
 
 #include "Engine.h"
 
@@ -98,7 +99,7 @@ bool Engine::Core_Init() {
     Cursor::Init(Surface::LoadTexture("cursor.png"), 20, 20);
 
     if (!Window::IsInitialised()) {
-        Window::SetMode(640, 470, false, "Wooden Engine");
+        Window::SetMode(640, 470, false, "boldtemple Game Engine");
     }
 
     SDL_SetRenderDrawBlendMode(Window::GetRenderer(), SDL_BLENDMODE_BLEND); // https://wiki.libsdl.org/SDL_SetRenderDrawBlendMode

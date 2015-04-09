@@ -1,9 +1,10 @@
-/*
- * KeyBoard.cpp
- *
- *  Created on: 07 сент. 2014 г.
- *      Author: snickers
- */
+/*!
+  boldtemple Gaming ©, http://gaming.boldtemple.net
+  OpenSource Project - Check Development, License & Readme Sections.
+  
+  BGE - boldtemple Cross Platform Game Engine
+  /io/keyboard.cpp
+!*/
 
 #include "KeyBoard.h"
 
