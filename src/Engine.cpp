@@ -95,7 +95,7 @@ bool Engine::Core_Init() {
 
     OnInit(); //CALL user function OnInit
 
-    Cursor::Init(Surface::LoadTexture("cursor.png"), 16, 16);
+    Cursor::Init(Surface::LoadTexture("cursor.png"), 20, 20);
 
     if (!Window::IsInitialised()) {
         Window::SetMode(640, 470, false, "Wooden Engine");
