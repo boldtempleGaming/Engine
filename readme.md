@@ -1,6 +1,6 @@
 # boldtemple Game Engine 
 `version 0.2` (unstable pre-alpha) /
-[Main Web](http://gaming.boldtemple.net/engine/engine/ "boldtemple Game Engine Main web") / 
+[Main Web](http://gaming.boldtemple.net/engine/bge/ "boldtemple Game Engine Main web") / 
 [Documentation](http://boldtemplegaming.github.io/Engine/ "boldtemple Game Engine Documentation")
 
 Alpha Base: Cross platform game engine - Cpp11, SDL2.
