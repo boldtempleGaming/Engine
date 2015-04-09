@@ -6,7 +6,7 @@
 Alpha Base: Cross platform game engine - Cpp11, SDL2.
 
 ## Instructions
-### Build
+### #Build
 **Linux**<br/>
 Install dependencies:
 ```
