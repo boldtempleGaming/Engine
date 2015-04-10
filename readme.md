@@ -6,8 +6,8 @@
 boldtemple Game Engine, build using C++11 and SDL2.
 <br/>Cross Platform: `Windows`, `Linux`, `MacOSX`.
 
-
-<br/>___
+<br/>
+___
 
 
 ## Instructions
