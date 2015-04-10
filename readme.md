@@ -13,11 +13,10 @@ ___
 ## Instructions
 ### #Build
 
+<!--
 > **Cross platform steps**
 Soon..
 
-
-<!--
 | bgengine |
 | :---- |
 |`11111111111111111111111111111`|
@@ -27,7 +26,8 @@ Soon..
 | a | b |
 -->
 
-**Linux**<br/>
+
+<br/>**Linux**<br/>
 Install dependencies:
 ```
 $ sudo apt-get install g++ make cmake libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev 
@@ -40,14 +40,16 @@ $ make -j4
 ```
 *Where `-j4` is 4 parallel make jobs, it depends on your count of CPU cores.*
 
-**Windows**<br/>
+
+<br/>**Windows**<br/>
 Setup dependencies:
 
 1. In engine root project, make new folder name it `deps`.
 2. Inside *deps* download and extract: **sdl2 ([`x32`](https://www.libsdl.org/release/SDL2-2.0.3-win32-x86.zip "SDL2-2.0.3-win32-x86.zip") or [`x64`](https://www.libsdl.org/release/SDL2-2.0.3-win32-x64.zip "SDL2-2.0.3-win32-x64.zip"))** / **[`sdl2 ttf`](https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-devel-2.0.12-mingw.tar.gz "SDL2_ttf-devel-2.0.12-mingw.tar.gz")** /
 **[`sdl2 image`](https://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.0-mingw.tar.gz "SDL2_image-devel-2.0.0-mingw.tar.gz")**.
 
-**Mac OS X**<br/>
+
+<br/>**Mac OS X**<br/>
 Soon..
 
 
