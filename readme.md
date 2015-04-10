@@ -12,7 +12,7 @@ ___
 
 
 ## Instructions
-### #Build
+### - Build
 
 <!--
 > **Cross platform steps**
