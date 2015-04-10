@@ -8,6 +8,7 @@ boldtemple Game Engine, build using C++11 and SDL2.
 
 <br/>
 ___
+<br/>
 
 
 ## Instructions
