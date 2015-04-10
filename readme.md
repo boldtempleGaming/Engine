@@ -1,13 +1,10 @@
-# boldtemple Game Engine 
-boldtemple Game Engine, build using C++11 and SDL2.
-<br/>Cross Platform: `Windows`, `Linux`, `MacOSX`.
-
+# boldtemple Game Engine
 `version 0.2` (unstable pre-alpha) /
 [Main Web](http://gaming.boldtemple.net/engine/bge/ "boldtemple Game Engine Main web") / 
 [Documentation](http://boldtemplegaming.github.io/Engine/ "boldtemple Game Engine Documentation")
 
-
-
+boldtemple Game Engine, build using C++11 and SDL2.
+<br/>Cross Platform: `Windows`, `Linux`, `MacOSX`.
 
 ## Instructions
 ### #Build
