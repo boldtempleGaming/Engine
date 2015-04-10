@@ -4,7 +4,7 @@
 [Documentation](http://boldtemplegaming.github.io/Engine/ "boldtemple Game Engine Documentation")
 
 boldtemple Game Engine, build using C++11 and SDL2.
-<br/>Cross Platform: `Windows`, `Linux`, `Mac`.
+<br/>Cross Platform: `Windows`, `Linux`, `Macintosh`.
 
 <br/>
 ___
@@ -50,7 +50,7 @@ Setup dependencies:
 **[`sdl2 image`](https://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.0-mingw.tar.gz "SDL2_image-devel-2.0.0-mingw.tar.gz")**.
 
 
-<br/>**Mac**<br/>
+<br/>**Macintosh**<br/>
 Soon..
 
 
