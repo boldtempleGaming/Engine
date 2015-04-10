@@ -3,7 +3,8 @@
 [Main Web](http://gaming.boldtemple.net/engine/bge/ "boldtemple Game Engine Main web") / 
 [Documentation](http://boldtemplegaming.github.io/Engine/ "boldtemple Game Engine Documentation")
 
-Alpha Base: Cross platform game engine using C++11 and SDL2.
+Alpha Base: boldtemple Game Engine, build using C++11 and SDL2.
+<br/>Cross Platform: `Windows`, `Linux`, `MacOSX`.
 
 ## Instructions
 ### #Build
