@@ -9,7 +9,6 @@
 #define CAMERA_H_
 
 #include <SDL2/SDL.h>
-#include "Core/Entity.h"
 #include "constants.h"
 
 class Camera {

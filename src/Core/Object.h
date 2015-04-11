@@ -50,8 +50,9 @@ public:
 	void Connect(Object* obj);
 	void Disconnect(Object* obj);
 
-	const Vec2& GetPos();
-	const Vec2& GetGlobalPos();
+	virtual const Vec2& GetPos();
+	virtual const Vec2& GetGlobalPos();
+
 	obj_type GetType();
 	int GetId();
 

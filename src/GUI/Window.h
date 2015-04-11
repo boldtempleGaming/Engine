@@ -22,7 +22,9 @@ public:
 	static int GetWidth();
 	static int GetHeight();
 
-	static bool SetMode(int _w, int _h, bool _full_screen, std::string _title);
+	static const std::string& GetTitle();
+
+	static bool SetMode(int _w, int _h, bool _full_screen, std::string _title = "boldtemple Game Engine");
 	static void SetWidth(const int& _w);
 	static void SetHeight(const int& _h);
 

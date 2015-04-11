@@ -14,6 +14,8 @@ Object::Object() {
 	_owner = nullptr;
 	_id = _last_id++;
 	_type = OBJ_NONE;
+
+	std::cout << "OnObj Create " << _id << std::endl;
 }
 
 Object::~Object() {
@@ -31,28 +33,30 @@ void Object::SetPos(const Vec2& new_pos) {
 	_pos = new_pos;
 
 	if (_owner) {
-		_global_pos.x = _owner->_global_pos.x + _pos.x;
-		_global_pos.y = _owner->_global_pos.y + _pos.y;
+	    _global_pos = _owner->GetGlobalPos() + GetPos();
+	    //_global_pos.x = _owner->_global_pos.x + _pos.x;
+		//_global_pos.y = _owner->_global_pos.y + _pos.y;
 	}else{
 		_global_pos = _pos;
 	}
 
 	if (!ChildrenList.empty())
-		MoveChildern();
+		MoveChildern(Vec2());
 }
 
 void Object::Move(const Vec2& delta_pos) {
     _pos += delta_pos;
 
 	if (_owner) {
-		_global_pos.x = _owner->_global_pos.x + _pos.x;
-		_global_pos.y = _owner->_global_pos.y + _pos.y;
+	    _global_pos = _owner->GetGlobalPos() + GetPos();
+	    //_global_pos.x = _owner->_global_pos.x + _pos.x;
+		//_global_pos.y = _owner->_global_pos.y + _pos.y;
 	}else{
 		_global_pos = _pos;
 	}
 
 	if (!ChildrenList.empty())
-		MoveChildern();
+		MoveChildern(Vec2());
 }
 
 Object* Object::GetOwner() {
@@ -83,6 +87,10 @@ void Object::SetType(obj_type type) {
 	_type = type;
 }
 
+std::list<Object*> Object::GetChildrenList(){
+    return ChildrenList;
+}
+
 const Vec2& Object::GetPos(){
     return _pos;
 }
@@ -99,10 +107,9 @@ int Object::GetId(){
     return _id;
 }
 
-void Object::MoveChildern() {
-	//Vec2 null; // x=0 y=0
+void Object::MoveChildern(const Vec2& delta_pos) {
 	for (auto it = ChildrenList.begin(); it != ChildrenList.end(); it++) {
-		(*it)->Move(Vec2());
+		(*it)->Move(delta_pos);
 	}
 }
 
@@ -116,11 +123,11 @@ std::list<Object*>::iterator Object::FindChild(Object* obj) {
 }
 
 void Object::OnUpdate() {
-	UpdateChildren();
+	//UpdateChildren();
 }
 
 void Object::OnRender() {
-	RenderChildren();
+	//RenderChildren();
 }
 
 void Object::OnCollide(Object* obj) {
@@ -133,7 +140,7 @@ void Object::UpdateChildren(){
 	}
 
 	for (auto it = ChildrenList.begin(); it != ChildrenList.end(); it++) {
-		(*it)->OnUpdate();
+	    (*it)->OnUpdate();
 		(*it)->UpdateChildren();
 	}
 }

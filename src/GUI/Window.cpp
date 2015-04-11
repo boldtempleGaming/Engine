@@ -26,6 +26,10 @@ bool Window::Init() {
 		return false;
 	}
 
+	if(renderer){
+		SDL_DestroyRenderer(renderer);	
+	}
+
 	//RENDER INIT------------------------------------------------------
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED ); // SDL_RENDERER_PRESENTVSYNC
 	if (renderer == nullptr) {
@@ -40,6 +44,10 @@ bool Window::Init() {
 void ShowError(bool& error){
 	error = true;
 	std::cout << SDL_GetError() << std::endl;
+}
+
+const std::string& Window::GetTitle(){
+	return title;
 }
 
 bool Window::SetMode(int _w, int _h, bool _full_screen, std::string _title){
