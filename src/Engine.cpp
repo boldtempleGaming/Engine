@@ -109,7 +109,7 @@ void Engine::Core_Event(SDL_Event* event, const Uint8* keyboardState) {
         bool ESCAPE = keyboardState[SDL_SCANCODE_ESCAPE];
 
         if (ESCAPE || ALT_F4 || (event->type == SDL_QUIT)) {
-            quit = true;
+            Stop();
             return;
         }
 
