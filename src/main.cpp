@@ -32,12 +32,13 @@ void Engine::OnInit() {
     Jim* jim = new Jim(Vec2(0, 0));
     GetRoot()->Connect(jim);
 
-    Box* box = new Box(GetRoot(), Vec2(64, 64), Vec2(64,64));
+    Box* box = new Box(GetRoot(), Vec2(128, 64), Vec2(64,64));
     box->SetBackGround("pgui.png", Vec2(0,0), 8);
 
-    area = new ScrollArea(GetRoot(), Vec2(256, 256), Vec2(256, 256));
+    area = new ScrollArea(GetRoot(), Vec2(300, 200), Vec2(256, 256));
     area->Connect(new Jim(Vec2(0, 0)) ); 
-    area->Connect(new Jim(Vec2(0, 144)) ); 
+    area->Connect(new Jim(Vec2(0, 144)) );
+
 }
 
 void Engine::OnEvent(SDL_Event* event, const Uint8* keyboardState) {

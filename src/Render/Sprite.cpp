@@ -16,7 +16,8 @@ Sprite::Sprite() :
     _frames_per_height(1)
 {
     //Constructor
-    _anim_rect.w = -1;
+    _anim_rect = {-1, -1, -1, -1};
+    _src_rect = _anim_rect;
 }
 
 Sprite::~Sprite() {
@@ -98,7 +99,7 @@ void Sprite::SetFrameSize(const Vec2& frame_size) {
 }
 
 void Sprite::SetFrame(int frame) {
-    if (_src_rect.w == 0 ||_anim_rect.w == 0 || _src_rect.h == 0 || _anim_rect.h == 0) {
+    if (_src_rect.w <= 0 ||_anim_rect.w <= 0 || _src_rect.h <= 0 || _anim_rect.h <= 0) {
         _frames_per_width = 1;
         _frames_per_height = 1;
     } else {

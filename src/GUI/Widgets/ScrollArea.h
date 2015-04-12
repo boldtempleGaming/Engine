@@ -17,7 +17,7 @@ public:
     ScrollArea(Object* owner, const Vec2& pos, const Vec2& size);
     virtual ~ScrollArea();
 
-    const Vec2& GetGlobalPos();
+    const Vec2& GetGlobalPos() const;
 
     void OnUpdate();
     void OnRender();
@@ -29,7 +29,7 @@ public:
     //Horizontal scroll
     void ScollH(int step);
 private:
-    Vec2 _area_pos;
+    //Vec2 _area_false_pos;
 };
 
 #endif /* SRC_GUI_SCROLLAREA_H_ */

@@ -1,17 +1,18 @@
 /*!
-  boldtemple Gaming ©, http://gaming.boldtemple.net
-  OpenSource Project - Check Development, License & Readme Sections.
-  
-  BGE - boldtemple Cross Platform Game Engine
-  /GUI/Widgets/ScrollArea.cpp
-!*/
+ boldtemple Gaming ©, http://gaming.boldtemple.net
+ OpenSource Project - Check Development, License & Readme Sections.
+
+ BGE - boldtemple Cross Platform Game Engine
+ /GUI/Widgets/ScrollArea.cpp
+ !*/
 
 #include <GUI/Widgets/ScrollArea.h>
 
 ScrollArea::ScrollArea(Object* owner, const Vec2& pos, const Vec2& size) :
-        Widget(owner, pos, size)
-{
-    SDL_Texture* texture = SDL_CreateTexture(Window::GetRenderer(),  SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, _size.x, _size.y);
+        Widget(owner, pos, size) {
+    SDL_Texture* texture = SDL_CreateTexture(Window::GetRenderer(),
+            SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, _size.x,
+            _size.y);
     SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
     _back.SetTexture(texture);
 }
@@ -21,8 +22,9 @@ ScrollArea::~ScrollArea() {
 }
 
 //TODO Hack :C
-const Vec2& ScrollArea::GetGlobalPos(){
-   return _global_pos - _pos;
+const Vec2& ScrollArea::GetGlobalPos() const{
+    static Vec2 tmp = _global_pos - _pos;
+    return tmp;
 }
 
 void ScrollArea::OnUpdate() {
@@ -41,7 +43,8 @@ void ScrollArea::RenderChildren() {
         //change the rendering target
         SDL_SetRenderTarget(Window::GetRenderer(), _back.GetTexture());
 
-        SDL_SetRenderDrawColor(Window::GetRenderer(), BACKGROUND_COLOR.r, BACKGROUND_COLOR.g, BACKGROUND_COLOR.b, 0);
+        SDL_SetRenderDrawColor(Window::GetRenderer(), BACKGROUND_COLOR.r,
+                BACKGROUND_COLOR.g, BACKGROUND_COLOR.b, 0);
         SDL_RenderClear(Window::GetRenderer());
 
         for (auto it = chldList.begin(); it != chldList.end(); it++) {

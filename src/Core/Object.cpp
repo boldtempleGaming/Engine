@@ -36,6 +36,8 @@ void Object::SetPos(const Vec2& new_pos) {
 
 	if (_owner) {
 	    _global_pos = _owner->GetGlobalPos() + GetPos();
+	    //_global_pos.x = _owner->_global_pos.x + _pos.x;
+	    //_global_pos.y = _owner->_global_pos.y + _pos.y;
 	}else{
 		_global_pos = _pos;
 	}
@@ -49,6 +51,8 @@ void Object::Move(const Vec2& delta_pos) {
 
 	if (_owner) {
 	    _global_pos = _owner->GetGlobalPos() + GetPos();
+        //_global_pos.x = _owner->_global_pos.x + _pos.x;
+        //_global_pos.y = _owner->_global_pos.y + _pos.y;
 	}else{
 		_global_pos = _pos;
 	}
@@ -57,7 +61,7 @@ void Object::Move(const Vec2& delta_pos) {
 		MoveChildern(Vec2());
 }
 
-Object* Object::GetOwner() {
+Object* Object::GetOwner() const{
 	return _owner;
 }
 
@@ -85,24 +89,33 @@ void Object::SetType(obj_type type) {
 	_type = type;
 }
 
+
 std::list<Object*> Object::GetChildrenList(){
     return ChildrenList;
 }
 
-const Vec2& Object::GetPos(){
+const Vec2& Object::GetPos() const{
     return _pos;
 }
 
-const Vec2& Object::GetGlobalPos(){
+const Vec2& Object::GetGlobalPos() const{
     return _global_pos;
 }
 
-obj_type Object::GetType() {
+obj_type Object::GetType() const{
 	return _type;
 }
 
-int Object::GetId(){
+int Object::GetId() const{
     return _id;
+}
+
+void Object::SetSize(const Vec2& size){
+    _size = size;
+}
+
+const Vec2& Object::GetSize() const{
+    return _size;
 }
 
 void Object::MoveChildern(const Vec2& delta_pos) {
@@ -120,6 +133,23 @@ std::list<Object*>::iterator Object::FindChild(Object* obj) {
 	return ChildrenList.end(); //not found
 }
 
+//if you want to your object to be clicked call this function
+void  Object::CheckClick(){
+    //Was clicked mouse buttun
+    if(Cursor::button != 0){
+        SDL_bool inter;
+        SDL_Rect result;
+        SDL_Rect obj_rect = {_global_pos.x, _global_pos.y, _size.x, _size.y};
+        SDL_Rect cursor_rect = {Cursor::X(), Cursor::Y(), 1, 1};
+        //check intersection
+        inter = SDL_IntersectRect(&cursor_rect, &obj_rect, &result);
+        if(inter == SDL_TRUE){
+            //Set to last clicked
+            GUI::SetLastCliked(this);
+        }
+    }
+}
+
 void Object::OnUpdate() {
 	//UpdateChildren();
 }
@@ -129,6 +159,10 @@ void Object::OnRender() {
 }
 
 void Object::OnCollide(Object* obj) {
+
+}
+
+void Object::OnClick(){
 
 }
 

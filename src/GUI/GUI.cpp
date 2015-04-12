@@ -9,6 +9,7 @@
 #include "GUI.h"
 
 std::map <std::string, TTF_Font*> GUI::Fonts;
+Object* GUI::_last_clicked = nullptr;
 
 GUI::GUI() {
 
@@ -64,4 +65,12 @@ void GUI::OnCleanUp(){
 		iterator++;
 	}
 	Fonts.clear();
+}
+
+void  GUI::SetLastCliked(Object* obj){
+    _last_clicked = obj;
+}
+
+Object*  GUI::GetLastClicked(){
+    return _last_clicked;
 }

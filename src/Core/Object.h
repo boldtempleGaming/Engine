@@ -17,6 +17,8 @@
 
 #include <Core/Vec2.h>
 #include <Render/Surface.h>
+#include <GUI/GUI.h>
+#include <GUI/Cursor.h>
 
 enum obj_type{
 	OBJ_NONE = 0,
@@ -41,19 +43,26 @@ public:
      */
 	void Move(const Vec2& delta_pos);
 
-	Object* GetOwner();
+	Object* GetOwner() const;
 	void Connect(Object* obj);
 	void Disconnect(Object* obj);
 
-	virtual const Vec2& GetPos();
-	virtual const Vec2& GetGlobalPos();
+	virtual const Vec2& GetPos() const;
+	virtual const Vec2& GetGlobalPos() const;
 
-	obj_type GetType();
-	int GetId();
+	obj_type GetType() const;
+	int GetId() const;
+
+	void SetSize(const Vec2& size);
+	const Vec2& GetSize() const;
+
+	//if you want to your object to be clicked call this function
+	void CheckClick();
 
 	virtual void OnUpdate();
 	virtual void OnRender();
 	virtual void OnCollide(Object* obj);
+	virtual void OnClick();
 
     /**
      * Update all children
@@ -63,6 +72,7 @@ public:
      * Render all children
      */
     virtual void RenderChildren();
+
 protected:
     void SetType(obj_type type);
     std::list<Object*> GetChildrenList();
@@ -77,6 +87,7 @@ private:
 	//std::list< /*subsystem type*/ > _subsystems; //TODO subsystem list
 
     Vec2 _pos;
+    Vec2 _size;
     Vec2 _global_pos;
     SDL_Rect _draw_rect;
 

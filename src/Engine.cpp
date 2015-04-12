@@ -32,7 +32,7 @@ void Engine::Start() {
     double previous = SDL_GetTicks();
     double lag = 0.0;
     int MS_PER_UPDATE = 15;
-    double ms_flipped = 1/MS_PER_UPDATE;
+    double ms_flipped = 1 / MS_PER_UPDATE;
 
     while (!quit) {
         SDL_Delay(1);
@@ -52,6 +52,7 @@ void Engine::Start() {
         }
     }
 
+    delete (event);
     Core_CleanUp(); //Очищаем все
 }
 
@@ -127,7 +128,14 @@ void Engine::Core_Event(SDL_Event* event, const Uint8* keyboardState) {
 
 void Engine::Core_Update() {
     Cursor::Update();
+
+    //Catch mouse button click
+    GUI::SetLastCliked(nullptr);
     root_obj->UpdateChildren();
+    if(GUI::GetLastClicked()){
+        GUI::GetLastClicked()->OnClick();
+    }
+
     GUI::OnUpdate();
     OnUpdate(); //User OnUpdate
 }

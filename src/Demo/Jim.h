@@ -22,6 +22,7 @@ public:
 
     void OnUpdate();
     void OnRender();
+    virtual void OnClick();
 
 private:
     Sprite _sprite;
@@ -35,7 +36,6 @@ private:
     Animation anim_stay;
 
     Vec2 _vel;
-    Vec2 _size;
 };
 
 #endif /* SRC_DEMO_JIM_H_ */

@@ -20,14 +20,12 @@ public:
     void Show(bool show);
     void SetBackGround(const std::string& tileset, const Vec2& skin, int tile_size);
 
-    const Vec2& GetSize() const;
     const bool& IsVisible() const;
     const bool& BackIsVisible() const;
 
 protected:
     bool _visible;
     bool _bg_visible;
-    Vec2 _size;
     Sprite _back;
 };
 

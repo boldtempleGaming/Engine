@@ -62,14 +62,20 @@ Jim::Jim(const Vec2& pos){
 
     //_pos = pos;
     Object::SetPos(pos);
-    _size = Vec2(72*2, 72*2);
+    Object::SetSize(Vec2(72*2, 72*2));
 }
 
 Jim::~Jim() {
     // TODO Auto-generated destructor stub
 }
 
+void Jim::OnClick(){
+    std::cout << "YOHOHO JIM clicked: "<< GetId() << std::endl;
+}
+
 void Jim::OnUpdate() {
+    Object::CheckClick();
+
     _timer_controls.Start();
 
     if( !(_vel == Vec2(0,0)) ){
@@ -113,13 +119,13 @@ void Jim::OnUpdate() {
 }
 void Jim::OnRender() {
     Vec2 rect_pos = Object::GetGlobalPos() + _vel * Surface::GetInterpolation();
-    SDL_Rect rect = {rect_pos.x, rect_pos.y, _size.x, _size.y};
+    SDL_Rect rect = {rect_pos.x, rect_pos.y, GetSize().x, GetSize().y};
 
     SDL_SetRenderDrawColor(Window::GetRenderer(), 255, 255, 0, 255);
     SDL_RenderDrawRect(Window::GetRenderer(), &rect);
     SDL_SetRenderDrawColor(Window::GetRenderer(), BACKGROUND_COLOR.r, BACKGROUND_COLOR.g, BACKGROUND_COLOR.b, 255);
 
-    _sprite.Draw(Object::GetGlobalPos() + _vel * Surface::GetInterpolation(), _size);
+    _sprite.Draw(Object::GetGlobalPos() + _vel * Surface::GetInterpolation(), GetSize());
     //_sprite.Draw(_pos, _size);
 }
 
