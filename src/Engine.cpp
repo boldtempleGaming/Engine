@@ -1,20 +1,20 @@
 /*!
-  boldtemple Gaming ©, http://gaming.boldtemple.net
-  OpenSource Project - Check Development, License & Readme Sections.
-  
-  BGE - boldtemple Cross Platform Game Engine
-  /engine.cpp
-!*/
-//tst
+ boldtemple Gaming ©, http://gaming.boldtemple.net
+ OpenSource Project - Check Development, License & Readme Sections.
+
+ BGE - boldtemple Cross Platform Game Engine
+ /engine.cpp
+ !*/
 
 #include "Engine.h"
 
 Engine::Engine() {
-    quit = false;
+
 }
 
 Engine::~Engine() {
-    Core_CleanUp(); //Очищаем все
+    if (root_obj)
+        Core_CleanUp(); //Очищаем все
 }
 
 void SetVideo(int w, int h, bool full_screen, std::string win_title) {
@@ -22,7 +22,6 @@ void SetVideo(int w, int h, bool full_screen, std::string win_title) {
 }
 
 void Engine::Start() {
-
     if (!Core_Init()) {
         return;
     }
@@ -33,6 +32,7 @@ void Engine::Start() {
     double previous = SDL_GetTicks();
     double lag = 0.0;
     int MS_PER_UPDATE = 15;
+    double ms_flipped = 1/MS_PER_UPDATE;
 
     while (!quit) {
         SDL_Delay(1);
@@ -46,19 +46,26 @@ void Engine::Start() {
         while (lag >= MS_PER_UPDATE) {
             lag -= MS_PER_UPDATE;
             Core_Update();
-            
-            Surface::SetInterpolation( lag / MS_PER_UPDATE );
+
+            Surface::SetInterpolation(lag * ms_flipped);
             Core_Render();
         }
     }
 
+    Core_CleanUp(); //Очищаем все
 }
 
-Object* Engine::GetRoot(){
+void Engine::Stop() {
+    quit = true;
+}
+
+Object* Engine::GetRoot() {
     return root_obj;
 }
 
 bool Engine::Core_Init() {
+    quit = false;
+
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
         return false;
@@ -145,7 +152,8 @@ void Engine::Core_CleanUp() {
     Surface::OnCleanUp(); //Destroy all textures
 
     std::cout << "Destroy objects..." << std::endl;
-    delete(root_obj);
+    delete (root_obj);
+    root_obj = nullptr;
 
     std::cout << "Cleaning gui..." << std::endl;
     GUI::OnCleanUp();

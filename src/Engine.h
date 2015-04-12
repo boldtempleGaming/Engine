@@ -38,6 +38,7 @@ public:
     virtual ~Engine();
     void SetVideo(int w, int h, bool full_screen, std::string win_title);
     void Start();
+    void Stop();
 
 private:
     Object* root_obj;
