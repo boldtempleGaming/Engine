@@ -1,9 +1,10 @@
-/*
- * Object.cpp
- *
- *  Created on: 03 March 2015 г.
- *      Author: WinPooh32
- */
+/*!
+  boldtemple Gaming ©, http://gaming.boldtemple.net
+  OpenSource Project - Check Development, License & Readme Sections.
+
+  BGE - boldtemple Cross Platform Game Engine
+  /Core/Object.cpp
+!*/
 
 #include <Core/Object.h>
 
