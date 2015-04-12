@@ -7,7 +7,6 @@
 
 #include <Core/Object.h>
 
-std::list<Object*> Object::ObjList;
 int Object::_last_id = 0;
 
 Object::Object() {
@@ -17,7 +16,7 @@ Object::Object() {
 }
 
 Object::~Object() {
-	if (_owner) {
+    if (_owner) {
 		_owner->Disconnect(this);
 	}
 
@@ -25,6 +24,10 @@ Object::~Object() {
 		auto it = ChildrenList.begin();
 		delete (*it);
 	}
+
+    if(_id == _last_id - 1){
+        _last_id = 0; // reset when all objects are deleted
+    }
 }
 
 void Object::SetPos(const Vec2& new_pos) {

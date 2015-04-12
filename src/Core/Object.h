@@ -24,12 +24,6 @@ enum obj_type{
 	OBJ_WIDGET
 };
 
-/*
-enum obj_draw_layer{
-//TODO objects draw layers// Outside?
-};
-*/
-
 class ScrollArea; // объявление класса
 
 class Object {
