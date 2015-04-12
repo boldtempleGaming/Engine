@@ -14,8 +14,6 @@ Object::Object() {
 	_owner = nullptr;
 	_id = _last_id++;
 	_type = OBJ_NONE;
-
-	std::cout << "OnObj Create " << _id << std::endl;
 }
 
 Object::~Object() {
@@ -34,8 +32,6 @@ void Object::SetPos(const Vec2& new_pos) {
 
 	if (_owner) {
 	    _global_pos = _owner->GetGlobalPos() + GetPos();
-	    //_global_pos.x = _owner->_global_pos.x + _pos.x;
-		//_global_pos.y = _owner->_global_pos.y + _pos.y;
 	}else{
 		_global_pos = _pos;
 	}
@@ -49,8 +45,6 @@ void Object::Move(const Vec2& delta_pos) {
 
 	if (_owner) {
 	    _global_pos = _owner->GetGlobalPos() + GetPos();
-	    //_global_pos.x = _owner->_global_pos.x + _pos.x;
-		//_global_pos.y = _owner->_global_pos.y + _pos.y;
 	}else{
 		_global_pos = _pos;
 	}
