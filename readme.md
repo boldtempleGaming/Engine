@@ -35,7 +35,7 @@ Setup dependencies:
 2. Inside ***`deps`*** download and extract: **sdl2 ([`x32`](https://www.libsdl.org/release/SDL2-2.0.3-win32-x86.zip "SDL2-2.0.3-win32-x86.zip") or [`x64`](https://www.libsdl.org/release/SDL2-2.0.3-win32-x64.zip "SDL2-2.0.3-win32-x64.zip"))** + **[`sdl2 ttf`](https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-devel-2.0.12-mingw.tar.gz "SDL2_ttf-devel-2.0.12-mingw.tar.gz")** +
 **[`sdl2 image`](https://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.0-mingw.tar.gz "SDL2_image-devel-2.0.0-mingw.tar.gz")**.
 3. Download [**MinGW**](http://sourceforge.net/projects/mingw/files/latest/download?source=files) and Install it using our guide, checking what to select from [*here*](http://gaming.boldtemple.net/engine/bge/files/media/mingw_ticks.png).
-4. Use [**CMake**](www.cmake.org/download/) tool which uses **`CMakeLists.txt`** to generate project files/makefile.
+4. Download [**CMake**](www.cmake.org/download/) tool which uses **`CMakeLists.txt`** to generate project files/makefile.
 
 Build source:
 + Link deps with in project, generate makefile then build.
