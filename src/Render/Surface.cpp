@@ -36,7 +36,6 @@ SDL_Texture* Surface::LoadTexture(const std::string& fpath) {
 }
 
 void Surface::Draw(SDL_Texture* texture, SDL_Rect* dstrect) {
-
     if (texture) {
         SDL_RenderCopy(Window::GetRenderer(), texture, nullptr, dstrect);
     } else {
@@ -46,7 +45,6 @@ void Surface::Draw(SDL_Texture* texture, SDL_Rect* dstrect) {
 }
 
 void Surface::Draw(SDL_Texture* texture, SDL_Rect* srcrect, SDL_Rect* dstrect) {
-
     if (texture) {
         SDL_RenderCopy(Window::GetRenderer(), texture, srcrect, dstrect);
     } else {
@@ -78,12 +76,10 @@ void Surface::Draw(SDL_Texture* texture, SDL_Rect* srcrect, SDL_Rect* dstrect,
 
 void Surface::DrawRect(SDL_Rect* rect, const Uint8 r, const Uint8 g,
         const Uint8 b, const Uint8 a) {
-
     SDL_SetRenderDrawColor(Window::GetRenderer(), r, g, b, a);
     SDL_RenderFillRect(Window::GetRenderer(), rect);
     SDL_SetRenderDrawColor(Window::GetRenderer(), BACKGROUND_COLOR.r,
             BACKGROUND_COLOR.g, BACKGROUND_COLOR.b, 255);
-
 }
 
 void Surface::DrawRect(SDL_Rect* rect, SDL_Color color) {
@@ -117,10 +113,10 @@ void Surface::OnCleanUp() {
     Textures.clear();
 }
 
-void Surface::GetSkinnedRect(SDL_Texture* src, SDL_Texture* dst, const Vec2* pos,
-        SDL_Rect* dst_rect, int size) {
+void Surface::GetSkinnedRect(SDL_Texture* src, SDL_Texture* dst,
+        const Vec2* pos, SDL_Rect* dst_rect, int size) {
 
-    if(dst == nullptr){
+    if (dst == nullptr) {
         return;
     }
 
@@ -132,7 +128,7 @@ void Surface::GetSkinnedRect(SDL_Texture* src, SDL_Texture* dst, const Vec2* pos
 
     if (src == nullptr) {
         //Fill texture by MAGENTA color
-        SDL_SetRenderDrawColor(Window::GetRenderer(),COLOR_MAGENTA.r,
+        SDL_SetRenderDrawColor(Window::GetRenderer(), COLOR_MAGENTA.r,
                 COLOR_MAGENTA.g, COLOR_MAGENTA.b, 255);
         SDL_RenderClear(Window::GetRenderer());
 

@@ -18,6 +18,7 @@
 #include "Core/Vec2.h"
 #include "GUI/Window.h"
 #include "GUI/colors.h"
+#include "Render/Camera.h"
 #include "../constants.h"
 
 class Surface {
@@ -41,7 +42,6 @@ public:
             SDL_Rect* dst_rect, int size = 8);
 
     static void OnCleanUp();
-
 
     static void SetInterpolation(const double& inter);
     static double GetInterpolation();

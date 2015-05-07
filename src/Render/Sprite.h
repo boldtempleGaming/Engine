@@ -8,15 +8,16 @@
 #ifndef SRC_RENDER_SPRITE_H_
 #define SRC_RENDER_SPRITE_H_
 
-#include <Render/Surface.h>
-#include <Render/Animation.h>
+#include "Render/Surface.h"
+#include "Render/Animation.h"
+#include "Render/Camera.h"
 
 class Sprite {
 public:
     Sprite();
     virtual ~Sprite();
 
-    void Draw(const Vec2& pos, const Vec2& size);
+    void Draw(const Vec2& pos, const Vec2& size, const Camera* camera);
 
     void SetTexture(SDL_Texture* texture);
     void SetAngle(int angle);

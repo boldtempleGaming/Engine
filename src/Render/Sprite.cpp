@@ -24,29 +24,37 @@ Sprite::~Sprite() {
 
 }
 
-void Sprite::Draw(const Vec2& pos, const Vec2& size) {
+void Sprite::Draw(const Vec2& pos, const Vec2& size, const Camera* camera) {
     //TODO What about performance?
     //Same performance (~1000 objects) when not animated xD
+
+    SDL_Rect dst_rect = {pos.x, pos.y, size.x, size.y};
+
+    //Camera culling
+    if(!camera->InView(&dst_rect)){
+        return;
+    }else{
+        dst_rect.x -= camera->X();
+        dst_rect.y -= camera->Y();
+    }
 
     if(_anim_rect.w < 0){
         std::cout << " >> !WARNING! <<  Sprite " << this << " undefined source frame size!" << std::endl;
     }
 
+    //Calc current frame position
     SDL_Rect src_rect;
-    if(_frames_per_width != 0)
+    if(_frames_per_width != 0){
         src_rect.x = (_anim_control.GetCurrentFrame() % _frames_per_width) * _anim_rect.w;
-    else
-        src_rect.x = 0;
-
-    if(_frames_per_height != 0)
         src_rect.y = (_anim_control.GetCurrentFrame() / _frames_per_width) * _anim_rect.h;
-    else
+    }
+    else{
+        src_rect.x = 0;
         src_rect.y = 0;
+    }
 
     src_rect.w = _anim_rect.w;
     src_rect.h = _anim_rect.h;
-
-    SDL_Rect dst_rect = { pos.x, pos.y, size.x, size.y};
 
     Surface::Draw(_texture, &src_rect, &dst_rect, _angle, _flip);
     _anim_control.OnAnimation(); //update animation state
