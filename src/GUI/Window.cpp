@@ -7,12 +7,21 @@
 
 #include "Window.h"
 
+Camera Window::camera;
 SDL_Window* Window::window = nullptr;
 SDL_Renderer* Window::renderer = nullptr;
 std::string Window::title = "No Title";
 int Window::w = 640;
 int Window::h = 470;
 bool Window::full_screen = false;
+
+Window::Window(){
+
+}
+
+Window::~Window(){
+
+}
 
 bool Window::Init() {
 
@@ -60,6 +69,8 @@ bool Window::SetMode(int _w, int _h, bool _full_screen, std::string _title) {
     full_screen = _full_screen;
     title = _title;
 
+    camera.SetViewport(Vec2(w, h));
+
     //Check window existence
     if (IsInitialised()) {
         bool error = false;
@@ -85,6 +96,10 @@ SDL_Window* Window::GetWindow() {
 
 SDL_Renderer* Window::GetRenderer() {
     return renderer;
+}
+
+Camera* Window::GetCamera() {
+    return &camera;
 }
 
 int Window::GetWidth() {

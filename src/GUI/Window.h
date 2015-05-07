@@ -12,6 +12,7 @@
 #include <iostream>
 
 #include <SDL2/SDL.h>
+#include "Render/Camera.h"
 
 
 class Window {
@@ -19,6 +20,7 @@ public:
 
 	static SDL_Window* GetWindow();
 	static SDL_Renderer* GetRenderer();
+	static Camera* GetCamera();
 	static int GetWidth();
 	static int GetHeight();
 
@@ -38,6 +40,9 @@ public:
 	/* more Window functions are there https://wiki.libsdl.org/CategoryVideo */
 
 private:
+	Window();
+	~Window();
+	static Camera camera;
 	static SDL_Window* window;
 	static SDL_Renderer* renderer;
 	static std::string title;
