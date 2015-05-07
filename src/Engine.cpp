@@ -81,8 +81,6 @@ bool Engine::Core_Init() {
         Window::SetMode(640, 470, false);
     }
 
-    OnInit(); //CALL user function OnInit
-
     SDL_SetRenderDrawBlendMode(Window::GetRenderer(), SDL_BLENDMODE_BLEND); // https://wiki.libsdl.org/SDL_SetRenderDrawBlendMode
 
     //SDL_RenderSetLogicalSize(Window::GetRenderer(), LOGIC_WIN_WIDTH,
@@ -95,7 +93,9 @@ bool Engine::Core_Init() {
 
     Cursor::Init(Surface::LoadTexture("cursor.png"), 20, 20);
 
-    Camera::Init(0, 0, Window::GetWidth(), Window::GetHeight());
+    //Camera::Init(0, 0, Window::GetWidth(), Window::GetHeight());
+
+    OnInit(); //CALL user function OnInit
 
     std::cout << "Successfully initialized!" << std::endl;
     return true; //success
