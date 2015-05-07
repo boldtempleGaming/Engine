@@ -9,18 +9,27 @@
 #define CAMERA_H_
 
 #include <SDL2/SDL.h>
+#include "Core/Vec2.h"
 #include "constants.h"
 
 class Camera {
 public:
-	static SDL_Rect cam_rect;
-	static void Init(int x, int y, int w, int h);
-	static void SetViewport(int width, int height);
-	static bool InView(SDL_Rect* rect);
-	static bool InView(int x, int y, int h, int w);
-	static void Move(int dx, int dy);
-	static int X();
-	static int Y();
+    Camera() {};
+    Camera(const Vec2& pos, const Vec2& viewport);
+    void SetPos(const Vec2& pos);
+    void SetViewport(const Vec2& viewport);
+    bool InView(SDL_Rect* rect) const;
+    bool InView(int x, int y, int h, int w) const;
+    bool InView(const Vec2& pos, const Vec2& size) const;
+    void Move(const Vec2& delta_pos);
+    int X() const;
+    int Y() const;
+    int W() const;
+    int H() const;
+
+private:
+    Vec2 _pos;
+    Vec2 _viewport; // aka size
 };
 
 #endif /* CAMERA_H_ */

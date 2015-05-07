@@ -7,55 +7,55 @@
 
 #include "Camera.h"
 
-#include <iostream>
-
-SDL_Rect Camera::cam_rect;
-
-void Camera::Init(int x, int y, int w, int h) {
-	cam_rect = {x,y,w,h};
+Camera::Camera(const Vec2& pos, const Vec2& viewport) :
+        _pos(pos), _viewport(viewport) {
 }
 
-void Camera::SetViewport(int width, int height) {
-	cam_rect.w = width;
-	cam_rect.h = height;
+void Camera::SetPos(const Vec2& pos) {
+    _pos = pos;
 }
 
-bool Camera::InView(SDL_Rect* rect) {
-	//return SDL_HasIntersection(&cam_rect, rect);
-
-	//std::cout << cam_rect.x << " " << cam_rect.w << std::endl;
-
-	bool inX, inY;
-
-	inX = rect->x > -rect->w  && rect->x < cam_rect.w + rect->w ;
-	inY = rect->y > -rect->h  && rect->y < cam_rect.h + rect->h ;
-
-	return inX && inY;
+void Camera::SetViewport(const Vec2& viewport) {
+    _viewport = viewport;
 }
 
-bool Camera::InView(int x, int y, int h, int w) {
-	//SDL_Rect tmp_rect = {x, y, h, w};
-	//return SDL_HasIntersection(&cam_rect, &tmp_rect);
-
-	//std::cout << x << " " << y  << std::endl;
-
-	bool inX, inY;
-
-	inX = x > -w && x < cam_rect.w + w;
-	inY = y > -h && y < cam_rect.h + h;
-
-	return inX && inY;
+bool Camera::InView(SDL_Rect* rect) const {
+    return (rect->x >= _pos.x - rect->w) &&
+           (rect->x <= _viewport.x + rect->w) &&
+           (rect->y >= _pos.y - rect->h) &&
+           (rect->y <= _viewport.y + rect->h);
 }
 
-void Camera::Move(int dx, int dy) {
-	cam_rect.x += dx;
-	cam_rect.y += dy;
+bool Camera::InView(int x, int y, int h, int w) const {
+    return (x >= _pos.x - w) &&
+           (x <= _viewport.x + w) &&
+           (y >= _pos.y -h) &&
+           (y <= _viewport.y + h);
 }
 
-int Camera::X() {
-	return cam_rect.x;
+bool Camera::InView(const Vec2& pos, const Vec2& size) const {
+    return (pos.x >= _pos.x - size.x) &&
+           (pos.x <= _viewport.x + -size.x) &&
+           (pos.y >= _pos.y - size.y) &&
+           (pos.y <= _viewport.y + size.y);
 }
 
-int Camera::Y() {
-	return cam_rect.y;
+void Camera::Move(const Vec2& delta_pos) {
+    _pos += delta_pos;
+}
+
+int Camera::X() const {
+    return _pos.x;
+}
+
+int Camera::Y() const {
+    return _pos.y;
+}
+
+int Camera::W() const {
+    return _viewport.x;
+}
+
+int Camera::H() const {
+    return _viewport.y;
 }
