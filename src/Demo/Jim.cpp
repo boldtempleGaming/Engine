@@ -63,6 +63,9 @@ Jim::Jim(const Vec2& pos){
     //_pos = pos;
     Object::SetPos(pos);
     Object::SetSize(Vec2(72*2, 72*2));
+
+    //Window::GetCamera()->SetPos(Vec2(0, 0));
+    //Window::GetCamera()->SetViewport(Vec2(500, 500));
 }
 
 Jim::~Jim() {
@@ -109,6 +112,13 @@ void Jim::OnUpdate() {
             _sprite.SetAnimation(anim_run);
 
             _vel = Vec2(5.0f, 0);
+
+        } else if (_key_board.isKeyDown(SDL_SCANCODE_UP)) {
+            _vel = Vec2(0, -5.0f);
+
+        } else if (_key_board.isKeyDown(SDL_SCANCODE_DOWN)) {
+            _vel = Vec2(0, 5.0f);
+
         }else{
             _sprite.SetAnimation(anim_stay);
             _vel = Vec2(0,0);
@@ -117,15 +127,17 @@ void Jim::OnUpdate() {
         _timer_controls.Stop();
     }
 }
+
 void Jim::OnRender() {
     Vec2 rect_pos = Object::GetGlobalPos() + _vel * Surface::GetInterpolation();
     SDL_Rect rect = {rect_pos.x, rect_pos.y, GetSize().x, GetSize().y};
+
 
     SDL_SetRenderDrawColor(Window::GetRenderer(), 255, 255, 0, 255);
     SDL_RenderDrawRect(Window::GetRenderer(), &rect);
     SDL_SetRenderDrawColor(Window::GetRenderer(), BACKGROUND_COLOR.r, BACKGROUND_COLOR.g, BACKGROUND_COLOR.b, 255);
 
-    _sprite.Draw(Object::GetGlobalPos() + _vel * Surface::GetInterpolation(), GetSize());
+    _sprite.Draw(Object::GetGlobalPos() + _vel * Surface::GetInterpolation(), GetSize(), Window::GetCamera());
     //_sprite.Draw(_pos, _size);
 }
 
