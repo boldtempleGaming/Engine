@@ -26,7 +26,7 @@ void Box::OnUpdate(){
 void Box::OnRender() {
     if (_visible) {
         if (_bg_visible){
-            _back.Draw(Object::GetGlobalPos(), Object::GetSize());
+            _back.Draw(Object::GetGlobalPos(), Object::GetSize(), Window::GetCamera() );
         }
     }
 }
