@@ -9,7 +9,8 @@
 #ifndef SRC_GUI_SCROLLAREA_H_
 #define SRC_GUI_SCROLLAREA_H_
 
-#include <GUI/Widget.h>
+#include "GUI/Widget.h"
+#include "Render/Camera.h"
 
 //Draws all children on this widget
 class ScrollArea: public Widget {
@@ -29,6 +30,7 @@ public:
     //Horizontal scroll
     void ScollH(int step);
 private:
+    Camera _camera;
     //Vec2 _area_false_pos;
 };
 

@@ -6,7 +6,7 @@
  /GUI/Widgets/ScrollArea.cpp
  !*/
 
-#include <GUI/Widgets/ScrollArea.h>
+#include "ScrollArea.h"
 
 ScrollArea::ScrollArea(Object* owner, const Vec2& pos, const Vec2& size) :
         Widget(owner, pos, size) {
@@ -15,6 +15,9 @@ ScrollArea::ScrollArea(Object* owner, const Vec2& pos, const Vec2& size) :
             _size.y);
     SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
     _back.SetTexture(texture);
+
+    _camera.SetPos(pos);
+    _camera.SetViewport(size);
 }
 
 ScrollArea::~ScrollArea() {
@@ -23,7 +26,7 @@ ScrollArea::~ScrollArea() {
 
 //TODO Hack :C
 const Vec2& ScrollArea::GetGlobalPos() const{
-    static Vec2 tmp = _global_pos - _pos;
+    static Vec2 tmp = _global_pos;// - _pos;
     return tmp;
 }
 
@@ -35,27 +38,29 @@ void ScrollArea::OnRender() {
 
 }
 
+//Implements drawing children to texture
 void ScrollArea::RenderChildren() {
-    //Implements drawing children on  texture
+    if (_visible && _bg_visible) {
 
-    std::list<Object*> chldList = Object::GetChildrenList();
-    if (!chldList.empty() && _visible && _bg_visible) {
+        /*
         //change the rendering target
         SDL_SetRenderTarget(Window::GetRenderer(), _back.GetTexture());
-
-        SDL_SetRenderDrawColor(Window::GetRenderer(), BACKGROUND_COLOR.r,
-                BACKGROUND_COLOR.g, BACKGROUND_COLOR.b, 0);
+        SDL_SetRenderDrawColor(Window::GetRenderer(), BACKGROUND_COLOR.r, BACKGROUND_COLOR.g, BACKGROUND_COLOR.b, 0);
         SDL_RenderClear(Window::GetRenderer());
+         */
 
-        for (auto it = chldList.begin(); it != chldList.end(); it++) {
-            (*it)->OnRender();
-            (*it)->RenderChildren();
-        }
+        SDL_Rect new_view = {_pos.x, _pos.y, _size.x, _size.y};
+        SDL_RenderSetViewport(Window::GetRenderer(), &new_view);
 
-        SDL_SetRenderTarget(Window::GetRenderer(), nullptr); //NULL SETS TO DEFAULT
+        Object::RenderChildren();
+
+        //back to default target
+        //SDL_SetRenderTarget(Window::GetRenderer(), nullptr);
 
         //draw texture to main renderer
-        _back.Draw(_global_pos, GetSize());
+        //_back.Draw(_global_pos, GetSize(), &_camera);
+
+        SDL_RenderSetViewport(Window::GetRenderer(), nullptr);
     }
 }
 
