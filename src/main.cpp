@@ -9,50 +9,79 @@
 #include <iostream>
 
 #include "Engine.h"
-#include "constants.h"
-#include "GUI/Cursor.h"
-#include "Core/sys.h"
-#include "Core/FPScounter.h"
 
-#include "GUI/Widget.h"
-#include "GUI/Widgets/Box.h"
-#include "GUI/Widgets/ScrollArea.h"
 
+#include "Demo/map/Map.h"
 #include "Demo/Jim.h"
 
 using namespace std;
-
-
-FPS_counter fps;
-ScrollArea* area;
+Map test_map;
 
 void Engine::OnInit() {
     Window::SetMode(800, 600, false);
+    //U can set map size in constants.h file
+    //Load and set map tileset texture
+    test_map.texture_tileset = Surface::LoadTexture("overworld_1.png");
 
-    Jim* jim = new Jim(Vec2(0, 0));
-    GetRoot()->Connect(jim);
+    if (!test_map.OnLoad("map.txt") && test_map.texture_tileset) {
+        cout << "Can't load map" << endl;
+        Engine::Stop();
+    }
 
-    Box* box = new Box(GetRoot(), Vec2(128, 64), Vec2(64,64));
-    box->SetBackGround("pgui.png", Vec2(0,0), 8);
+    ScrollArea* area = new ScrollArea(Engine::GetRoot(), Vec2(100, 100), Vec2(300, 300));
 
-    area = new ScrollArea(GetRoot(), Vec2(300, 200), Vec2(256, 256));
-    area->Connect(new Jim(Vec2(0, 0)) ); 
-    area->Connect(new Jim(Vec2(0, 144)) );
+    Jim* jim = new Jim(Vec2(20,20));
+    jim->Connect(new Jim(Vec2(0, 0)));
+    area->Connect(new Jim(Vec2(0, 0)));
 
+    Engine::GetRoot()->Connect(jim);
 }
 
 void Engine::OnEvent(SDL_Event* event, const Uint8* keyboardState) {
-        if(event->type == SDL_MOUSEWHEEL){
-            area->Scroll(Vec2(0, event->wheel.y * 10 )); //TODO REMOVE SCrolling area
+    if (event->type == SDL_MOUSEWHEEL) {
+        //on mouse wheel event
+    } else if (event->type == SDL_KEYDOWN) {
+        //Move camera w,a,s,d
+
+        Camera* cam = Window::GetCamera();
+
+        int code = event->key.keysym.scancode;
+
+        switch(code){
+        case SDL_SCANCODE_D:
+            cam->SetPos(Vec2(cam->X() + 10, cam->Y()));
+            break;
+        case SDL_SCANCODE_A:
+            cam->SetPos(Vec2(cam->X() - 10, cam->Y()));
+            break;
+        case SDL_SCANCODE_W:
+            cam->SetPos(Vec2(cam->X(), cam->Y() - 10));
+            break;
+        case SDL_SCANCODE_S:
+            cam->SetPos(Vec2(cam->X(), cam->Y() + 10));
+            break;
+        case SDL_SCANCODE_KP_PLUS:
+            Window::SetMode(Window::GetWidth() + 10, Window::GetHeight() + 5, false);
+            break;
+        case SDL_SCANCODE_KP_MINUS:
+            Window::SetMode(Window::GetWidth() - 10, Window::GetHeight() - 5, false);
+            break;
         }
+
+    }
+
 }
 
 void Engine::OnUpdate() {
-    fps.OnUpdate();
+
 }
 
 void Engine::OnRender() {
 
+    ///test_map.OnRender(0, 0);
+    SDL_Rect rct = {100, 100, 300, 300};
+
+    Surface::DrawRect(&rct, 100, 100, 100, 60);
 }
 
 void Engine::OnCleanUp() {
