@@ -4,7 +4,7 @@
 [Documentation](http://boldtemplegaming.github.io/Engine/ "boldtemple Game Engine Documentation")
 
 boldtemple Game Engine, build using C++11 and SDL2.
-<br/>Cross Platform: `Windows`, `Linux`, `Macintosh`.
+<br/>Cross Platform: `Windows`, `Linux`, `OS X`.
 
 <br/>
 ___
@@ -54,7 +54,7 @@ $ make -j4
 *Where `-j4` is 4 parallel make jobs, it depends on your count of CPU cores.*
 
 
-<br/>**Macintosh**<br/>
+<br/>**OS X**<br/>
 Soon..
 
 
