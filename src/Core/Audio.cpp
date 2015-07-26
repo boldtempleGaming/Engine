@@ -124,3 +124,7 @@ bool Audio::IsPlaying(){
     }
     return false;
 }
+
+audio_type Audio::Type(){
+    return _type;
+}

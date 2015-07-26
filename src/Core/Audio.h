@@ -28,6 +28,7 @@ public:
     void Play(int loops = 0);
     bool IsLoaded();
     bool IsPlaying();
+    audio_type Type();
 
 private:
     static const int _max_channels;
