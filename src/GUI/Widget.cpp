@@ -30,15 +30,23 @@ void Widget::Show(bool show){
     _visible = show;
 }
 
-void Widget::SetBackGround(const std::string& tileset,const Vec2& skin, int tile_size){
+void Widget::ShowBack(bool show_bg){
+    _bg_visible = show_bg;
+}
+
+void Widget::SetBackGround(const std::string& tileset,const Vec2& skin, int tile_size) {
+    if(_back.GetTexture() != nullptr){
+        SDL_DestroyTexture(_back.GetTexture());
+    }
+
     SDL_Rect rect = {0, 0, GetSize().x, GetSize().y};
 
-    SDL_Texture* texture_back = SDL_CreateTexture(Window::GetRenderer(), SDL_PIXELFORMAT_RGBA8888,
-                               SDL_TEXTUREACCESS_TARGET, rect.w, rect.h); //TODO Memory leak, not saved SDL_Texture
+    SDL_Texture *texture_back = SDL_CreateTexture(Window::GetRenderer(), SDL_PIXELFORMAT_RGBA8888,
+                                                  SDL_TEXTUREACCESS_TARGET, rect.w,
+                                                  rect.h);
     SDL_SetTextureBlendMode(texture_back, SDL_BLENDMODE_BLEND);
 
-    SDL_Texture* texture_skin = Resources::GetTexture(tileset);
-
+    SDL_Texture *texture_skin = Resources::GetTexture(tileset);
     Surface::GetSkinnedRect(texture_skin, texture_back, &skin, &rect, tile_size);
 
     _back.SetTexture(texture_back);

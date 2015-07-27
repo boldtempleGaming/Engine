@@ -20,6 +20,7 @@ public:
     Widget(Object* owner, const Vec2& pos, const Vec2& size);
     virtual ~Widget();
     void Show(bool show);
+    void ShowBack(bool show_bg);
     void SetBackGround(const std::string& tileset, const Vec2& skin, int tile_size);
 
     const bool& IsVisible() const;
