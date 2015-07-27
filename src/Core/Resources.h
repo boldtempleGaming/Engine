@@ -1,7 +1,3 @@
-//
-// Created by WinPooh32 on 23.07.15.
-//
-
 #ifndef ENGINE_RESOURCES_H
 #define ENGINE_RESOURCES_H
 
@@ -13,8 +9,9 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 
-#include <SDL2/SDL_audio.h>
-
+#include "Core/sys.h"
+#include "Core/Audio.h"
+#include "GUI/Window.h"
 
 class Resources {
 public:
@@ -22,17 +19,20 @@ public:
     static const char* FONTS_PATH;
     static const char* SOUNDS_PATH;
 
-    static SDL_Texture* GetTextue(std::string file_path);
-    static TTF_Font* GetFont(std::string file_path);
-    static Mix_Chunk* GetSound(std::string file_path);
-    static Mix_Music* GetMusic(std::string file_path);
+    static SDL_Texture* GetTexture(std::string file_path);
+    static TTF_Font* GetFont(std::string file_path, int ptsize);
+    static Audio* GetAudio(std::string file_path, audio_type type);
+
+    static void UnloadTexture(std::string file_path);
+    static void UnloadFont(std::string file_path);
+    static void UnloadSound(std::string file_path);
+    static void UnloadAll();
 
 private:
     Resources(){};
     static std::map<std::string, SDL_Texture*> _Textures;
     static std::map<std::string, TTF_Font*> _Fonts;
-    static std::map<std::string, Mix_Chunk*> _Sounds;
-    static std::map<std::string, Mix_Music*> _Musics;
+    static std::map<std::string, Audio*> _Sounds;
 };
 
 

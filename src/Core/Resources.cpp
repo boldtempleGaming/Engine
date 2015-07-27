@@ -1,7 +1,3 @@
-//
-// Created by winpooh on 23.07.15.
-//
-
 #include "Resources.h"
 
 const char* Resources::SPRITES_PATH = "../Data/Sprites/";
@@ -10,49 +6,125 @@ const char* Resources::SOUNDS_PATH = "../Data/Sounds/";
 
 std::map<std::string, SDL_Texture*> Resources::_Textures;
 std::map<std::string, TTF_Font*> Resources::_Fonts;
-std::map<std::string, Mix_Chunk*> Resources::_Sounds;
-std::map<std::string, Mix_Music*> Resources::_Musics;
+std::map<std::string, Audio*> Resources::_Sounds;
 
-SDL_Texture* Resources::GetTextue(std::string file_path){
-    return nullptr;
+SDL_Texture* Resources::GetTexture(std::string file_path){
+    SDL_Texture* texture;
+    file_path = std::string(SPRITES_PATH) + file_path;
+
+    if(_Textures.count(file_path) == 0){
+        std::cout << "Loading texture " << file_path << std::endl;
+
+        texture = IMG_LoadTexture(Window::GetRenderer(), file_path.c_str());
+        if(texture != nullptr){
+            _Textures[file_path] = texture;
+        }else{
+            std::cerr << " >> !WARNING! << " << SDL_GetError() << std::endl;
+            if (!Window::GetRenderer())
+                std::cerr << " Is Renderer initialized?" << std::endl;
+        }
+    }else{
+        texture = _Textures[file_path];
+    }
+
+    return texture;
 }
 
-TTF_Font* Resources::GetFont(std::string file_path){
-    return nullptr;
+TTF_Font* Resources::GetFont(std::string file_path, int ptsize){
+    TTF_Font* font;
+    std::string sized_path = file_path + int_to_str(ptsize);
+    file_path = std::string(FONTS_PATH) + file_path;
+
+    if(_Fonts.count(sized_path) == 0){
+        std::cout << "Loading font " << file_path << std::endl;
+
+        font = TTF_OpenFont(file_path.c_str(), ptsize);
+        if(font != nullptr){
+            _Fonts[sized_path] = font;
+        }else{
+            std::cerr << " >> !WARNING! << Couldn't open font: " << file_path << std::endl;
+        }
+    }else{
+        font = _Fonts[sized_path];
+    }
+    return font;
 }
 
-Mix_Chunk* Resources::GetSound(std::string file_path){
-    Mix_Chunk* chunk;
+Audio* Resources::GetAudio(std::string file_path, audio_type type){
+    Audio* audio;
     file_path = std::string(SOUNDS_PATH) + file_path;
 
     if(_Sounds.count(file_path) == 0){
-        chunk = Mix_LoadWAV(file_path.c_str());
-        if(chunk){
-            _Sounds[file_path] = chunk;
+        std::cout << "Loading sound " << file_path << std::endl;
+
+        audio = new Audio(file_path, type);
+        if(audio->IsLoaded()){
+            _Sounds[file_path] = audio;
         }else{
             std::cerr << " >> !WARNING! << Couldn't open sound: " << file_path << std::endl;
+            delete(audio);
+            audio = nullptr;
         }
     }else{
-        chunk = _Sounds[file_path];
+        audio = _Sounds[file_path];
+        if(audio->Type() != type){
+            delete(audio);
+
+            std::cout << "Loading sound "  << file_path << std::endl;
+
+            audio = new Audio(file_path, type);
+            if(audio->IsLoaded()){
+                _Sounds[file_path] = audio;
+            }else{
+                std::cerr << " >> !WARNING! << Couldn't open sound: " << file_path << std::endl;
+                delete(audio);
+                _Sounds.erase(file_path);
+                audio = nullptr;
+            }
+        }
     }
 
-    return chunk;
+    return audio;
 }
 
-Mix_Music* Resources::GetMusic(std::string file_path){
-    Mix_Music* music;
-    file_path = std::string(SOUNDS_PATH) + file_path;
-
-    if(_Musics.count(file_path) == 0){
-        music = Mix_LoadMUS(file_path.c_str());
-        if(music){
-            _Musics[file_path] = music;
-        }else{
-            std::cerr << " >> !WARNING! << Couldn't open music: " << file_path << std::endl;
-        }
-    }else{
-        music = _Musics[file_path];
+void Resources::UnloadTexture(std::string file_path){
+    SDL_Texture* texture = _Textures[file_path];
+    if(texture != nullptr){
+        SDL_DestroyTexture(texture);
     }
+}
 
-    return music;
+void Resources::UnloadFont(std::string file_path){
+    TTF_Font* font = _Fonts[file_path];
+    if(font != nullptr){
+        TTF_CloseFont(font);
+    }
+}
+
+void Resources::UnloadSound(std::string file_path){
+    Audio* audio = _Sounds[file_path];
+    delete(audio);
+}
+
+void Resources::UnloadAll(){
+    for(auto it = _Textures.begin(); it != _Textures.end(); it++){
+        SDL_Texture* texture = (*it).second;
+        if(texture != nullptr){
+            SDL_DestroyTexture(texture);
+        }
+    }
+    _Textures.clear();
+
+    for(auto it = _Fonts.begin(); it != _Fonts.end(); it++){
+        TTF_Font* font = (*it).second;
+        if(font != nullptr){
+            TTF_CloseFont(font);
+        }
+    }
+    _Fonts.clear();
+
+    for(auto it = _Sounds.begin(); it != _Sounds.end(); it++){
+        delete((*it).second);
+    }
+    _Sounds.clear();
 }
