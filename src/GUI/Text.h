@@ -1,10 +1,3 @@
-/*
- * Text.h
- *
- *  Created on: 13 авг. 2014 г.
- *      Author: snickers
- */
-
 #ifndef TEXT_H_
 #define TEXT_H_
 
@@ -14,6 +7,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
+#include "Core/Resources.h"
 #include "GUI/colors.h"
 #include "GUI/Window.h"
 #include "GUI/GUI.h"

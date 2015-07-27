@@ -24,7 +24,6 @@
 class Surface {
 
 public:
-    static SDL_Texture* LoadTexture(const std::string& fpath);
     static void Draw(SDL_Texture* texture, SDL_Rect* dstrect);
     static void Draw(SDL_Texture* texture, SDL_Rect* srcrect,
             SDL_Rect* dstrect);

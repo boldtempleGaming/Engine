@@ -6,6 +6,7 @@
  /engine.cpp
  !*/
 
+#include <Core/Resources.h>
 #include "Engine.h"
 
 Engine::Engine() {
@@ -91,7 +92,7 @@ bool Engine::Core_Init() {
         return false;
     }
 
-    Cursor::Init(Surface::LoadTexture("cursor.png"), 20, 20);
+    Cursor::Init(Resources::GetTexture("cursor.png"), 20, 20);
 
     //Camera::Init(0, 0, Window::GetWidth(), Window::GetHeight());
 
@@ -156,21 +157,18 @@ void Engine::Core_Render() {
 void Engine::Core_CleanUp() {
     OnCleanUp(); //User CleanUp
 
-    std::cout << "Unloading textures..." << std::endl;
-    Surface::OnCleanUp(); //Destroy all textures
+    std::cout << "Unloading resources..." << std::endl;
+    Resources::UnloadAll();
 
     std::cout << "Destroy objects..." << std::endl;
     delete (root_obj);
     root_obj = nullptr;
 
-    std::cout << "Cleaning gui..." << std::endl;
-    GUI::OnCleanUp();
-
     std::cout << "Closing window..." << std::endl;
     Window::OnCleanUp();
 
-    std::cout << "Quitting..." << std::endl;
-
     TTF_Quit();
     SDL_Quit();
+
+    std::cout << "Quitting..." << std::endl;
 }

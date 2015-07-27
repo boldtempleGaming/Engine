@@ -11,7 +11,9 @@
 
 #include "Core/Vec2.h"
 #include "Core/Object.h"
+#include <Core/Resources.h>
 #include "Render/Sprite.h"
+
 
 class Widget: public Object {
 public:

@@ -7,6 +7,8 @@
 
 #include <Demo/Jim.h>
 #include <iostream>
+#include <Core/Resources.h>
+
 Jim::Jim() {
     _frame_rate = 70;
 
@@ -22,7 +24,7 @@ Jim::Jim() {
     anim_run.SetCurrentFrame(0);
 
     //_sprite.SetPos(Vec2(150, 150));
-    _sprite.SetTexture(Surface::LoadTexture("jim_run.png"));
+    _sprite.SetTexture(Resources::GetTexture("jim_run.png"));
     _sprite.SetFrameSize(Vec2(72, 72));
     //_sprite.SetAnimation(0, 12);
     //_sprite.SetAnimationRate(_frame_rate);
@@ -50,7 +52,7 @@ Jim::Jim(const Vec2& pos){
     anim_run.SetCurrentFrame(0);
 
     //_sprite.SetPos(Vec2(150, 150));
-    _sprite.SetTexture(Surface::LoadTexture("jim_run.png"));
+    _sprite.SetTexture(Resources::GetTexture("jim_run.png"));
     _sprite.SetFrameSize(Vec2(72, 72));
     //_sprite.SetAnimation(0, 12);
     //_sprite.SetAnimationRate(_frame_rate);

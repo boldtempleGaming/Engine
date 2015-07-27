@@ -26,18 +26,14 @@ public:
     GUI();
     virtual ~GUI();
 
-    static TTF_Font* LoadFont(const std::string& fname, const int& ptsize);
-
     static void OnInit();
     static void OnUpdate();
     static void OnRender();
-    static void OnCleanUp();
 
     static void SetLastCliked(Object* obj);
     static Object* GetLastClicked();
 
 private:
-    static std::map<std::string, TTF_Font*> Fonts;
     static Object* _last_clicked;
 };
 

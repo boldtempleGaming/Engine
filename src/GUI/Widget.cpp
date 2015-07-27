@@ -37,7 +37,7 @@ void Widget::SetBackGround(const std::string& tileset,const Vec2& skin, int tile
                                SDL_TEXTUREACCESS_TARGET, rect.w, rect.h); //TODO Memory leak, not saved SDL_Texture
     SDL_SetTextureBlendMode(texture_back, SDL_BLENDMODE_BLEND);
 
-    SDL_Texture* texture_skin = Surface::LoadTexture(tileset);
+    SDL_Texture* texture_skin = Resources::GetTexture(tileset);
 
     Surface::GetSkinnedRect(texture_skin, texture_back, &skin, &rect, tile_size);
 

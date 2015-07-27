@@ -1,10 +1,3 @@
-/*
- * Text.cpp
- *
- *  Created on: 13 авг. 2014 г.
- *      Author: snickers
- */
-
 #include "Text.h"
 
 Text::Text() {
@@ -29,7 +22,7 @@ void Text::Init(const int &x, const int &y, const std::string& text,
 
     _fpath = font;
     _visible = true;
-    _font = GUI::LoadFont(font, ptsize);
+    _font = Resources::GetFont(font, ptsize);
     SetPos(x, y);
     SetText(text);
 
@@ -73,7 +66,7 @@ void Text::SetPos(const int &x, const int &y) {
 void Text::SetSize(const int &ptsize) {
 
     //Load font with new size (makes a copy)
-    _font = GUI::LoadFont(_fpath, ptsize);
+    _font = Resources::GetFont(_fpath, ptsize);
     //Update text texture
     GetTexture();
 }
