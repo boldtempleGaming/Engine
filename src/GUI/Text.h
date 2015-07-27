@@ -31,8 +31,8 @@ public:
 	void SetSize(const int& ptsize);
 	void SetPos(const int& x, const int& y);
         
-        int GetW();
-        int GetH();
+	int GetW();
+	int GetH();
 
 private:
 	SDL_Texture* _texture;
