@@ -43,7 +43,7 @@ void Sprite::Draw(const Vec2& pos, const Vec2& size, const Camera* camera) {
     }
 
     //Calc current frame position
-    SDL_Rect src_rect;
+    static SDL_Rect src_rect;
     if(_frames_per_width != 0){
         src_rect.x = (_anim_control.GetCurrentFrame() % _frames_per_width) * _anim_rect.w;
         src_rect.y = (_anim_control.GetCurrentFrame() / _frames_per_width) * _anim_rect.h;
