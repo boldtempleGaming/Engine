@@ -24,6 +24,8 @@ public:
     void OnRender();
     virtual void OnClick();
 
+    bool _is_player = false;
+
 private:
     Sprite _sprite;
     Animation _anim_control;
@@ -35,7 +37,7 @@ private:
     Animation anim_run;
     Animation anim_stay;
 
-    Vec2 _vel;
+    //Vec2 _vel;
 };
 
 #endif /* SRC_DEMO_JIM_H_ */

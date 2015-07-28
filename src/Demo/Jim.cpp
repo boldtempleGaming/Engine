@@ -81,11 +81,15 @@ void Jim::OnClick(){
 void Jim::OnUpdate() {
     Object::CheckClick();
 
+    if(!_is_player){
+        return;
+    }
+
     _timer_controls.Start();
 
-    if( !(_vel == Vec2(0,0)) ){
+    if( !(GetVel() == Vec2(0,0)) ){
         //_pos += _vel;
-        Move(_vel);
+        Move(GetVel());
         //std::cout << _pos.x << " " << _pos.y << std::endl;
     }
 
@@ -107,23 +111,23 @@ void Jim::OnUpdate() {
             _sprite.SetFlip(SDL_FLIP_HORIZONTAL);
             _sprite.SetAnimation(anim_run);
 
-            _vel = Vec2(-5.0f, 0);
+            SetVel( Vec2(-5.0f, 0) );
 
         } else if (_key_board.isKeyDown(SDL_SCANCODE_RIGHT)) {
             _sprite.SetFlip(SDL_FLIP_NONE);
             _sprite.SetAnimation(anim_run);
 
-            _vel = Vec2(5.0f, 0);
+            SetVel( Vec2(15.0f, 0) );
 
         } else if (_key_board.isKeyDown(SDL_SCANCODE_UP)) {
-            _vel = Vec2(0, -5.0f);
+            SetVel( Vec2(0, -5.0f) );
 
         } else if (_key_board.isKeyDown(SDL_SCANCODE_DOWN)) {
-            _vel = Vec2(0, 5.0f);
+            SetVel( Vec2(0, 5.0f) );
 
         }else{
             _sprite.SetAnimation(anim_stay);
-            _vel = Vec2(0,0);
+            SetVel( Vec2(0,0) );
         }
 
         _timer_controls.Stop();
@@ -131,15 +135,18 @@ void Jim::OnUpdate() {
 }
 
 void Jim::OnRender() {
-    Vec2 rect_pos = Object::GetGlobalPos() + _vel * Surface::GetInterpolation();
-    SDL_Rect rect = {rect_pos.x, rect_pos.y, GetSize().x, GetSize().y};
+    Vec2 rect_pos = Object::GetGlobalPos() + GetVel() * Surface::GetInterpolation();
+    SDL_Rect _draw_rect = {rect_pos.x, rect_pos.y, GetSize().x, GetSize().y};
 
+    //if(Surface::GetInterpolation() > 0)
+    //std::cout << Surface::GetInterpolation() << std::endl;
 
     SDL_SetRenderDrawColor(Window::GetRenderer(), 255, 255, 0, 255);
-    SDL_RenderDrawRect(Window::GetRenderer(), &rect);
+    SDL_RenderDrawRect(Window::GetRenderer(), &_draw_rect);
     SDL_SetRenderDrawColor(Window::GetRenderer(), BACKGROUND_COLOR.r, BACKGROUND_COLOR.g, BACKGROUND_COLOR.b, 255);
 
-    _sprite.Draw(Object::GetGlobalPos() + _vel * Surface::GetInterpolation(), GetSize(), Window::GetCamera());
+    _sprite.Draw(rect_pos, GetSize(), Window::GetCamera());
+    //_sprite.Draw(Object::GetGlobalPos(), GetSize(), Window::GetCamera());
     //_sprite.Draw(_pos, _size);
 }
 
