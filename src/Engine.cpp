@@ -32,7 +32,7 @@ void Engine::Start() {
     SDL_Event* event = new SDL_Event;
     double previous = SDL_GetTicks();
     double lag = 0.0;
-    int MS_PER_UPDATE = 30;
+    int MS_PER_UPDATE = 15;
     double ms_flipped = 1 / double(MS_PER_UPDATE);
 
     while (!quit) {
@@ -44,13 +44,13 @@ void Engine::Start() {
 
         Core_Event(event, keyboardState);
 
-        Surface::SetInterpolation(lag * ms_flipped);
-        Core_Render();
-
         while (lag >= MS_PER_UPDATE) {
             lag -= MS_PER_UPDATE;
             Core_Update();
         }
+
+        Surface::SetInterpolation(lag * ms_flipped);
+        Core_Render();
     }
 
     delete (event);
@@ -128,8 +128,6 @@ void Engine::Core_Event(SDL_Event* event, const Uint8* keyboardState) {
 }
 
 void Engine::Core_Update() {
-    Cursor::Update();
-
     //Catch mouse button click
     GUI::SetLastCliked(nullptr);
     root_obj->UpdateChildren();
@@ -149,6 +147,8 @@ void Engine::Core_Render() {
     OnRender();
 
     GUI::OnRender();
+
+    Cursor::Update();
     Cursor::Draw();
 
     SDL_RenderPresent(Window::GetRenderer());
