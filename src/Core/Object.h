@@ -50,6 +50,10 @@ public:
 	virtual const Vec2& GetPos() const;
 	virtual const Vec2& GetGlobalPos() const;
 
+	void SetVel(const Vec2& vel);
+
+	const Vec2& GetVel() const;
+
 	obj_type GetType() const;
 	int GetId() const;
 
@@ -89,6 +93,7 @@ private:
     Vec2 _pos;
     Vec2 _size;
     Vec2 _global_pos;
+	Vec2 _vel;
     SDL_Rect _draw_rect;
 
 	int _id;

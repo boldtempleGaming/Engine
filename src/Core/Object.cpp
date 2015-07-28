@@ -102,6 +102,18 @@ const Vec2& Object::GetGlobalPos() const{
     return _global_pos;
 }
 
+void Object::SetVel(const Vec2 &vel) {
+	_vel = vel;
+}
+
+const Vec2 &Object::GetVel() const {
+	if(GetOwner() != nullptr){
+		return GetOwner()->GetVel() + _vel;
+	}else{
+		return _vel;
+	}
+}
+
 obj_type Object::GetType() const{
 	return _type;
 }
