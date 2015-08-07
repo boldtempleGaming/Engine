@@ -22,6 +22,7 @@ public:
 
     void OnUpdate();
     void OnRender();
+    void OnCollide(Object* obj);
     virtual void OnClick();
 
     bool _is_player = false;
@@ -37,7 +38,10 @@ private:
     Animation anim_run;
     Animation anim_stay;
 
-    //Vec2 _vel;
+    Vec2 _prev_pos;
+    Vec2 _move_vel;
+    Vec2 _jump_vel;
+    bool _onGround;
 };
 
 #endif /* SRC_DEMO_JIM_H_ */
