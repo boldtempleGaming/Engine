@@ -37,12 +37,12 @@ Setup dependencies:
 **[`SDL2_image`](https://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.0-mingw.tar.gz "SDL2_image-devel-2.0.0-mingw.tar.gz")**.
 3. Download [MinGW](http://sourceforge.net/projects/mingw/files/latest/download?source=files) and Install it using our guide, checking what to select from [*here*](http://gaming.boldtemple.net/engine/bge/files/media/mingw_ticks.png).
 4. Download [CMake](www.cmake.org/download/) tool which uses **`CMakeLists.txt`** to generate project files/makefile.
-5. Generate MinGW makefile and type to console:
+
+Build source:
++ Link deps with in project, generate makefile then build:
 ```
 mingw32-make -j4
 ```
-Build source:
-+ Link deps with in project, generate makefile then build.
 
 <br/>**Linux**<br/>
 Install dependencies:
