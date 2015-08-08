@@ -144,10 +144,10 @@ void Jim::OnUpdate() {
             _sprite.SetAnimation(anim_run);
 
             if(_onGround){
-                _move_vel += ( Vec2(-5.0f, 0) );
+                _move_vel += ( Vec2(-3.0f, 0) );
                 _onGround = false;
             }else{
-                _move_vel += ( Vec2(-5.0f,0));
+                _move_vel += ( Vec2(-3.0f,0));
             }
 
         } else if (_key_board.isKeyDown(SDL_SCANCODE_RIGHT)) {
@@ -155,10 +155,10 @@ void Jim::OnUpdate() {
             _sprite.SetAnimation(anim_run);
 
             if(_onGround || jump){
-                _move_vel +=( Vec2(15.0f, 0) );
+                _move_vel +=( Vec2(3.0f, 0) );
                 _onGround = false;
             }else{
-                _move_vel += ( Vec2(15.0f, 0));
+                _move_vel += ( Vec2(3.0f, 0));
             }
 
         } else if(_onGround){
@@ -216,9 +216,38 @@ void Jim::OnCollide(Object *obj) {
     //_collision = true;
     //SetPos(_prev_pos);
 
-    if(obj->GetType() == OBJ_GROUND){
+    bool top;
+    bool left;
+
+    //Get collision direction
+    if(this->GetVel().x == 0){
+        if(this->GetGlobalPos().x < obj->GetGlobalPos().x){
+            //left
+            left = true;
+        }else{
+            //right
+            left = false;
+        }
+    }
+    if(this->GetVel().y == 0){
+        if(this->GetGlobalPos().y < obj->GetGlobalPos().y){
+            //top
+            top = true;
+        }else{
+            top = false;
+            //bottom
+        }
+    }
+
+    if(!top && !_onGround){
+        _move_vel.x = 0;
+    }else{
         _move_vel.y = 0;
         _jump_vel.y = 0;
+    }
+
+    //Prevent sticking under platform
+    if(obj->GetType() == OBJ_GROUND && top){
         _onGround = true;
     }
 }
