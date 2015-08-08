@@ -19,6 +19,8 @@
 
 #include "Core/type_events.h"
 #include "Core/Object.h"
+#include <Core/Resources.h>
+#include <Core/Collider.h>
 
 #include "GUI/GUI.h"
 #include "GUI/Window.h"

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-#include <SDL_mixer.h>
+#include <SDL2/SDL_mixer.h>
 
 enum audio_type{
     AUDIO_SOUND = 0,

@@ -5,8 +5,6 @@
  BGE - boldtemple Cross Platform Game Engine
  /engine.cpp
  !*/
-
-#include <Core/Resources.h>
 #include "Engine.h"
 
 Engine::Engine() {
@@ -43,7 +41,6 @@ void Engine::Start() {
         lag += elapsed;
 
         Core_Event(event, keyboardState);
-
         while (lag >= MS_PER_UPDATE) {
             lag -= MS_PER_UPDATE;
             Core_Update();
@@ -136,7 +133,10 @@ void Engine::Core_Update() {
     }
 
     GUI::OnUpdate();
+
+    Collider::ProcessCollisions();
     OnUpdate(); //User OnUpdate
+
 }
 
 void Engine::Core_Render() {
