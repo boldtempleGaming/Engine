@@ -49,6 +49,10 @@ void Collider::ProcessCollisions() {
                 }
 
                 _Colliders[i]->_owner->Move(Vec2(dif.x, 0));
+
+                vel.x = 0;
+                _Colliders[i]->_owner->SetVel(vel);
+
                 _Colliders[i]->_owner->OnCollide(_Colliders[j]->_owner);
             }
         }
@@ -64,7 +68,12 @@ void Collider::ProcessCollisions() {
                 }
 
                 _Colliders[i]->_owner->Move(Vec2(0, dif.y));
+
+                vel.y = 0;
+                _Colliders[i]->_owner->SetVel(vel);
+
                 _Colliders[i]->_owner->OnCollide(_Colliders[j]->_owner);
+
             }
         }
     }
