@@ -20,24 +20,21 @@ void Camera::SetViewport(const Vec2& viewport) {
 }
 
 bool Camera::InView(SDL_Rect* rect) const {
-    return (rect->x >= _pos.x - rect->w) &&
-           (rect->x <= _viewport.x + rect->w) &&
-           (rect->y >= _pos.y - rect->h) &&
-           (rect->y <= _viewport.y + rect->h);
+    if(_pos.x >= rect->x + rect->w || _pos.x + _viewport.x <= rect->x) return false;
+    if(_pos.y >= rect->y + rect->h || _pos.y + _viewport.y <= rect->y) return false;
+    return true;
 }
 
 bool Camera::InView(int x, int y, int h, int w) const {
-    return (x >= _pos.x - w) &&
-           (x <= _viewport.x + w) &&
-           (y >= _pos.y -h) &&
-           (y <= _viewport.y + h);
+    if(_pos.x >= x + w || _pos.x + _viewport.x <= x) return false;
+    if(_pos.y >= y + h || _pos.y + _viewport.y <= y) return false;
+    return true;
 }
 
 bool Camera::InView(const Vec2& pos, const Vec2& size) const {
-    return (pos.x >= _pos.x - size.x) &&
-           (pos.x <= _viewport.x + -size.x) &&
-           (pos.y >= _pos.y - size.y) &&
-           (pos.y <= _viewport.y + size.y);
+    if(_pos.x >= pos.x + size.x || _pos.x + _viewport.x <= pos.x) return false;
+    if(_pos.y >= pos.y + size.y || _pos.y + _viewport.y <= pos.y) return false;
+    return true;
 }
 
 void Camera::Move(const Vec2& delta_pos) {
