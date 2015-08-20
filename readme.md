@@ -34,7 +34,7 @@ Setup dependencies:
 
 1. In engine root project, make new folder name it **`deps`**.
 2. Inside ***`deps`*** download and extract: **[`SDL2`](https://www.libsdl.org/release/SDL2-devel-2.0.3-mingw.tar.gz")** + **[`SDL2_ttf`](https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-devel-2.0.12-mingw.tar.gz "SDL2_ttf-devel-2.0.12-mingw.tar.gz")** +
-**[`SDL2_image`](https://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.0-mingw.tar.gz "SDL2_image-devel-2.0.0-mingw.tar.gz")**.
+**[`SDL2_image`](https://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.0-mingw.tar.gz "SDL2_image-devel-2.0.0-mingw.tar.gz")** + **[`SDL2_mixer`](https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.0-mingw.tar.gz")**.
 3. Download [MinGW](http://sourceforge.net/projects/mingw/files/latest/download?source=files) and Install it using our guide, checking what to select from [*here*](http://gaming.boldtemple.net/engine/bge/files/media/mingw_ticks.png).
 4. Download [CMake](www.cmake.org/download/) tool which uses **`CMakeLists.txt`** to generate project files/makefile.
 
@@ -47,7 +47,7 @@ mingw32-make -j4
 <br/>**Linux**<br/>
 Install dependencies:
 ```
-$ sudo apt-get install g++ make cmake libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev 
+$ sudo apt-get install g++ make cmake libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev
 ```
 Build source:
 ```
