@@ -61,7 +61,7 @@ public:
 	const Vec2& GetSize() const;
 
 	//if you want to your object to be clicked call this function
-	void CheckClick();
+	void CheckClick(const Camera* camera);
 
 	virtual void OnUpdate();
 	virtual void OnRender();

@@ -146,12 +146,12 @@ std::list<Object*>::iterator Object::FindChild(Object* obj) {
 }
 
 //if you want to your object to be clicked call this function
-void  Object::CheckClick(){
+void  Object::CheckClick(const Camera* camera){
     //Was clicked mouse buttun
     if(Cursor::button != 0){
         SDL_bool inter;
         SDL_Rect result;
-        SDL_Rect obj_rect = {_global_pos.x, _global_pos.y, _size.x, _size.y};
+        SDL_Rect obj_rect = {GetGlobalPos().x - camera->X(), GetGlobalPos().y  - camera->Y(), _size.x, _size.y};
         SDL_Rect cursor_rect = {Cursor::X(), Cursor::Y(), 1, 1};
         //check intersection
         inter = SDL_IntersectRect(&cursor_rect, &obj_rect, &result);
