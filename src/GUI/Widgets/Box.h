@@ -27,10 +27,14 @@ public:
 
     void SetText(const std::string& str);
 
-private:
+protected:
+    const int TEXT_OFFSET = 4; // pixels
+    const int LINE_SPACE = 1;
+
     SDL_Texture* _text_texture;
     Text _text;
-    SDL_Rect _text_rect;
+    SDL_Rect _text_draw_rect;
+    Vec2 _text_size;
 };
 
 #endif /* SRC_GUI_BOX_H_ */
