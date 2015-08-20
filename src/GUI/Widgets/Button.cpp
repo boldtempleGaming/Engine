@@ -7,6 +7,7 @@
 Button::Button(Object* owner, const Vec2& pos, const Vec2& size, const std::string& font, int font_pt_size) :
         Box(owner, pos, size, font, font_pt_size){
     ShowBack(true);
+    _clicked = false;
 }
 
 Button::~Button(){
@@ -18,6 +19,7 @@ void Button::SetStyle(const std::string& style, const Vec2& pos_normal, const Ve
     _pos_normal = pos_normal;
     _pos_pressed = pos_pressed;
     _tile_resolution = tile_resolution;
+    SetBackGround(_back_style, _pos_normal, _tile_resolution);
 }
 
 void Button::OnUpdate(){
