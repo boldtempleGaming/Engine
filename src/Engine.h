@@ -27,6 +27,7 @@
 #include "GUI/Cursor.h"
 #include "GUI/Widget.h"
 #include "GUI/Widgets/Box.h"
+#include "GUI/Widgets/Button.h"
 #include "GUI/Widgets/ScrollArea.h"
 
 #include "Render/Camera.h"
