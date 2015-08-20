@@ -18,6 +18,7 @@
 #include "constants.h"
 #include "Core/sys.h"
 #include "Core/Object.h"
+#include "Render/Camera.h"
 
 class Object;
 
@@ -25,6 +26,8 @@ class GUI {
 public:
     GUI();
     virtual ~GUI();
+
+    static Camera* GetCamera();
 
     static void OnInit();
     static void OnUpdate();
@@ -35,6 +38,7 @@ public:
 
 private:
     static Object* _last_clicked;
+    static Camera* _camera;
 };
 
 #endif /* GUI_H_ */

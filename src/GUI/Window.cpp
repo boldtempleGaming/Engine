@@ -44,10 +44,11 @@ bool Window::Init() {
     }
 
     //RENDER INIT------------------------------------------------------
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED); // SDL_RENDERER_PRESENTVSYNC
+    renderer = SDL_CreateRenderer(window, -1,
+                                  SDL_RENDERER_ACCELERATED); // SDL_RENDERER_PRESENTVSYNC
     if (renderer == nullptr) {
         std::cout << "SDL_CreateRenderer Error: " << SDL_GetError()
-                << std::endl;
+        << std::endl;
         return false;
     }
 
@@ -79,7 +80,7 @@ bool Window::SetMode(int _w, int _h, bool _full_screen, std::string _title) {
         SDL_SetWindowSize(window, w, h);
 
         if (full_screen) {
-            if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN) < 0) {
+            if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_INPUT_GRABBED) < 0) {
                 ShowError(error);
             }
         }
