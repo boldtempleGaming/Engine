@@ -1,10 +1,3 @@
-/*
- * Window.h
- *
- *  Created on: 18 авг. 2014 г.
- *      Author: snickers
- */
-
 #ifndef WINDOW_H_
 #define WINDOW_H_
 
@@ -12,12 +5,12 @@
 #include <iostream>
 
 #include <SDL2/SDL.h>
-#include "Render/Camera.h"
 
+#include "GUI/GUI.h"
+#include "Render/Camera.h"
 
 class Window {
 public:
-
 	static SDL_Window* GetWindow();
 	static SDL_Renderer* GetRenderer();
 	static Camera* GetCamera();
@@ -26,14 +19,18 @@ public:
 
 	static const std::string& GetTitle();
 
-	static bool SetMode(int _w, int _h, bool _full_screen, std::string _title = "boldtemple Game Engine");
-	static void SetWidth(const int& _w);
-	static void SetHeight(const int& _h);
+	static bool SetMode(int w, int h, bool full_screen, std::string title = "boldtemple Game Engine");
+	static void SetWidth(const int& w);
+	static void SetHeight(const int& h);
 
 	static void SetInterpolation(const float& value);
 	static float GetInterpolation();
 
+	static void SetBackgroundColor(const SDL_Color& color);
+	static SDL_Color GetBackgroundColor();
+
 	static bool IsInitialised();
+	static bool IsFullscreen();
 
 	static void OnCleanUp();
 
@@ -42,12 +39,13 @@ public:
 private:
 	Window();
 	~Window();
-	static Camera camera;
-	static SDL_Window* window;
-	static SDL_Renderer* renderer;
-	static std::string title;
-	static int w,h;
-	static bool full_screen;
+	static Camera _camera;
+	static SDL_Window* _window;
+	static SDL_Renderer* _renderer;
+	static std::string _title;
+	static int _w, _h;
+	static bool _full_screen;
+	static SDL_Color _color_background;
 
 	static bool Init();
 };
