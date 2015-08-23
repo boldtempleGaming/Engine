@@ -1,10 +1,3 @@
-/*
- * Camera.cpp
- *
- *  Created on: 26 июля 2014 г.
- *      Author: snickers
- */
-
 #include "Camera.h"
 
 Camera::Camera(const Vec2& pos, const Vec2& viewport) :

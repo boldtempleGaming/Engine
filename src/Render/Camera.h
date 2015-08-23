@@ -1,16 +1,11 @@
-/*
- * Camera.h
- *
- *  Created on: 26 июля 2014 г.
- *      Author: snickers
- */
-
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
 #include <SDL2/SDL.h>
 #include "Core/Vec2.h"
 #include "constants.h"
+
+class Object;
 
 class Camera {
 public:
