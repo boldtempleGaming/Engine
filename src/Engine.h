@@ -19,8 +19,8 @@
 
 #include "Core/type_events.h"
 #include "Core/Object.h"
-#include <Core/Resources.h>
-#include <Core/Collider.h>
+#include "Core/Resources.h"
+#include "Core/Collider.h"
 
 #include "GUI/GUI.h"
 #include "GUI/Window.h"
@@ -44,10 +44,10 @@ public:
     void Start();
     void Stop();
 
+    Object* GetRoot();
+
 private:
     Object* root_obj;
-
-    Object* GetRoot();
 
     bool Core_Init();
     void Core_Event(SDL_Event* event, const Uint8* keyboardState);

@@ -28,30 +28,35 @@ void Engine::Start() {
     const Uint8* keyboardState = SDL_GetKeyboardState(nullptr);
 
     SDL_Event* event = new SDL_Event;
-    double previous = SDL_GetTicks();
-    double lag = 0.0;
-    int MS_PER_UPDATE = 15;
-    double ms_flipped = 1 / double(MS_PER_UPDATE);
 
-    while (!quit) {
+    const int TICKS_PER_SECOND = 60;
+    const int SKIP_TICKS = 1000 / TICKS_PER_SECOND;
+    const int MAX_FRAMESKIP = 10;
+
+    Uint32 next_game_tick = SDL_GetTicks();
+    int loops;
+    float interpolation;
+
+    while(!quit) {
         SDL_Delay(1);
-        double current = SDL_GetTicks();
-        double elapsed = current - previous;
-        previous = current;
-        lag += elapsed;
 
-        Core_Event(event, keyboardState);
-        while (lag >= MS_PER_UPDATE) {
-            lag -= MS_PER_UPDATE;
+        loops = 0;
+        while( SDL_GetTicks() > next_game_tick && loops < MAX_FRAMESKIP) {
+
+            Core_Event(event, keyboardState);
             Core_Update();
+
+            next_game_tick += SKIP_TICKS;
+            loops++;
         }
 
-        Surface::SetInterpolation(lag * ms_flipped);
+        interpolation = float( SDL_GetTicks() + SKIP_TICKS - next_game_tick ) / SKIP_TICKS;
+        Surface::SetInterpolation(interpolation);
         Core_Render();
     }
 
     delete (event);
-    Core_CleanUp(); //Очищаем все
+    Core_CleanUp();
 }
 
 void Engine::Stop() {
@@ -66,18 +71,12 @@ bool Engine::Core_Init() {
     quit = false;
 
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-        std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
+        std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
         return false;
     }
 
-    GUI::OnInit();
-
     //Alloc root object
     root_obj = new Object;
-
-    if (!Window::IsInitialised()) {
-        Window::SetMode(640, 470, false);
-    }
 
     SDL_SetRenderDrawBlendMode(Window::GetRenderer(), SDL_BLENDMODE_BLEND); // https://wiki.libsdl.org/SDL_SetRenderDrawBlendMode
 
@@ -85,15 +84,20 @@ bool Engine::Core_Init() {
     //	LOGIC_WIN_HEIGHT); // одинаковый масштаб на разных разрешениях
 
     if (SDL_RegisterEvents(EVENT_END - EVENT_NONE) == ((Uint32) -1)) {
-        std::cout << "Not enough user-defined events left." << std::endl;
+        std::cerr << "Not enough user-defined events left." << std::endl;
         return false;
     }
 
-    Cursor::Init(Resources::GetTexture("cursor.png"), 20, 20);
-
-    //Camera::Init(0, 0, Window::GetWidth(), Window::GetHeight());
+    Audio::Init(8);
+    GUI::OnInit();
 
     OnInit(); //CALL user function OnInit
+
+    if (!Window::IsInitialised()) {
+        Window::SetMode(800, 640, false);
+    }
+
+    Cursor::Init(Resources::GetTexture("cursor.png"), 20, 20);
 
     std::cout << "Successfully initialized!" << std::endl;
     return true; //success
@@ -105,9 +109,8 @@ void Engine::Core_Event(SDL_Event* event, const Uint8* keyboardState) {
 
         bool ALT_F4 = keyboardState[SDL_SCANCODE_LALT]
                 && keyboardState[SDL_SCANCODE_F4];
-        bool ESCAPE = keyboardState[SDL_SCANCODE_ESCAPE];
 
-        if (ESCAPE || ALT_F4 || (event->type == SDL_QUIT)) {
+        if (ALT_F4 || (event->type == SDL_QUIT)) {
             Stop();
             return;
         }
@@ -134,9 +137,9 @@ void Engine::Core_Update() {
 
     GUI::OnUpdate();
 
-    Collider::ProcessCollisions();
     OnUpdate(); //User OnUpdate
 
+    Collider::ProcessCollisions();
 }
 
 void Engine::Core_Render() {
