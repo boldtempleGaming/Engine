@@ -17,7 +17,7 @@ float Vec2::GetLength() const {
 
 Vec2 Vec2::GetNormalized() const{
 	float len = this->GetLength();
-	return Vec2( (float)this->x / len, (float)this->y / len);
+	return Vec2( this->x / len, this->y / len);
 }
 
 Vec2 Vec2::GetRotated(const double& angle) const {
