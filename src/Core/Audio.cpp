@@ -1,7 +1,7 @@
 #include "Audio.h"
 
 void Audio::Init(int alloc_channels){
-    Mix_Init(MIX_INIT_OGG);
+    Mix_Init(MIX_INIT_OGG | MIX_INIT_MP3);
 
     // initialize sdl mixer, open up the audio device
     if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) < 0) {
@@ -90,6 +90,9 @@ Audio::Audio(const std::string& file_path, audio_type type){
             if(chunk != nullptr){
                 _audio_data = chunk;
                 _type = AUDIO_SOUND;
+            }else{
+                //std::cerr << Mix_GetError << std::endl;
+                printf("What? An error? Really? Here it is: %s \n", Mix_GetError());
             }
             break;
         case AUDIO_MUSIC:
