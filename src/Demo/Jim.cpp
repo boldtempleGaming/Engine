@@ -83,12 +83,12 @@ Jim::~Jim() {
     // TODO Auto-generated destructor stub
 }
 
-void Jim::OnClick(){
-    std::cout << "YOHOHO JIM clicked: "<< GetId() << std::endl;
+void Jim::OnClick() {
+    std::cout << "YOHOHO JIM clicked: " << GetId() << std::endl;
 }
 
 void Jim::OnUpdate() {
-    Object::CheckClick();
+    Object::CheckClick(Window::GetCamera());
 
     //Move(Vec2(0,3.0f));
 
@@ -181,29 +181,36 @@ void Jim::OnUpdate() {
     }else{
         _jump_vel.y = GRAV.y;
     }
+
 }
 
 void Jim::OnRender() {
     Vec2 rect_pos;
 
-    if( GetVel().x < 0.1f && GetVel().x > -0.1f && GetVel().y < 0.1f && GetVel().y > -0.1f && _onGround){
-        rect_pos = Object::GetGlobalPos();
+    if(_is_player){
+        Camera* cam = Window::GetCamera();
+        cam->SetPos(Vec2(GetGlobalPos().x - Window::GetWidth()/2 + GetSize().x/2, GetGlobalPos().y - Window::GetHeight()/2 + GetSize().y/2));
+        rect_pos = GetGlobalPos();
     }else{
-        rect_pos = Object::GetGlobalPos() + GetVel() * Surface::GetInterpolation();
+        if( GetVel().x < 0.1f && GetVel().x > -0.1f && GetVel().y < 0.1f && GetVel().y > -0.1f && _onGround){
+            rect_pos = GetGlobalPos();
+        }else{
+            rect_pos = GetGlobalPos() + GetVel() * Surface::GetInterpolation();
+        }
     }
-
-    //SDL_Rect _draw_rect = {rect_pos.x, rect_pos.y, GetSize().x, GetSize().y};
 
     Collider* col = Collider::GetCollider(this);
 
     SDL_Rect _draw_rect = {rect_pos.x + col->_offset.x, rect_pos.y + col->_offset.y, col->_size.x, col->_size.y};
 
-    //if(Surface::GetInterpolation() > 0)
-    //std::cout << Surface::GetInterpolation() << std::endl;
+    SDL_Color background = Window::GetBackgroundColor();
 
     SDL_SetRenderDrawColor(Window::GetRenderer(), 255, 255, 0, 255);
     SDL_RenderDrawRect(Window::GetRenderer(), &_draw_rect);
-    SDL_SetRenderDrawColor(Window::GetRenderer(), BACKGROUND_COLOR.r, BACKGROUND_COLOR.g, BACKGROUND_COLOR.b, 255);
+
+    SDL_SetRenderDrawColor(Window::GetRenderer(), background.r,
+                           background.g, background.b, 255);
+
 
     _sprite.Draw(rect_pos, GetSize(), Window::GetCamera());
     //_sprite.Draw(Object::GetGlobalPos(), GetSize(), Window::GetCamera());
@@ -220,34 +227,34 @@ void Jim::OnCollide(Object *obj) {
     bool left;
 
     //Get collision direction
-    if(this->GetVel().x == 0){
-        if(this->GetGlobalPos().x < obj->GetGlobalPos().x){
+    if (this->GetVel().x == 0) {
+        if (this->GetGlobalPos().x < obj->GetGlobalPos().x) {
             //left
             left = true;
-        }else{
+        } else {
             //right
             left = false;
         }
     }
-    if(this->GetVel().y == 0){
-        if(this->GetGlobalPos().y < obj->GetGlobalPos().y){
+    if (this->GetVel().y == 0) {
+        if (this->GetGlobalPos().y < obj->GetGlobalPos().y) {
             //top
             top = true;
-        }else{
+        } else {
             top = false;
             //bottom
         }
     }
 
-    if(!top && !_onGround){
+    if (!top && !_onGround) {
         _move_vel.x = 0;
-    }else{
+    } else {
         _move_vel.y = 0;
         _jump_vel.y = 0;
     }
 
     //Prevent sticking under platform
-    if(obj->GetType() == OBJ_GROUND && top){
+    if (obj->GetType() == OBJ_GROUND && top) {
         _onGround = true;
     }
 }
