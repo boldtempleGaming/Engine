@@ -1,7 +1,3 @@
-//
-// Created by winpooh on 16.08.15.
-//
-
 #include "Button.h"
 
 Button::Button(Object* owner, const Vec2& pos, const Vec2& size, const std::string& font, int font_pt_size) :
@@ -22,7 +18,15 @@ void Button::SetStyle(const std::string& style, const Vec2& pos_normal, const Ve
     SetBackGround(_back_style, _pos_normal, _tile_resolution);
 }
 
+void Button::RegisterAction(std::function<void(void)> action){
+    _action = action;
+}
+
 void Button::OnUpdate(){
+    if(!IsVisible()){
+        return;
+    }
+
     CheckClick(GUI::GetCamera());
     if(_clicked){
         if(_state == BUTTON_NORMAL || _state == BUTTON_RELEASED){
@@ -59,5 +63,8 @@ void  Button::OnClick(){
 }
 
 void Button::Action(){
-    std::cout << "REAL CLICK!" << std::endl;
+    //Call action function or object member
+    if(_action != nullptr){
+        _action();
+    }
 }

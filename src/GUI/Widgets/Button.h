@@ -1,10 +1,7 @@
-//
-// Created by winpooh on 16.08.15.
-//
-
 #ifndef ENGINE_BUTTON_H
 #define ENGINE_BUTTON_H
 
+#include <functional>
 #include "GUI/Widgets/Box.h"
 
 enum button_state{
@@ -19,11 +16,16 @@ public:
     virtual ~Button();
 
     void SetStyle(const std::string& style, const Vec2& pos_normal, const Vec2& pos_pressed, int tile_resolution);
+    void RegisterAction(std::function<void(void)> action);
+   // void RegisterAction(std::Mem_fn<void(void)> mem_action);
 
     virtual void OnUpdate();
     virtual void SetPos(const Vec2& pos);
     virtual void OnClick();
     virtual void Action();
+
+protected:
+    std::function<void(void)> _action;
 
 private:
     bool _clicked;
