@@ -10,6 +10,7 @@
 #define SRC_GUI_BOX_H_
 
 #include <string>
+#include <sstream>
 
 #include "Render/Sprite.h"
 #include "GUI/Widget.h"

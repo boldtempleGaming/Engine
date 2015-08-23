@@ -7,8 +7,6 @@
 !*/
 
 #include "GUI/Widgets/Box.h"
-#include <iostream>
-#include <sstream>
 
 Box::Box(Object* owner, const Vec2& pos, const Vec2& size, const std::string& font, int font_pt_size) :
         Widget(owner, pos, size)
@@ -51,10 +49,11 @@ void Box::SetPos(const Vec2 &pos) {
 }
 
 void  Box::OnClick(){
-
 }
 
 void Box::SetText(const std::string &str) {
+    SDL_Color background = Window::GetBackgroundColor();
+
     //change the rendering target
     SDL_SetRenderTarget(Window::GetRenderer(), _text_texture);
     SDL_SetRenderDrawColor(Window::GetRenderer(), 0, 0, 0, 0); // tranceparent surface
@@ -92,6 +91,6 @@ void Box::SetText(const std::string &str) {
     SetPos(GetPos());
 
     //back to default target
-    SDL_SetRenderDrawColor(Window::GetRenderer(), BACKGROUND_COLOR.r, BACKGROUND_COLOR.g, BACKGROUND_COLOR.b, 255);
+    SDL_SetRenderDrawColor(Window::GetRenderer(), background.r, background.g, background.b, 255);
     SDL_SetRenderTarget(Window::GetRenderer(), nullptr);
 }
