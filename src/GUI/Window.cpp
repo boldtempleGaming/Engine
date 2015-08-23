@@ -64,7 +64,7 @@ bool Window::SetMode(int w, int h, bool full_screen, std::string title) {
     _w = w;
     _h = h;
     _full_screen = full_screen;
-    _title = _title;
+    _title = title;
 
     _camera.SetViewport(Vec2(_w, _h));
     GUI::GetCamera()->SetViewport(Vec2(_w, _h));
