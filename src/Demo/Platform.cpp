@@ -2,8 +2,6 @@
 // Created by winpooh on 28.07.15.
 //
 
-#include <Core/Resources.h>
-#include <Core/Collider.h>
 #include "Platform.h"
 
 Platform::Platform(const Vec2& pos, const Vec2& size){
@@ -18,22 +16,24 @@ Platform::Platform(const Vec2& pos, const Vec2& size){
 }
 
 void Platform::OnUpdate() {
-
+    Move(GetVel());
 }
 
 void Platform::OnRender() {
-    Vec2 rect_pos = GetGlobalPos();
-    Collider* col = Collider::GetCollider(this);
+    //Vec2 rect_pos = GetGlobalPos();
+    //Collider* col = Collider::GetCollider(this);
 
-    SDL_Rect _draw_rect = {rect_pos.x + col->_offset.x, rect_pos.y + col->_offset.y, col->_size.x, col->_size.y};
+    //SDL_Rect _draw_rect = {rect_pos.x + col->_offset.x, rect_pos.y + col->_offset.y, col->_size.x, col->_size.y};
 
     //if(Surface::GetInterpolation() > 0)
     //std::cout << Surface::GetInterpolation() << std::endl;
 
-    _sprite.Draw(GetGlobalPos(), GetSize(), Window::GetCamera());
-
+    _sprite.Draw(GetGlobalPos() + GetVel() * Surface::GetInterpolation(), GetSize(), Window::GetCamera());
+/*
+    SDL_Color background = Window::GetBackgroundColor();
     SDL_SetRenderDrawColor(Window::GetRenderer(), 255, 255, 0, 255);
     SDL_RenderDrawRect(Window::GetRenderer(), &_draw_rect);
-    SDL_SetRenderDrawColor(Window::GetRenderer(), BACKGROUND_COLOR.r, BACKGROUND_COLOR.g, BACKGROUND_COLOR.b, 255);
+    SDL_SetRenderDrawColor(Window::GetRenderer(), background.r, background.g, background.b, 255);
+*/
 
 }

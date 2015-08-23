@@ -7,6 +7,8 @@
 
 #include "Core/Object.h"
 #include "Render/Sprite.h"
+#include <Core/Resources.h>
+#include <Core/Collider.h>
 
 class Platform: public Object {
 public:
