@@ -44,15 +44,17 @@ void Surface::DrawRect(SDL_Rect* rect, const Uint8 r, const Uint8 g,
         const Uint8 b, const Uint8 a) {
     SDL_SetRenderDrawColor(Window::GetRenderer(), r, g, b, a);
     SDL_RenderFillRect(Window::GetRenderer(), rect);
-    SDL_SetRenderDrawColor(Window::GetRenderer(), BACKGROUND_COLOR.r,
-            BACKGROUND_COLOR.g, BACKGROUND_COLOR.b, 255);
+    SDL_Color background = Window::GetBackgroundColor();
+    SDL_SetRenderDrawColor(Window::GetRenderer(), background.r,
+                           background.g, background.b, 255);
 }
 
 void Surface::DrawRect(SDL_Rect* rect, SDL_Color color) {
     SDL_SetRenderDrawColor(Window::GetRenderer(), color.r, color.g, color.b, color.a);
     SDL_RenderFillRect(Window::GetRenderer(), rect);
-    SDL_SetRenderDrawColor(Window::GetRenderer(), BACKGROUND_COLOR.r,
-            BACKGROUND_COLOR.g, BACKGROUND_COLOR.b, 255);
+    SDL_Color background = Window::GetBackgroundColor();
+    SDL_SetRenderDrawColor(Window::GetRenderer(), background.r,
+                           background.g, background.b, 255);
 }
 
 void Surface::DrawTexturedRect(SDL_Texture* src, SDL_Rect* src_rect, SDL_Rect* dst_rect, int tile_size) {
@@ -83,9 +85,9 @@ void Surface::GetSkinnedRect(SDL_Texture* src, SDL_Texture* dst, const Vec2* pos
         SDL_RenderClear(Window::GetRenderer());
 
     } else {
-
-        SDL_SetRenderDrawColor(Window::GetRenderer(), BACKGROUND_COLOR.r,
-                BACKGROUND_COLOR.g, BACKGROUND_COLOR.b, 0);
+        SDL_Color background = Window::GetBackgroundColor();
+        SDL_SetRenderDrawColor(Window::GetRenderer(), background.r,
+                               background.g, background.b, 0);
         SDL_RenderClear(Window::GetRenderer());
 
         SDL_Rect src_tmp, dst_tmp;
