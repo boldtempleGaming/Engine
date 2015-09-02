@@ -29,29 +29,27 @@ void Engine::Start() {
 
     SDL_Event* event = new SDL_Event;
 
-    const int TICKS_PER_SECOND = 60;
-    const int SKIP_TICKS = 1000 / TICKS_PER_SECOND;
-    const int MAX_FRAMESKIP = 10;
-
-    Uint32 next_game_tick = SDL_GetTicks();
-    int loops;
-    float interpolation;
-
-    while(!quit) {
+    const double MS_PER_UPDATE = double(1000) / 60;
+    int previous = SDL_GetTicks();
+    double lag = 0.0;
+    while (!quit)
+    {
         SDL_Delay(1);
 
-        loops = 0;
-        while( SDL_GetTicks() > next_game_tick && loops < MAX_FRAMESKIP) {
+        int current = SDL_GetTicks();
+        int elapsed = current - previous;
+        previous = current;
+        lag += elapsed;
 
-            Core_Event(event, keyboardState);
+        Core_Event(event, keyboardState);
+
+        while (lag >= MS_PER_UPDATE)
+        {
             Core_Update();
-
-            next_game_tick += SKIP_TICKS;
-            loops++;
+            lag -= MS_PER_UPDATE;
         }
 
-        interpolation = float( SDL_GetTicks() + SKIP_TICKS - next_game_tick ) / SKIP_TICKS;
-        Surface::SetInterpolation(interpolation);
+        Surface::SetInterpolation(lag / MS_PER_UPDATE);
         Core_Render();
     }
 
