@@ -48,9 +48,13 @@ public:
     Object* GetRootAtLayer(int layer);
     void AddLayer();
 
+    void SetGameSpeed(int ms);
+    int GetGameSpeed();
+
 private:
     std::vector<Object*> _Layers;
     Object* root_obj;
+    double _ms_per_update;
 
     bool Core_Init();
     void Core_Event(SDL_Event* event, const Uint8* keyboardState);

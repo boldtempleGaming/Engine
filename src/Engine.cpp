@@ -29,10 +29,11 @@ void Engine::Start() {
 
     SDL_Event* event = new SDL_Event;
 
-    const double MS_PER_UPDATE = double(1000) / 60;
+    SetGameSpeed(60);
+    //const double MS_PER_UPDATE = double(1000) / _game_speed;
     Uint32 previous = SDL_GetTicks();
     double lag = 0.0;
-    Surface::SetInterpolation(0);
+
     while (!quit)
     {
         SDL_Delay(1);
@@ -42,17 +43,16 @@ void Engine::Start() {
         previous = current;
         lag += elapsed;
 
-        //Surface::SetInterpolation(lag / MS_PER_UPDATE);
+        Surface::SetInterpolation(lag / _ms_per_update);
+        Core_Render();
 
+        Cursor::Update();
+        Core_Event(event, keyboardState);
 
-
-        while (lag > MS_PER_UPDATE)
+        while (lag > _ms_per_update)
         {
-            Core_Event(event, keyboardState);
             Core_Update();
-            Core_Render();
-
-            lag -= MS_PER_UPDATE;
+            lag -= _ms_per_update;
         }
 
     }
@@ -74,6 +74,16 @@ Object* Engine::GetRootAtLayer(int layer) {
 
 void Engine::AddLayer() {
     _Layers.resize(_Layers.size() + 1, new Object());//increase vector by 1
+}
+
+void Engine::SetGameSpeed(int ms){
+    if(ms > 0){
+        _ms_per_update = double(1000)/ms;
+    }
+}
+
+int Engine::GetGameSpeed(){
+    return 1000/_ms_per_update ;
 }
 
 bool Engine::Core_Init() {
@@ -169,7 +179,6 @@ void Engine::Core_Render() {
 
     GUI::OnRender();
 
-    Cursor::Update();
     Cursor::Draw();
 
     SDL_RenderPresent(Window::GetRenderer());
