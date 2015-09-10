@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -44,9 +45,10 @@ public:
     void Start();
     void Stop();
 
-    Object* GetRoot();
+    Object* GetRootAtLayer(int layer);
 
 private:
+    std::vector<Object*> _Layers;
     Object* root_obj;
 
     bool Core_Init();

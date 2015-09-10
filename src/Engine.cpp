@@ -30,27 +30,31 @@ void Engine::Start() {
     SDL_Event* event = new SDL_Event;
 
     const double MS_PER_UPDATE = double(1000) / 60;
-    int previous = SDL_GetTicks();
+    Uint32 previous = SDL_GetTicks();
     double lag = 0.0;
+    Surface::SetInterpolation(0);
     while (!quit)
     {
         SDL_Delay(1);
 
-        int current = SDL_GetTicks();
-        int elapsed = current - previous;
+        Uint32 current = SDL_GetTicks();
+        Uint32 elapsed = current - previous;
         previous = current;
         lag += elapsed;
 
-        Core_Event(event, keyboardState);
+        //Surface::SetInterpolation(lag / MS_PER_UPDATE);
 
-        while (lag >= MS_PER_UPDATE)
+
+
+        while (lag > MS_PER_UPDATE)
         {
+            Core_Event(event, keyboardState);
             Core_Update();
+            Core_Render();
+
             lag -= MS_PER_UPDATE;
         }
 
-        Surface::SetInterpolation(lag / MS_PER_UPDATE);
-        Core_Render();
     }
 
     delete (event);
@@ -61,8 +65,15 @@ void Engine::Stop() {
     quit = true;
 }
 
-Object* Engine::GetRoot() {
-    return root_obj;
+Object* Engine::GetRootAtLayer(int layer) {
+    if(layer < _Layers.size() && layer >= 0){
+        return _Layers[layer];
+    }
+    return nullptr;
+}
+
+void Engine::AddLayer() {
+    _Layers.resize(_Layers.size() + 1, new Object());//increase vector by 1
 }
 
 bool Engine::Core_Init() {
@@ -126,16 +137,22 @@ void Engine::Core_Event(SDL_Event* event, const Uint8* keyboardState) {
 }
 
 void Engine::Core_Update() {
+    OnUpdate(); //User OnUpdate
+
     //Catch mouse button click
     GUI::SetLastCliked(nullptr);
-    root_obj->UpdateChildren();
+
+    int length = _Layers.size();
+    for(int i = 0; i < length; ++i){
+        _Layers[i]->UpdateChildren();
+    }
+
+    //root_obj->UpdateChildren();
     if(GUI::GetLastClicked()){
         GUI::GetLastClicked()->OnClick();
     }
 
     GUI::OnUpdate();
-
-    OnUpdate(); //User OnUpdate
 
     Collider::ProcessCollisions();
 }
@@ -143,9 +160,12 @@ void Engine::Core_Update() {
 void Engine::Core_Render() {
     SDL_RenderClear(Window::GetRenderer());
 
-    root_obj->RenderChildren();
-
     OnRender();
+
+    int length = _Layers.size();
+    for(int i = 0; i < length; ++i){
+        _Layers[i]->RenderChildren();
+    }
 
     GUI::OnRender();
 
