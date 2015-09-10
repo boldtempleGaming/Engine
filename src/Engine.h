@@ -46,6 +46,7 @@ public:
     void Stop();
 
     Object* GetRootAtLayer(int layer);
+    void AddLayer();
 
 private:
     std::vector<Object*> _Layers;
