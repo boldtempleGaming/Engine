@@ -46,7 +46,7 @@ bool Window::Init() {
         return false;
     }
 
-    SDL_RenderSetLogicalSize(Window::GetRenderer(), _w, _h);
+    //SDL_RenderSetLogicalSize(Window::GetRenderer(), _w, _h);
 
     return true;
 }
@@ -76,11 +76,11 @@ bool Window::SetMode(int w, int h, bool full_screen, std::string title) {
         SDL_SetWindowTitle(_window, _title.c_str());
         SDL_SetWindowSize(_window, _w, _h);
 
-        if (SDL_SetWindowFullscreen(_window, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP * _full_screen) < 0) {
+        if (SDL_SetWindowFullscreen(_window, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN * _full_screen) < 0) {
             ShowError(error);
         }
 
-        SDL_RenderSetLogicalSize(Window::GetRenderer(), _w, _h);
+        //SDL_RenderSetLogicalSize(Window::GetRenderer(), _w, _h);
         return !error;
     } else {
         return Init();
