@@ -4,6 +4,7 @@ Button::Button(Object* owner, const Vec2& pos, const Vec2& size, const std::stri
         Box(owner, pos, size, font, font_pt_size){
     ShowBack(true);
     _clicked = false;
+    _action = nullptr;
 }
 
 Button::~Button(){

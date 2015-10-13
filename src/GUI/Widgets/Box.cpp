@@ -20,6 +20,8 @@ Box::Box(Object* owner, const Vec2& pos, const Vec2& size, const std::string& fo
     SDL_SetTextureBlendMode(_text_texture, SDL_BLENDMODE_BLEND);
 
     SetPos(pos);
+
+    _has_icon = false;
 }
 
 Box::~Box() {
@@ -33,8 +35,13 @@ void Box::OnUpdate(){
 void Box::OnRender() {
     if (_visible) {
         if (_bg_visible){
-            _back.Draw(Object::GetGlobalPos(), Object::GetSize(), GUI::GetCamera() );
+            _back.Draw(Object::GetGlobalPos(), Object::GetSize(), GUI::GetCamera());
         }
+
+        if(_has_icon){
+            _icon.Draw(Object::GetGlobalPos(), Object::GetSize(), GUI::GetCamera());
+        }
+
         Surface::Draw(_text_texture, &_text_draw_rect);
     }
 }
@@ -49,6 +56,20 @@ void Box::SetPos(const Vec2 &pos) {
 }
 
 void  Box::OnClick(){
+}
+
+void Box::SetIcon(const std::string& icon){
+    SDL_Texture* texture = Resources::GetTexture(icon);
+    int w, h;
+    SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
+
+    _icon.SetTexture(texture);
+    _icon.SetFrame(0);
+    _icon.SetFrameSize(Vec2(w, h));
+
+    _has_icon = true;
+
+    std::cout << "WTF NAH" << std::endl;
 }
 
 void Box::SetText(const std::string &str) {

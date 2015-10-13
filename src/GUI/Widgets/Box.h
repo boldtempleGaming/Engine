@@ -15,6 +15,7 @@
 #include "Render/Sprite.h"
 #include "GUI/Widget.h"
 #include "GUI/Text.h"
+#include "Core/Resources.h"
 
 class Box: public Widget {
 public:
@@ -26,6 +27,7 @@ public:
     virtual void OnRender();
     virtual void OnClick();
 
+    void SetIcon(const std::string& icon);
     void SetText(const std::string& str);
 
 protected:
@@ -36,6 +38,9 @@ protected:
     Text _text;
     SDL_Rect _text_draw_rect;
     Vec2 _text_size;
+
+    bool _has_icon;
+    Sprite _icon;
 };
 
 #endif /* SRC_GUI_BOX_H_ */
