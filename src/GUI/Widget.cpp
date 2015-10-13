@@ -39,6 +39,17 @@ void Widget::SetBackGround(const std::string& tileset,const Vec2& skin, int tile
         SDL_DestroyTexture(_back.GetTexture());
     }
 
+    //TODO FIX THIS
+    if(tileset.empty()){
+        return;
+    }
+
+    SDL_Texture *texture_skin = Resources::GetTexture(tileset);
+
+    if(!texture_skin){
+        return;
+    }
+
     SDL_Rect rect = {0, 0, GetSize().x, GetSize().y};
 
     SDL_Texture *texture_back = SDL_CreateTexture(Window::GetRenderer(), SDL_PIXELFORMAT_RGBA8888,
@@ -46,7 +57,7 @@ void Widget::SetBackGround(const std::string& tileset,const Vec2& skin, int tile
                                                   rect.h);
     SDL_SetTextureBlendMode(texture_back, SDL_BLENDMODE_BLEND);
 
-    SDL_Texture *texture_skin = Resources::GetTexture(tileset);
+    //SDL_Texture *texture_skin = Resources::GetTexture(tileset);
     Surface::GetSkinnedRect(texture_skin, texture_back, &skin, &rect, tile_size);
 
     _back.SetTexture(texture_back);
