@@ -42,7 +42,9 @@ void Box::OnRender() {
             _icon.Draw(Object::GetGlobalPos(), Object::GetSize(), GUI::GetCamera());
         }
 
-        Surface::Draw(_text_texture, &_text_draw_rect);
+        if(_text_texture != nullptr){
+            Surface::Draw(_text_texture, &_text_draw_rect);
+        }
     }
 }
 
@@ -68,16 +70,19 @@ void Box::SetIcon(const std::string& icon){
     _icon.SetFrameSize(Vec2(w, h));
 
     _has_icon = true;
-
-    std::cout << "WTF NAH" << std::endl;
 }
 
 void Box::SetText(const std::string &str) {
+    if(str.empty()){
+        _text_texture = nullptr;
+        return;
+    }
+
     SDL_Color background = Window::GetBackgroundColor();
 
     //change the rendering target
     SDL_SetRenderTarget(Window::GetRenderer(), _text_texture);
-    SDL_SetRenderDrawColor(Window::GetRenderer(), 0, 0, 0, 0); // tranceparent surface
+    SDL_SetRenderDrawColor(Window::GetRenderer(), 0, 0, 0, 0); //  transparent surface
     SDL_RenderClear(Window::GetRenderer());
 
     std::istringstream stream(str);
