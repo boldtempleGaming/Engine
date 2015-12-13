@@ -1,12 +1,42 @@
 #include "Resources.h"
 
-const char* Resources::SPRITES_PATH = "../Data/Sprites/";
-const char* Resources::FONTS_PATH = "../Data/Fonts/";
-const char* Resources::SOUNDS_PATH = "../Data/Sounds/";
+const char*     Resources::SPRITES_PATH = "../Data/Sprites/";
+const char*     Resources::FONTS_PATH = "../Data/Fonts/";
+const char*     Resources::SOUNDS_PATH = "../Data/Sounds/";
 
-std::map<std::string, SDL_Texture*> Resources::_Textures;
-std::map<std::string, TTF_Font*> Resources::_Fonts;
-std::map<std::string, Audio*> Resources::_Sounds;
+std::map<std::string, SDL_Texture*>     Resources::_Textures;
+std::map<std::string, TTF_Font*>        Resources::_Fonts;
+std::map<std::string, Audio*>           Resources::_Sounds;
+
+std::string     Resources::_default_font;
+int             Resources::_default_font_ptsize;
+std::string     Resources::_default_style;
+
+const std::string& Resources::GetDefaultFont(){
+    return _default_font;
+}
+
+const int& Resources::GetDefaultFontPtsize(){
+    return _default_font_ptsize;
+}
+
+const std::string& Resources::GetDefaultStyle(){
+    return _default_style;
+}
+    
+void Resources::SetDefaultFont(const std::string font){
+    _default_font = font;
+}
+
+void Resources::SetDefaultFontPtsize(const int& ptsize){
+    if(ptsize >= 0){
+        _default_font_ptsize = ptsize;
+    }
+}
+
+void Resources::SetDefaultFontStyle(const std::string style){
+    _default_style = style;
+}
 
 SDL_Texture* Resources::GetTexture(std::string file_path){
     SDL_Texture* texture;
