@@ -8,7 +8,7 @@
 #include "Engine.h"
 
 Engine::Engine() {
-
+    
 }
 
 Engine::~Engine() {
@@ -88,6 +88,10 @@ int Engine::GetGameSpeed(){
 
 bool Engine::Core_Init() {
     quit = false;
+    
+    Resources::SetDefaultFont("PressStart2P.ttf");
+    Resources::SetDefaultFontPtsize(9);
+    Resources::SetDefaultFontStyle("pgui.png");
 
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
@@ -109,12 +113,12 @@ bool Engine::Core_Init() {
 
     Audio::Init(8);
     GUI::OnInit();
-
-    OnInit(); //CALL user function OnInit
-
+    
     if (!Window::IsInitialised()) {
         Window::SetMode(800, 640, false);
     }
+
+    OnInit(); //CALL user function OnInit
 
     Cursor::Init(Resources::GetTexture("cursor.png"), 20, 20);
 

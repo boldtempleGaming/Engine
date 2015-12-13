@@ -26,14 +26,9 @@
 #include "GUI/GUI.h"
 #include "GUI/Window.h"
 #include "GUI/Cursor.h"
-#include "GUI/Widget.h"
-#include "GUI/Widgets/Box.h"
-#include "GUI/Widgets/Button.h"
-#include "GUI/Widgets/ScrollArea.h"
 
 #include "Render/Camera.h"
 #include "Render/Surface.h"
-#include "Render/Animation.h"
 
 class Engine {
 public:
