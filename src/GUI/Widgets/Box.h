@@ -23,6 +23,7 @@ public:
     virtual ~Box();
 
     virtual void SetPos(const Vec2& pos);
+    virtual void SetSize(const Vec2& size);
     virtual void OnUpdate();
     virtual void OnRender();
     virtual void OnClick();

@@ -14,14 +14,11 @@ Box::Box(Object* owner, const Vec2& pos, const Vec2& size, const std::string& fo
     ShowBack(false);
     _text.Init(0, 0, "", font, font_pt_size);
 
-    _text_texture = SDL_CreateTexture(Window::GetRenderer(), SDL_PIXELFORMAT_RGBA8888,
-                                      SDL_TEXTUREACCESS_TARGET, GetSize().x - TEXT_OFFSET,
-                                      GetSize().y - TEXT_OFFSET);
-    SDL_SetTextureBlendMode(_text_texture, SDL_BLENDMODE_BLEND);
-
-    SetPos(pos);
-
+    _text_texture = nullptr;
     _has_icon = false;
+    
+    SetSize(size);
+    SetPos(pos);
 }
 
 Box::~Box() {
@@ -51,11 +48,25 @@ void Box::OnRender() {
 void Box::SetPos(const Vec2 &pos) {
     Object::SetPos(pos);
 
-    _text_draw_rect = {GetPos().x,
-                  GetPos().y,
+    _text_draw_rect = {Object::GetGlobalPos().x,
+                  Object::GetGlobalPos().y,
                   GetSize().x - TEXT_OFFSET,
                   GetSize().y - TEXT_OFFSET};
 }
+
+void Box::SetSize(const Vec2& size) {
+    Object::SetSize(size);
+
+    if (_text_texture) {
+        SDL_DestroyTexture(_text_texture);
+    }
+
+    _text_texture = SDL_CreateTexture(Window::GetRenderer(), SDL_PIXELFORMAT_RGBA8888,
+            SDL_TEXTUREACCESS_TARGET, size.x - TEXT_OFFSET,
+            size.y - TEXT_OFFSET);
+    SDL_SetTextureBlendMode(_text_texture, SDL_BLENDMODE_BLEND);
+}
+
 
 void  Box::OnClick(){
 }
@@ -74,7 +85,10 @@ void Box::SetIcon(const std::string& icon){
 
 void Box::SetText(const std::string &str) {
     if(str.empty()){
-        _text_texture = nullptr;
+        if(_text_texture){
+            SDL_DestroyTexture(_text_texture);
+            _text_texture = nullptr;
+        }
         return;
     }
 
