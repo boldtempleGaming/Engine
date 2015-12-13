@@ -45,6 +45,9 @@ bool Window::Init() {
         << std::endl;
         return false;
     }
+    
+    SDL_SetRenderDrawColor(Window::GetRenderer(), _color_background.r,
+                               _color_background.g, _color_background.b, 0);
 
     //SDL_RenderSetLogicalSize(Window::GetRenderer(), _w, _h);
 
