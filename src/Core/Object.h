@@ -21,53 +21,54 @@
 #include "GUI/GUI.h"
 #include "GUI/Cursor.h"
 
-enum obj_type{
-	OBJ_NONE = 0,
-	OBJ_ENTITY,
-	OBJ_GROUND,
-	OBJ_WIDGET
+enum obj_type {
+    OBJ_NONE = 0,
+    OBJ_ENTITY,
+    OBJ_GROUND,
+    OBJ_WIDGET
 };
 
 class ScrollArea; // объявление класса
 
 class Object {
 public:
-	Object();
-	virtual ~Object();
+    Object();
+    virtual ~Object();
 
-	/**
-	 * Set new Vec2 position
-	 */
-	void SetPos(const Vec2& new_pos);
+    /**
+     * Set new Vec2 position
+     */
+    void SetPos(const Vec2& new_pos);
     /**
      * Move object on Vec2 delta position (dx, dy)
      */
-	void Move(const Vec2& delta_pos);
+    void Move(const Vec2& delta_pos);
 
-	Object* GetOwner() const;
-	void Connect(Object* obj);
-	void Disconnect(Object* obj);
+    Object* GetOwner() const;
+    void Connect(Object* obj);
+    void Disconnect(Object* obj);
 
-	virtual const Vec2& GetPos() const;
-	virtual const Vec2& GetGlobalPos() const;
+    virtual const Vec2& GetPos() const;
+    virtual const Vec2& GetGlobalPos() const;
 
-	void SetVel(const Vec2& vel);
+    void SetVel(const Vec2& vel);
 
-	const Vec2& GetVel() const;
+    const Vec2& GetVel() const;
 
-	obj_type GetType() const;
-	int GetId() const;
+    obj_type GetType() const;
+    int GetId() const;
 
-	void SetSize(const Vec2& size);
-	const Vec2& GetSize() const;
+    void SetSize(const Vec2& size);
+    const Vec2& GetSize() const;
 
-	//if you want to your object to be clicked call this function
-	void CheckClick(const Camera* camera);
+    //if you want to your object to be clicked call this function
+    void CheckClick(const Camera* camera);
+    void IgnoreClick(bool ignore);
 
-	virtual void OnUpdate();
-	virtual void OnRender();
-	virtual void OnCollide(Object* obj);
-	virtual void OnClick();
+    virtual void OnUpdate();
+    virtual void OnRender();
+    virtual void OnCollide(Object* obj);
+    virtual void OnClick();
 
     /**
      * Update all children
@@ -85,30 +86,31 @@ protected:
 private:
     friend ScrollArea;
 
-	static std::list<Object*> ObjList;
-	static int _last_id; //last created object id
+    static std::list<Object*> ObjList;
+    static int _last_id; //last created object id
 
-	std::list<Object*> ChildrenList;
-	//std::list< /*subsystem type*/ > _subsystems; //TODO subsystem list
+    std::list<Object*> ChildrenList;
+    //std::list< /*subsystem type*/ > _subsystems; //TODO subsystem list
 
+    bool _ignore_click;
     Vec2 _pos;
     Vec2 _size;
     Vec2 _global_pos;
-	Vec2 _vel;
+    Vec2 _vel;
     SDL_Rect _draw_rect;
 
-	int _id;
-	obj_type _type;
-	Object* _owner;
+    int _id;
+    obj_type _type;
+    Object* _owner;
 
     void SetOwner(Object* obj);
 
-	/**
-	 * Move children when parent is moved
-	 */
-	void MoveChildern(const Vec2& delta_pos);
+    /**
+     * Move children when parent is moved
+     */
+    void MoveChildern(const Vec2& delta_pos);
 
-	std::list<Object*>::iterator FindChild(Object* obj);
+    std::list<Object*>::iterator FindChild(Object* obj);
 };
 
 #endif /* SRC_CORE_OBJECT_H_ */
