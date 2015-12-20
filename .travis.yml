@@ -1,7 +1,11 @@
 cache: apt
 before_install:
+  - sudo apt-get install python-software-properties
+  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test
   - sudo add-apt-repository "deb http://ppa.launchpad.net/zoogie/sdl2-snapshots/ubuntu precise main"
   - sudo apt-get update
+  - sudo apt-get install gcc-4.8
+  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 50
   - sudo apt-get install g++ make cmake libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev
 language: cpp
 compiler: gcc
