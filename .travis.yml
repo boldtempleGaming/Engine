@@ -1,3 +1,4 @@
+cache: apt
 before_install:
   - sudo add-apt-repository "deb http://ppa.launchpad.net/zoogie/sdl2-snapshots/ubuntu precise main"
   - sudo apt-get update
@@ -5,5 +6,5 @@ before_install:
 language: cpp
 compiler: gcc
 script:
-  - cmake
+  - cmake ./Engine
   - make -j4
