@@ -11,7 +11,7 @@ boldtemple Game Engine, build using C++11 and SDL2.
 <br/>Cross Platform: `Windows`, `Linux`, `OS X`.
 <br/>
 
-[![Build Status](https://travis-ci.org/boldtempleGaming/Engine.svg?branch=master)](https://travis-ci.org/boldtempleGaming/Engine)
+[![Build Status](https://travis-ci.org/boldtempleGaming/Engine.svg?branch=master)](https://travis-ci.org/boldtempleGaming/Engine)[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/boldtempleGaming?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 ___
 <br/>
 
