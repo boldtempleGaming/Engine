@@ -1,5 +1,6 @@
 cache: apt
 dist: trusty
+sudo: required
 
 addons:
 apt:
