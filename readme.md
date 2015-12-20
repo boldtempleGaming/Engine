@@ -1,8 +1,11 @@
-# boldtemple Game Engine
+[![BGE](https://dl.dropboxusercontent.com/u/35777135/bge_logo.png)](#)
+
 `version 0.3a` (unstable pre-alpha) /
 [Main Web](http://gaming.boldtemple.net/engine/bge/ "boldtemple Game Engine Main web") / 
 [Documentation](http://boldtemplegaming.github.io/Engine/ "boldtemple Game Engine Documentation") /
 [TODO](https://github.com/boldtempleGaming/Engine/wiki/TODO "TODO")
+
+
 
 boldtemple Game Engine, build using C++11 and SDL2.
 <br/>Cross Platform: `Windows`, `Linux`, `OS X`.
