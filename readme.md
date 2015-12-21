@@ -15,6 +15,8 @@ boldtemple Game Engine, build using C++11 and SDL2.
 ___
 <br/>
 
+## Showcase
+[![Animation](https://dl.dropboxusercontent.com/u/35777135/animation_small.gif)](#)
 
 ## Instructions
 ### - Build
