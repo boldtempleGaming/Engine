@@ -17,6 +17,7 @@ boldtemple Game Engine, build using C++11 and SDL2.
 ## Features
 **boldtemple Game Engine** it's a simple and lightweight 2d game framework:
 * Sprite animation
+* Sound effects
 * Simple AABB collision detection
 * Camera controlling
 * Widget system for making GUI
