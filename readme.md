@@ -13,6 +13,21 @@ boldtemple Game Engine, build using C++11 and SDL2.
 
 [![Build Status](https://travis-ci.org/boldtempleGaming/Engine.svg?branch=master)](https://travis-ci.org/boldtempleGaming/Engine) [![Gitter](https://badges.gitter.im/boldtempleGaming/Engine.svg)](https://gitter.im/boldtempleGaming/Engine?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
+<br/>
+## Features
+**boldtemple Game Engine** it's a simple and lightweight 2d game framework:
+* Sprite animation
+* Simple AABB collision detection
+* Camera controlling
+* Widget system for making GUI
+* Resource manager
+ 
+**Soon:**
+* Particle system
+* Vector collision detection
+* Scene manager 
+
+<br/>
 ## Showcase
 [![Animation](https://dl.dropboxusercontent.com/u/35777135/animation_small.gif)](#)
 
