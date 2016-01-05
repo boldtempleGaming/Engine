@@ -36,6 +36,9 @@ bool Window::Init() {
     if (_renderer) {
         SDL_DestroyRenderer(_renderer);
     }
+    
+    //Set the best scaling quality(anisotropic filtering)
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best"); 
 
     //RENDER INIT------------------------------------------------------
     _renderer = SDL_CreateRenderer(_window, -1,
