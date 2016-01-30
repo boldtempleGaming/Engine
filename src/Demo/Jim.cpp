@@ -115,31 +115,31 @@ void Jim::OnUpdate() {
 
         bool jump = false;
 
-        if (_key_board.isKeyDown(SDL_SCANCODE_UP)) {
+        if (Keyboard::isKeyDown(KEY_UP)) {
             if(_onGround){
                 _jump_vel = Vec2(0, -25.0f);
                 jump = true;
                 _onGround = false;
             }
-        } else if (_key_board.isKeyDown(SDL_SCANCODE_DOWN)) {
+        } else if (Keyboard::isKeyDown(KEY_DOWN)) {
             if (!_onGround) {
                 _move_vel += (Vec2(0, 5.0f));
             }
         }
 
-        if (_key_board.isKeyDown(SDL_SCANCODE_KP_PLUS)) {
+        if (Keyboard::isKeyDown(KEY_KP_PLUS)) {
 
             _frame_rate -= 2;
             _sprite.SetAnimationRate(_frame_rate);
             std::cout  << int(_frame_rate) << std::endl;
-        } else if (_key_board.isKeyDown(SDL_SCANCODE_KP_MINUS)) {
+        } else if (Keyboard::isKeyDown(KEY_KP_MINUS)) {
 
             _frame_rate += 2;
             _sprite.SetAnimationRate(_frame_rate);
             std::cout  << int(_frame_rate) << std::endl;
         }
 
-        if (_key_board.isKeyDown(SDL_SCANCODE_LEFT)) {
+        if (Keyboard::isKeyDown(KEY_LEFT)) {
             _sprite.SetFlip(SDL_FLIP_HORIZONTAL);
             _sprite.SetAnimation(anim_run);
 
@@ -150,7 +150,7 @@ void Jim::OnUpdate() {
                 _move_vel += ( Vec2(-3.0f,0));
             }
 
-        } else if (_key_board.isKeyDown(SDL_SCANCODE_RIGHT)) {
+        } else if (Keyboard::isKeyDown(KEY_RIGHT)) {
             _sprite.SetFlip(SDL_FLIP_NONE);
             _sprite.SetAnimation(anim_run);
 

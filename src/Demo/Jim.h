@@ -11,7 +11,7 @@
 #include <Core/Object.h>
 #include <Render/Animation.h>
 #include <Render/Sprite.h>
-#include <IO/KeyBoard.h>
+#include <IO/Keyboard.h>
 #include <Core/Timer.h>
 
 class Jim: public Object {
@@ -30,7 +30,6 @@ public:
 private:
     Sprite _sprite;
     Animation _anim_control;
-    KeyBoard _key_board;
     Timer _timer_controls;
 
     short unsigned int _frame_rate;
