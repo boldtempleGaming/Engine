@@ -16,11 +16,17 @@ const static float GRADUS = PI_F / 180.0f;
 
 class Vec2 {
 public:
+    const static Vec2 Zero;
+    const static Vec2 Up;
+    const static Vec2 Down;
+    const static Vec2 Left;
+    const static Vec2 Right;
+
     Vec2();
     Vec2(const float& x, const float& y);
 
     float x, y;
-    
+
     float GetLength() const;
     float Dot(const Vec2& right);
     Vec2 GetNormalized() const;
@@ -38,13 +44,6 @@ public:
     friend Vec2& operator*=(Vec2& left, const float& scale);
 };
 
-//Const defs often used vectors:
-const static Vec2 Zero = Vec2(0.0f, 0.0f);
-const static Vec2 Up = Vec2(0.0f, 1.0f);
-const static Vec2 Down = Vec2(0.0f, -1.0f);
-const static Vec2 Left = Vec2(-1.0f, 0.0f);
-const static Vec2 Right = Vec2(1.0f, 0.0f);
-
 inline
 Vec2::Vec2() : x(0), y(0) {
 }
@@ -59,7 +58,7 @@ float Vec2::GetLength() const {
 }
 
 inline
-float Vec2::Dot(const Vec2& right){
+float Vec2::Dot(const Vec2& right) {
     return (this->x * right.x) + (this->y * right.y);
 }
 
