@@ -46,7 +46,6 @@ void Engine::Start() {
         Surface::SetInterpolation(lag / _ms_per_update);
         Core_Render();
 
-        Cursor::Update();
         Core_Event(event, keyboardState);
 
         while (lag > _ms_per_update)
@@ -128,6 +127,8 @@ bool Engine::Core_Init() {
 
 void Engine::Core_Event(SDL_Event* event, const Uint8* keyboardState) {
 
+    Mouse::ResetWheel();
+    
     while (SDL_PollEvent(event)) {
 
         bool ALT_F4 = keyboardState[SDL_SCANCODE_LALT]
@@ -138,12 +139,11 @@ void Engine::Core_Event(SDL_Event* event, const Uint8* keyboardState) {
             return;
         }
 
-        //Send click to Widget
-        if (event->type > 0) {
-
+        if (event->type == SDL_MOUSEWHEEL) {
+            Mouse::SetWheel(event->wheel.x, event->wheel.y);
         }
 
-        //TODO WHY?!?!
+        //FIXME WHY?!?!
         //User OnEvent
         OnEvent(event, keyboardState);
     }
