@@ -1,7 +1,3 @@
-//
-// Created by snickers on 14.05.15.
-//
-
 #include "Collider.h"
 std::vector<Collider*> Collider::_Colliders;
 
@@ -35,7 +31,7 @@ void Collider::ProcessCollisions() {
         #define J_SIZE_H (_Colliders[j]->_size.y)
 
 
-        Vec2 prev_pos_i = _Colliders[i]->_owner->GetGlobalPos();
+        //Vec2 prev_pos_i = _Colliders[i]->_owner->GetGlobalPos();
         _Colliders[i]->_owner->Move(Vec2(_Colliders[i]->_owner->GetVel().x, 0));
         vel = _Colliders[i]->_owner->GetVel();
 

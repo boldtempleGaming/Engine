@@ -6,8 +6,8 @@
 
 #include <SDL2/SDL.h>
 
-#include "GUI/GUI.h"
-#include "Render/Camera.h"
+#include <GUI/GUI.h>
+#include <Render/Camera.h>
 
 class Window {
 public:
