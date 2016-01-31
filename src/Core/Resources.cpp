@@ -122,6 +122,8 @@ void Resources::UnloadTexture(std::string file_path){
     if(texture != nullptr){
         SDL_DestroyTexture(texture);
     }
+    
+    _Textures[file_path] = nullptr;
 }
 
 void Resources::UnloadFont(std::string file_path){
@@ -129,11 +131,15 @@ void Resources::UnloadFont(std::string file_path){
     if(font != nullptr){
         TTF_CloseFont(font);
     }
+
+    _Fonts[file_path] = nullptr;
 }
 
 void Resources::UnloadSound(std::string file_path){
     Audio* audio = _Sounds[file_path];
     delete(audio);
+    
+    _Sounds[file_path] = nullptr;
 }
 
 void Resources::UnloadAll(){

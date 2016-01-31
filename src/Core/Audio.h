@@ -31,10 +31,8 @@ public:
     audio_type Type();
 
 private:
-    static const int _max_channels;
-
     audio_type _type;
-    void* _audio_data = nullptr; // use dyn or static cast to set type
+    void* _audio_data = nullptr; // use dynamic or static cast to set type
     int _channel = -1; // stopped
     bool _is_playing = false;
 };

@@ -5,7 +5,7 @@ void Audio::Init(int alloc_channels){
 
     // initialize sdl mixer, open up the audio device
     if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) < 0) {
-        std::cerr << " >> !WARNING! << Audio isn't initialised! " << Mix_GetError() << std::endl;
+        std::cerr << " >> !ERROR! << Audio isn't initialised! " << Mix_GetError() << std::endl;
     }
 
     Mix_AllocateChannels(alloc_channels);
@@ -34,7 +34,7 @@ void Audio::Play(Mix_Music* music, int loops){
 
 void Audio::Play(int loops){
     if(!IsLoaded()){
-        std::cerr << " >> !Warning! << Trying to play not loaded audio file!" << std::endl;
+        std::cerr << " >> !ERROR! << Trying to play not loaded audio file!" << std::endl;
         return;
     }
 
@@ -91,8 +91,7 @@ Audio::Audio(const std::string& file_path, audio_type type){
                 _audio_data = chunk;
                 _type = AUDIO_SOUND;
             }else{
-                //std::cerr << Mix_GetError << std::endl;
-                printf("What? An error? Really? Here it is: %s \n", Mix_GetError());
+                std::cerr << " >> !ERROR! << " << Mix_GetError << std::endl;
             }
             break;
         case AUDIO_MUSIC:
