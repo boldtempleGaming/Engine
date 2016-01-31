@@ -1,17 +1,17 @@
 #include "FPScounter.h"
 
 FPS_counter::FPS_counter() {
-	old_time = 0;
-	last_time = 0;
+    old_time = 0;
+    last_time = 0;
 
-	speed_factor = 0;
+    speed_factor = 0;
 
-	frames = 0;
-	num_frames = 0;
+    frames = 0;
+    num_frames = 0;
 }
 
-void FPS_counter::OnUpdate(){
-    if(old_time + 1000 < SDL_GetTicks()) {
+void FPS_counter::OnUpdate() {
+    if (old_time + 1000 < SDL_GetTicks()) {
         old_time = SDL_GetTicks();
 
         num_frames = frames;
@@ -26,6 +26,6 @@ void FPS_counter::OnUpdate(){
     frames++;
 }
 
-int FPS_counter::GetFPS() {
-	return num_frames;
+unsigned int FPS_counter::GetFPS() {
+    return num_frames;
 }
