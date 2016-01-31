@@ -37,8 +37,6 @@ void Object::SetPos(const Vec2& new_pos) {
 
     if (_owner) {
         _global_pos = _owner->GetGlobalPos() + GetPos();
-        //_global_pos.x = _owner->_global_pos.x + _pos.x;
-        //_global_pos.y = _owner->_global_pos.y + _pos.y;
     } else {
         _global_pos = _pos;
     }
@@ -52,8 +50,6 @@ void Object::Move(const Vec2& delta_pos) {
 
     if (_owner) {
         _global_pos = _owner->GetGlobalPos() + GetPos();
-        //_global_pos.x = _owner->_global_pos.x + _pos.x;
-        //_global_pos.y = _owner->_global_pos.y + _pos.y;
     } else {
         _global_pos = _pos;
     }
@@ -90,7 +86,7 @@ void Object::SetType(obj_type type) {
     _type = type;
 }
 
-std::list<Object*> Object::GetChildrenList() {
+ObjListType Object::GetChildrenList() {
     return ChildrenList;
 }
 
@@ -106,7 +102,7 @@ void Object::SetVel(const Vec2 &vel) {
     _vel = vel;
 }
 
-const Vec2 &Object::GetVel() const {
+Vec2 Object::GetVel() const {
     if (GetOwner() != nullptr) {
         return GetOwner()->GetVel() + _vel;
     } else {
@@ -136,7 +132,7 @@ void Object::MoveChildern(const Vec2& delta_pos) {
     }
 }
 
-std::list<Object*>::iterator Object::FindChild(Object* obj) {
+ObjListType::iterator Object::FindChild(Object* obj) {
     for (auto it = ChildrenList.begin(); it != ChildrenList.end(); it++) {
         if ((*it)->_id == obj->_id) {
             return it;
@@ -145,7 +141,7 @@ std::list<Object*>::iterator Object::FindChild(Object* obj) {
     return ChildrenList.end(); //not found
 }
 
-//if you want to your object to be clicked call this function
+//if you want your object to be clicked call this function on update tick
 
 void Object::CheckClick(const Camera* camera) {
     if (!_ignore_click) {

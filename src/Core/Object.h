@@ -15,11 +15,11 @@
 
 #include <SDL2/SDL.h>
 
-#include "Core/Vec2.h"
-#include "Render/Surface.h"
-#include "Render/Camera.h"
-#include "GUI/GUI.h"
-#include "GUI/Cursor.h"
+#include <Core/Vec2.h>
+#include <Render/Surface.h>
+#include <Render/Camera.h>
+#include <GUI/GUI.h>
+#include <GUI/Cursor.h>
 
 enum obj_type {
     OBJ_NONE = 0,
@@ -27,6 +27,8 @@ enum obj_type {
     OBJ_GROUND,
     OBJ_WIDGET
 };
+
+typedef std::list<Object*> ObjListType;
 
 class ScrollArea; // объявление класса
 
@@ -53,7 +55,7 @@ public:
 
     void SetVel(const Vec2& vel);
 
-    const Vec2& GetVel() const;
+    Vec2 GetVel() const;
 
     obj_type GetType() const;
     int GetId() const;
@@ -81,15 +83,15 @@ public:
 
 protected:
     void SetType(obj_type type);
-    std::list<Object*> GetChildrenList();
+    ObjListType GetChildrenList();
 
 private:
     friend ScrollArea;
 
-    static std::list<Object*> ObjList;
+    static ObjListType ObjList;
     static int _last_id; //last created object id
 
-    std::list<Object*> ChildrenList;
+    ObjListType ChildrenList;
     //std::list< /*subsystem type*/ > _subsystems; //TODO subsystem list
 
     bool _ignore_click;
@@ -110,7 +112,7 @@ private:
      */
     void MoveChildern(const Vec2& delta_pos);
 
-    std::list<Object*>::iterator FindChild(Object* obj);
+    ObjListType::iterator FindChild(Object* obj);
 };
 
 #endif /* SRC_CORE_OBJECT_H_ */
