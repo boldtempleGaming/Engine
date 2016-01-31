@@ -6,7 +6,8 @@
   /Core/Object.cpp
 !*/
 
-#include <Core/Object.h>
+#include "Object.h"
+#include <IO/Mouse.h> //FIXME WTF? THIS SHIT DOESNT COMPILE IN Object.h
 
 int Object::_last_id = 0;
 
@@ -147,7 +148,7 @@ ObjListType::iterator Object::FindChild(Object* obj) {
 void Object::CheckClick(const Camera* camera) {
     if (!_ignore_click) {
         //Was mouse buttun clicked?
-        if (Cursor::button != 0) {
+        if (Mouse::AnyPressed()) {
             SDL_Rect result;
             
             SDL_Rect obj_rect = {
@@ -157,12 +158,8 @@ void Object::CheckClick(const Camera* camera) {
                 static_cast<int>(_size.y)
             };
             
-            SDL_Rect cursor_rect = {
-                static_cast<int>(Cursor::X()), 
-                static_cast<int>(Cursor::Y()), 
-                1, 
-                1
-            };
+            static SDL_Rect cursor_rect = {0, 0, 1, 1};
+            Mouse::GetPos(&cursor_rect.x, &cursor_rect.y);
             
             //check intersection
             SDL_bool inter = SDL_IntersectRect(&cursor_rect, &obj_rect, &result);
