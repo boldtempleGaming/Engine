@@ -3,7 +3,7 @@
   OpenSource Project - Check Development, License & Readme Sections.
 
   BGE - boldtemple Cross Platform Game Engine
-  /engine.h
+  /Engine.h
 !*/
 
 #ifndef ENGINE_H_
@@ -40,7 +40,7 @@ public:
     void Start();
     void Stop();
 
-    Object* GetRootAtLayer(int layer);
+    Object* GetRootAtLayer(unsigned int layer);
     void AddLayer();
 
     void SetGameSpeed(int ms);
