@@ -3,7 +3,7 @@
  OpenSource Project - Check Development, License & Readme Sections.
 
  BGE - boldtemple Cross Platform Game Engine
- /engine.cpp
+ /Engine.cpp
  !*/
 #include "Engine.h"
 
@@ -65,7 +65,7 @@ void Engine::Stop() {
     quit = true;
 }
 
-Object* Engine::GetRootAtLayer(int layer) {
+Object* Engine::GetRootAtLayer(unsigned int layer) {
     if(layer < _Layers.size() && layer >= 0){
         return _Layers[layer];
     }

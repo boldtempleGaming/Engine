@@ -37,8 +37,6 @@ void Object::SetPos(const Vec2& new_pos) {
 
     if (_owner) {
         _global_pos = _owner->GetGlobalPos() + GetPos();
-        //_global_pos.x = _owner->_global_pos.x + _pos.x;
-        //_global_pos.y = _owner->_global_pos.y + _pos.y;
     } else {
         _global_pos = _pos;
     }
@@ -52,8 +50,6 @@ void Object::Move(const Vec2& delta_pos) {
 
     if (_owner) {
         _global_pos = _owner->GetGlobalPos() + GetPos();
-        //_global_pos.x = _owner->_global_pos.x + _pos.x;
-        //_global_pos.y = _owner->_global_pos.y + _pos.y;
     } else {
         _global_pos = _pos;
     }
@@ -73,7 +69,8 @@ void Object::SetOwner(Object* obj) {
 void Object::Connect(Object* obj) {
     if (obj->_owner != nullptr) {
         std::cout << "[Warning!] Object " << obj->_id << " already connected to " << obj->_owner->_id << std::endl;
-    } else if (FindChild(obj) == ChildrenList.end()) {
+    } 
+    else if (FindChild(obj) == ChildrenList.end()) {
         std::cout << "Object connected: " << obj->_id << std::endl;
         ChildrenList.push_back(obj);
         obj->SetOwner(this);
@@ -90,7 +87,7 @@ void Object::SetType(obj_type type) {
     _type = type;
 }
 
-std::list<Object*> Object::GetChildrenList() {
+ObjListType Object::GetChildrenList() {
     return ChildrenList;
 }
 
@@ -106,9 +103,9 @@ void Object::SetVel(const Vec2 &vel) {
     _vel = vel;
 }
 
-const Vec2 &Object::GetVel() const {
-    if (GetOwner() != nullptr) {
-        return GetOwner()->GetVel() + _vel;
+Vec2 Object::GetVel() const {
+    if (_owner != nullptr) {
+        return _owner->GetVel() + _vel;
     } else {
         return _vel;
     }
@@ -136,7 +133,7 @@ void Object::MoveChildern(const Vec2& delta_pos) {
     }
 }
 
-std::list<Object*>::iterator Object::FindChild(Object* obj) {
+ObjListType::iterator Object::FindChild(Object* obj) {
     for (auto it = ChildrenList.begin(); it != ChildrenList.end(); it++) {
         if ((*it)->_id == obj->_id) {
             return it;
@@ -145,18 +142,30 @@ std::list<Object*>::iterator Object::FindChild(Object* obj) {
     return ChildrenList.end(); //not found
 }
 
-//if you want to your object to be clicked call this function
+//if you want your object to be clicked call this function on update tick
 
 void Object::CheckClick(const Camera* camera) {
     if (!_ignore_click) {
         //Was mouse buttun clicked?
         if (Cursor::button != 0) {
-            SDL_bool inter;
             SDL_Rect result;
-            SDL_Rect obj_rect = {GetGlobalPos().x - camera->X(), GetGlobalPos().y - camera->Y(), _size.x, _size.y};
-            SDL_Rect cursor_rect = {Cursor::X(), Cursor::Y(), 1, 1};
+            
+            SDL_Rect obj_rect = {
+                static_cast<int>(GetGlobalPos().x - camera->X()), 
+                static_cast<int>(GetGlobalPos().y - camera->Y()), 
+                static_cast<int>(_size.x), 
+                static_cast<int>(_size.y)
+            };
+            
+            SDL_Rect cursor_rect = {
+                static_cast<int>(Cursor::X()), 
+                static_cast<int>(Cursor::Y()), 
+                1, 
+                1
+            };
+            
             //check intersection
-            inter = SDL_IntersectRect(&cursor_rect, &obj_rect, &result);
+            SDL_bool inter = SDL_IntersectRect(&cursor_rect, &obj_rect, &result);
             if (inter == SDL_TRUE) {
                 //Set to last clicked
                 GUI::SetLastCliked(this);

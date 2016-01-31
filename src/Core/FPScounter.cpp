@@ -1,10 +1,3 @@
-/*
- * FPScounter.cpp
- *
- *  Created on: 06 нояб. 2014 г.
- *      Author: Админ
- */
-
 #include "FPScounter.h"
 
 FPS_counter::FPS_counter() {
