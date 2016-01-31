@@ -1,9 +1,10 @@
-/* 
- * File:   sys.h
- * Author: WinPooh32
- *
- * Created on 27 Jan 2015 y., 22:35
- */
+/*!
+  boldtemple Gaming ©, http://gaming.boldtemple.net
+  OpenSource Project - Check Development, License & Readme Sections.
+
+  BGE - boldtemple Cross Platform Game Engine
+  /Core/sys.h
+!*/
 
 #ifndef SYS_H
 #define	SYS_H
@@ -48,7 +49,7 @@ char* itoa(int value, char* result, int base) {
 
 inline
 std::string int_to_str(int value){
-    char buffer[32];
+    char buffer[21];
     return std::string(itoa(value, buffer, 10));
 } 
 
