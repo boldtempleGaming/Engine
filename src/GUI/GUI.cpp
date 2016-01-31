@@ -3,7 +3,7 @@
   OpenSource Project - Check Development, License & Readme Sections.
   
   BGE - boldtemple Cross Platform Game Engine
-  /gui/gui.cpp
+  /GUI/gui.cpp
 !*/
 
 #include "GUI.h"

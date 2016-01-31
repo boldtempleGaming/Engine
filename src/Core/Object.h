@@ -16,10 +16,7 @@
 #include <SDL2/SDL.h>
 
 #include <Core/Vec2.h>
-#include <Render/Surface.h>
 #include <Render/Camera.h>
-#include <GUI/GUI.h>
-#include <GUI/Cursor.h>
 
 enum obj_type {
     OBJ_NONE = 0,
@@ -28,9 +25,10 @@ enum obj_type {
     OBJ_WIDGET
 };
 
-typedef std::list<Object*> ObjListType;
-
 class ScrollArea; // объявление класса
+class Object;
+
+typedef std::list<Object*> ObjListType;
 
 class Object {
 public:
