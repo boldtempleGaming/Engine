@@ -19,10 +19,11 @@
 *.exe
 *.out
 *.app
+
 /Default/
-/Bin/
 /CMakeCache.txt
 /Makefile
 /compile_commands.json
 /cmake_install.cmake
-/CMakeFiles/*
+/CMakeFiles/
+/bin/
