@@ -2,10 +2,8 @@
 #define CAMERA_H_
 
 #include <SDL2/SDL.h>
-#include "Core/Vec2.h"
-#include "constants.h"
-
-class Object;
+#include <Core/Vec2.h>
+#include <constants.h>
 
 class Camera {
 public:

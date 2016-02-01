@@ -28,7 +28,12 @@ void Sprite::Draw(const Vec2& pos, const Vec2& size, const Camera* camera) {
     //TODO What about performance?
     //Same performance (~1000 objects) when not animated xD
 
-    SDL_Rect dst_rect = {pos.x, pos.y, size.x, size.y};
+    SDL_Rect dst_rect = {
+        static_cast<int>(pos.x), 
+        static_cast<int>(pos.y), 
+        static_cast<int>(size.x), 
+        static_cast<int>(size.y)
+    };
 
     //Camera culling
     if(!camera->InView(&dst_rect)){
@@ -39,7 +44,7 @@ void Sprite::Draw(const Vec2& pos, const Vec2& size, const Camera* camera) {
     }
 
     if(_anim_rect.w < 0){
-        std::cout << " >> !WARNING! <<  Sprite " << this << " undefined source frame size!" << std::endl;
+        std::cerr << " >> !WARNING! <<  Sprite " << this << " undefined source frame size!" << std::endl;
     }
 
     //Calc current frame position

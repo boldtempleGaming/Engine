@@ -50,7 +50,7 @@ void Widget::SetBackGround(const std::string& tileset,const Vec2& skin, int tile
         return;
     }
 
-    SDL_Rect rect = {0, 0, GetSize().x, GetSize().y};
+    SDL_Rect rect = {0, 0, static_cast<int>(GetSize().x), static_cast<int>(GetSize().y)};
 
     SDL_Texture *texture_back = SDL_CreateTexture(Window::GetRenderer(), SDL_PIXELFORMAT_RGBA8888,
                                                   SDL_TEXTUREACCESS_TARGET, rect.w,

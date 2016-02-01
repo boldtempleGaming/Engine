@@ -46,12 +46,14 @@ void Box::OnRender() {
 }
 
 void Box::SetPos(const Vec2 &pos) {
-    Object::SetPos(pos);
+    Widget::SetPos(pos);
 
-    _text_draw_rect = {Object::GetGlobalPos().x,
-                  Object::GetGlobalPos().y,
-                  GetSize().x - TEXT_OFFSET,
-                  GetSize().y - TEXT_OFFSET};
+    _text_draw_rect = {
+        static_cast<int>(Object::GetGlobalPos().x),
+        static_cast<int>(Object::GetGlobalPos().y),
+        static_cast<int>(GetSize().x - TEXT_OFFSET),
+        static_cast<int>(GetSize().y - TEXT_OFFSET)
+    };
 }
 
 void Box::SetSize(const Vec2& size) {
