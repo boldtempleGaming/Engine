@@ -28,7 +28,8 @@ public:
     float x, y;
 
     float GetLength() const;
-    float Dot(const Vec2& right);
+    float GetSqrLength() const;
+    float Dot(const Vec2& right) const;
     Vec2 GetNormalized() const;
     Vec2 GetRotated(const double& angle) const;
 
@@ -58,7 +59,12 @@ float Vec2::GetLength() const {
 }
 
 inline
-float Vec2::Dot(const Vec2& right) {
+float Vec2::GetSqrLength() const {
+    return (x * x + y * y);
+}
+
+inline
+float Vec2::Dot(const Vec2& right) const{
     return (this->x * right.x) + (this->y * right.y);
 }
 
