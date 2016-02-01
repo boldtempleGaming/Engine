@@ -25,8 +25,9 @@ boldtemple Game Engine, build using C++11 and SDL2.
  
 **Soon:**
 * Particle system
-* Vector collision detection
-* Scene manager 
+* Vector collision detection / Box2d integration
+* Scene manager
+* Script engine integration
 
 <br/>
 ## Showcase
