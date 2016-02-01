@@ -201,7 +201,12 @@ void Jim::OnRender() {
 
     Collider* col = Collider::GetCollider(this);
 
-    SDL_Rect _draw_rect = {rect_pos.x + col->_offset.x, rect_pos.y + col->_offset.y, col->_size.x, col->_size.y};
+    SDL_Rect _draw_rect = {
+        static_cast<int>(rect_pos.x + col->_offset.x), 
+        static_cast<int>(rect_pos.y + col->_offset.y), 
+        static_cast<int>(col->_size.x), 
+        static_cast<int>(col->_size.y)
+    };
 
     SDL_Color background = Window::GetBackgroundColor();
 
