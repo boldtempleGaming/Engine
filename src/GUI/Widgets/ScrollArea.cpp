@@ -49,7 +49,13 @@ void ScrollArea::RenderChildren() {
         SDL_RenderClear(Window::GetRenderer());
          */
 
-        SDL_Rect new_view = {_pos.x, _pos.y, _size.x, _size.y};
+        SDL_Rect new_view = {
+            static_cast<int>(_pos.x), 
+            static_cast<int>(_pos.y), 
+            static_cast<int>(_size.x), 
+            static_cast<int>(_size.y)
+        };
+        
         SDL_RenderSetViewport(Window::GetRenderer(), &new_view);
 
         Object::RenderChildren();
