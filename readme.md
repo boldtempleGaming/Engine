@@ -1,4 +1,4 @@
-[![BGE](https://dl.dropboxusercontent.com/u/35777135/bge_logo.png)](#)
+[![BGE](http://ui.boldtemple.net/p/gaming/img/bge_logo.png)](#)
 
 `version 0.4a` (unstable pre-alpha) /
 [Main Web](http://gaming.boldtemple.net/engine/bge/ "boldtemple Game Engine Main web") / 
