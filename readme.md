@@ -1,4 +1,4 @@
-[![BGE](http://ui.boldtemple.net/p/gaming/img/bge_logo.png?=2)](#)
+[![BGE](http://ui.boldtemple.net/p/gaming/img/bge_logo.png?=3)](#)
 
 `version 0.4a` (unstable pre-alpha) /
 [Main Web](http://gaming.boldtemple.net/engine/bge/ "boldtemple Game Engine Main web") / 
