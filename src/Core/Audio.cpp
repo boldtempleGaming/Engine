@@ -1,5 +1,8 @@
 #include "Audio.h"
 
+int Audio::_g_volume = MIX_MAX_VOLUME;
+int Audio::_mus_volume = MIX_MAX_VOLUME;
+
 void Audio::Init(int alloc_channels){
     Mix_Init(MIX_INIT_OGG | MIX_INIT_MP3);
 
@@ -30,6 +33,22 @@ void Audio::Play(Mix_Music* music, int loops){
     if(music != nullptr){
         Mix_PlayMusic(music, loops);
     }
+}
+
+void Audio::SetGlobalVolume(int volume){
+    if(volume > 100) _g_volume = 100;
+    else if(volume < 0) _g_volume = 0;
+    else _g_volume = volume;
+
+    Mix_Volume(-1, ((int)MIX_MAX_VOLUME * _g_volume) / 100);
+}
+
+void Audio::SetMusicVolume(int volume){
+    if(volume > 100) _mus_volume = 100;
+    else if(volume < 0) _mus_volume = 0;
+    else _mus_volume = volume;
+
+    Mix_VolumeMusic(((int)MIX_MAX_VOLUME * _mus_volume) / 100);
 }
 
 void Audio::Play(int loops){
@@ -72,7 +91,7 @@ void Audio::Play(int loops){
     }
 }
 
-void Audio::SetPanning(const Vec2& pos, const Vec2& viewport_size, uint32_t max_offset){
+void Audio::SetPanning(const Vec2& pos, const Vec2& viewport_size, Uint32 max_offset){
     if(_type == AUDIO_SOUND){
         _position = pos;
 
@@ -111,7 +130,7 @@ void Audio::SetPanning(const Vec2& pos, const Vec2& viewport_size, uint32_t max_
     }
 }
 
-void Audio::SetDistance(uint8_t dist){
+void Audio::SetDistance(Uint8 dist){
     std::cout << (int)dist << std::endl;
     if(_type == AUDIO_SOUND){
         _distance = (dist < MAX_VOLUME) ? dist : MAX_VOLUME;
@@ -135,7 +154,7 @@ Vec2 Audio::GetPosition(){
     return _position;
 }
 
-uint8_t Audio::GetDistance(){
+Uint8 Audio::GetDistance(){
     return _distance;
 }
 
