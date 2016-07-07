@@ -34,6 +34,14 @@ void Camera::Move(const Vec2& delta_pos) {
     _pos += delta_pos;
 }
 
+Vec2 Camera::GetPos() const{
+    return _pos;
+}
+
+Vec2 Camera::GetViewport() const{
+    return _viewport;
+}
+
 int Camera::X() const {
     return _pos.x;
 }
