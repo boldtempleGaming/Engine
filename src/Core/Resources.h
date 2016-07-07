@@ -30,7 +30,7 @@ public:
     
     static SDL_Texture* GetTexture(std::string file_path);
     static TTF_Font* GetFont(std::string file_path, int ptsize);
-    static Audio* GetAudio(std::string file_path, audio_type type);
+    static Audio* GetAudio(std::string file_path, audio_type type = AUDIO_SOUND);
 
     static void UnloadTexture(std::string file_path);
     static void UnloadFont(std::string file_path);
