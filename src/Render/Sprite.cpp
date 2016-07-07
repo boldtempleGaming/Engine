@@ -1,10 +1,3 @@
-/*
- * Sprite.cpp
- *
- *  Created on: 05 марта 2015 г.
- *      Author: snickers
- */
-
 #include <Render/Sprite.h>
 #include <iostream>
 
@@ -29,9 +22,9 @@ void Sprite::Draw(const Vec2& pos, const Vec2& size, const Camera* camera) {
     //Same performance (~1000 objects) when not animated xD
 
     SDL_Rect dst_rect = {
-        static_cast<int>(pos.x), 
-        static_cast<int>(pos.y), 
-        static_cast<int>(size.x), 
+        static_cast<int>(pos.x),
+        static_cast<int>(pos.y),
+        static_cast<int>(size.x),
         static_cast<int>(size.y)
     };
 
@@ -94,10 +87,10 @@ int Sprite::GetAngle() const {
 /*==Animation control==*/
 
 void Sprite::SetAnimation(const Animation& anim){
-    if(anim.GetBeginFrame() != _anim_control.GetBeginFrame() && anim.GetMaxFrame() != _anim_control.GetMaxFrame() ){
+    //if(anim.GetBeginFrame() != _anim_control.GetBeginFrame() && anim.GetMaxFrame() != _anim_control.GetMaxFrame() ){
         _anim_control = anim;
         SetFrame(_anim_control.GetCurrentFrame());
-    }
+    //}
 }
 
 void Sprite::SetAnimation(int begin_frame, int end_frame) {
@@ -120,6 +113,10 @@ void Sprite::SetFrame(int frame) {
         _frames_per_height = _src_rect.h / _anim_rect.h;
     }
 
+    if(_anim_control.GetBeginFrame() != frame){
+        _anim_control.SetBeginFrame(frame);
+        _anim_control.SetMaxFrame(frame);
+    }
     _anim_control.SetCurrentFrame(frame);
 }
 
