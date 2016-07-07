@@ -72,6 +72,73 @@ void Audio::Play(int loops){
     }
 }
 
+void Audio::SetPanning(const Vec2& pos, const Vec2& viewport_size, uint32_t max_offset){
+    if(_type == AUDIO_SOUND){
+        _position = pos;
+
+        if(max_offset != 0) _max_offset = max_offset;
+
+        int ofst_x =  pos.x - viewport_size.x*0.5f;
+        int ofst_y =  pos.y - viewport_size.y*0.5f;
+
+        int left;
+        int right;
+        int max_vol;
+
+        if(ofst_y < 0){
+            max_vol = MAX_VOLUME + (static_cast<float>(MAX_VOLUME)/_max_offset) * ofst_y;
+        }else if(ofst_y > 0){
+            max_vol = MAX_VOLUME - (static_cast<float>(MAX_VOLUME)/_max_offset) * ofst_y;
+        }
+
+        if(max_vol < 0) max_vol = MIN_VOLUME;
+        else if(max_vol > MAX_VOLUME) max_vol = MAX_VOLUME;
+
+        if(ofst_x < 0){
+            left = max_vol + (static_cast<float>(max_vol)/_max_offset) * ofst_x;
+            right = max_vol + (static_cast<float>(max_vol)/(0.5f*_max_offset)) * ofst_x;
+        }else if (ofst_x > 0){
+            left = max_vol - (static_cast<float>(max_vol)/(0.5f*_max_offset)) * ofst_x;
+            right = max_vol - (static_cast<float>(max_vol)/_max_offset) * ofst_x;
+        }else{
+            left = right = max_vol;
+        }
+
+        if(left > max_vol || left < 0) left = 0;
+        if(right > max_vol || right < 0) right = 0;
+
+        Mix_SetPanning(_channel, left, right);
+    }
+}
+
+void Audio::SetDistance(uint8_t dist){
+    std::cout << (int)dist << std::endl;
+    if(_type == AUDIO_SOUND){
+        _distance = (dist < MAX_VOLUME) ? dist : MAX_VOLUME;
+        Mix_SetDistance(_channel, _distance);
+    }
+}
+
+void Audio::AddDistance(int dx){
+    int tmp = static_cast<int>(_distance) + dx;
+
+    if( tmp <= 0 ){
+        SetDistance(0);
+    }else if(tmp > MAX_VOLUME){
+        SetDistance(MAX_VOLUME);
+    }else{
+        SetDistance(tmp);
+    }
+}
+
+Vec2 Audio::GetPosition(){
+    return _position;
+}
+
+uint8_t Audio::GetDistance(){
+    return _distance;
+}
+
 Audio::Audio(Mix_Music* music){
     _type = AUDIO_MUSIC;
     _audio_data = music;
