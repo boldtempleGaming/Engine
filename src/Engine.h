@@ -43,8 +43,6 @@ public:
     void Start();
     void Stop();
 
-    void DeleteObject(Object *obj);
-
     Object* GetRootAtLayer(unsigned int layer);
     void AddLayer();
 
