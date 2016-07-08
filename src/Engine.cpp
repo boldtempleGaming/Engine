@@ -64,6 +64,7 @@ void Engine::Stop() {
     quit = true;
 }
 
+
 Object* Engine::GetRootAtLayer(unsigned int layer) {
     if(layer < _Layers.size() && layer >= 0){
         return _Layers[layer];
@@ -83,6 +84,15 @@ void Engine::SetGameSpeed(int ms){
 
 int Engine::GetGameSpeed(){
     return 1000/_ms_per_update ;
+}
+
+void Engine::DeleteObjects(){
+    if(!Object::DeleteCandidates.empty()){
+        for(size_t i = 0; i < Object::DeleteCandidates.size(); ++i){
+            delete(Object::DeleteCandidates[i]);
+        }
+        Object::DeleteCandidates.clear();
+    }
 }
 
 bool Engine::Core_Init() {
@@ -151,6 +161,8 @@ void Engine::Core_Event(SDL_Event* event, const Uint8* keyboardState) {
 }
 
 void Engine::Core_Update() {
+    DeleteObjects();
+
     OnUpdate(); //User OnUpdate
 
     //Catch mouse button click

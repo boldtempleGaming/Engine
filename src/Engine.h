@@ -43,6 +43,8 @@ public:
     void Start();
     void Stop();
 
+    void DeleteObject(Object *obj);
+
     Object* GetRootAtLayer(unsigned int layer);
     void AddLayer();
 
@@ -51,8 +53,11 @@ public:
 
 private:
     std::vector<Object*> _Layers;
+    std::vector<Object*> _DeleteCandidates;
     Object* root_obj;
     double _ms_per_update;
+
+    void DeleteObjects();
 
     bool Core_Init();
     void Core_Event(SDL_Event* event, const Uint8* keyboardState);
