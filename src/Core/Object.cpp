@@ -9,9 +9,11 @@
 #include "Object.h"
 #include <IO/Mouse.h> //FIXME WTF? THIS SHIT DOESNT COMPILE IN Object.h
 
+ObjListType Object::DeleteCandidates;
 int Object::_last_id = 0;
 
 Object::Object() {
+    _delete_later = false;
     _owner = nullptr;
     _id = _last_id++;
     _type = OBJ_NONE;
@@ -30,6 +32,12 @@ Object::~Object() {
 
     if (_id == _last_id - 1) {
         _last_id = 0; // reset when all objects are deleted
+    }
+}
+
+void Object::DeleteLater(){
+    if(!_delete_later){
+        DeleteCandidates.push_back(this);
     }
 }
 
@@ -80,8 +88,13 @@ void Object::Connect(Object* obj) {
 }
 
 void Object::Disconnect(Object* obj) {
-    ChildrenList.remove(obj);
-    obj->SetOwner(nullptr);
+    for(auto iter = ChildrenList.begin(); iter != ChildrenList.end(); ++iter){
+        if( *iter == obj){
+            std::cout << "Object disconnected: " << obj->_id << std::endl;
+            ChildrenList.erase(iter);
+            obj->SetOwner(nullptr);
+        }
+    }
 }
 
 void Object::SetType(obj_type type) {
@@ -196,9 +209,11 @@ void Object::UpdateChildren() {
         return;
     }
 
-    for (auto it = ChildrenList.begin(); it != ChildrenList.end(); it++) {
-        (*it)->OnUpdate();
-        (*it)->UpdateChildren();
+    size_t len = ChildrenList.size();
+
+    for (size_t i = 0; i < len; ++i) {
+        ChildrenList[i]->OnUpdate();
+        ChildrenList[i]->UpdateChildren();
     }
 }
 
@@ -207,8 +222,10 @@ void Object::RenderChildren() {
         return;
     }
 
-    for (auto it = ChildrenList.begin(); it != ChildrenList.end(); it++) {
-        (*it)->OnRender();
-        (*it)->RenderChildren();
+    size_t len = ChildrenList.size();
+
+    for (size_t i = 0; i < len; ++i) {
+        ChildrenList[i]->OnRender();
+        ChildrenList[i]->RenderChildren();
     }
 }

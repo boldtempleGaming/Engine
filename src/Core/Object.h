@@ -28,12 +28,16 @@ enum obj_type {
 class ScrollArea; // объявление класса
 class Object;
 
-typedef std::list<Object*> ObjListType;
+typedef std::vector<Object*> ObjListType;
 
 class Object {
 public:
+    static ObjListType DeleteCandidates;
+
     Object();
     virtual ~Object();
+
+    void DeleteLater();
 
     /**
      * Set new Vec2 position
@@ -86,12 +90,12 @@ protected:
 private:
     friend ScrollArea;
 
-    static ObjListType ObjList;
     static int _last_id; //last created object id
 
     ObjListType ChildrenList;
     //std::list< /*subsystem type*/ > _subsystems; //TODO subsystem list
 
+    bool _delete_later;
     bool _ignore_click;
     Vec2 _pos;
     Vec2 _size;

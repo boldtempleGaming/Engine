@@ -15,6 +15,8 @@ public:
     bool InView(int x, int y, int h, int w) const;
     bool InView(const Vec2& pos, const Vec2& size) const;
     void Move(const Vec2& delta_pos);
+    Vec2 GetPos() const;
+    Vec2 GetViewport() const;
     int X() const;
     int Y() const;
     int W() const;
