@@ -87,10 +87,13 @@ int Sprite::GetAngle() const {
 /*==Animation control==*/
 
 void Sprite::SetAnimation(const Animation& anim){
-    //if(anim.GetBeginFrame() != _anim_control.GetBeginFrame() && anim.GetMaxFrame() != _anim_control.GetMaxFrame() ){
+
+    //if animations are different
+    if(anim.GetBeginFrame() != _anim_control.GetBeginFrame() && anim.GetMaxFrame() != _anim_control.GetMaxFrame() ){
         _anim_control = anim;
         SetFrame(_anim_control.GetCurrentFrame());
-    //}
+    }
+    //else do nothing
 }
 
 void Sprite::SetAnimation(int begin_frame, int end_frame) {
