@@ -31,8 +31,18 @@ boldtemple Game Engine, build using C++11 and SDL2.
 
 <br/>
 ## Showcase
-[![Animation](https://dl.dropboxusercontent.com/u/35777135/animation_small.gif)](#)
 
-[![Simple-Game](https://dl.dropboxusercontent.com/u/35777135/simple-game.gif)](https://github.com/WinPooh32/Simple-Game)
+|                       MyFirstGame                                   |                                      Simple-Game                              |
+| ------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| ![MyFirstGame][MyFirstGame-gif] <br> Author: WinPooh32 <br> no link | ![Simple-Game][Simple-Game-gif] <br> Author: WinPooh32 <br> ![link][S-G-link] |
+
+<!-- imgs: -->
+[MyFirstGame-gif]: https://dl.dropboxusercontent.com/u/35777135/animation_small.gif "MyFirstGame"
+[Simple-Game-gif]: https://dl.dropboxusercontent.com/u/35777135/simple-game.gif "Simple-Game"
+
+<!-- links: -->
+[S-G-link]: https://github.com/WinPooh32/Simple-Game "Simple-Game"
+
+
 
 <!-- **boldtemple Game Engine** -->
