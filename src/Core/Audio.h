@@ -15,9 +15,6 @@ enum audio_type{
 
 class Audio {
 public:
-    static const int MAX_VOLUME = 255;
-    static const int MIN_VOLUME = 0;
-
     static void Init(int alloc_channels = 16);
     static void Quit();
 
@@ -34,7 +31,9 @@ public:
     Audio(const std::string& file_path, audio_type type = AUDIO_SOUND);
 
     void Play(int loops = 0);
+    void Stop();
 
+    void SetVolume(int volume);
     void SetPanning(const Vec2& pos, const Vec2& viewport_size, Uint32 max_offset = 0);
     void SetDistance(Uint8 dist);
     void AddDistance(int dx);
@@ -46,6 +45,9 @@ public:
     audio_type Type();
 
 private:
+    static const int MAX_VOLUME = 255;
+    static const int MIN_VOLUME = 0;
+
     static int _g_volume;
     static int _mus_volume;
 
@@ -54,8 +56,11 @@ private:
     int _channel = -1; // stopped
     bool _is_playing = false;
     Uint8 _distance = 0;
+    Uint8 _volume = 100;
     Uint32 _max_offset = 2000;
     Vec2 _position;
+
+    void setup_audio_on_play();
 };
 
 

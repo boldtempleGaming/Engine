@@ -1,7 +1,7 @@
 #include "Audio.h"
 
-int Audio::_g_volume = MIX_MAX_VOLUME;
-int Audio::_mus_volume = MIX_MAX_VOLUME;
+int Audio::_g_volume = 100;
+int Audio::_mus_volume = 100;
 
 void Audio::Init(int alloc_channels){
     Mix_Init(MIX_INIT_OGG | MIX_INIT_MP3);
@@ -51,6 +51,19 @@ void Audio::SetMusicVolume(int volume){
     Mix_VolumeMusic(((int)MIX_MAX_VOLUME * _mus_volume) / 100);
 }
 
+void Audio::SetVolume(int volume){
+    if(_type == AUDIO_SOUND){
+        if(volume > 100) _volume = 100;
+        else if(volume < 0) _volume = 0;
+        else _volume = volume;
+
+        Mix_Volume(_channel, ((int)MIX_MAX_VOLUME * _volume) / 100);
+    }
+    else if(_type == AUDIO_MUSIC){
+        SetMusicVolume(volume);
+    }
+}
+
 void Audio::Play(int loops){
     if(!IsLoaded()){
         std::cerr << " >> !ERROR! << Trying to play not loaded audio file!" << std::endl;
@@ -89,7 +102,15 @@ void Audio::Play(int loops){
             Mix_PlayMusic(static_cast<Mix_Music*>(_audio_data), loops);
             break;
     }
+
+    setup_audio_on_play();
 }
+
+void Audio::Stop(){
+    _is_playing = false;
+    Mix_HaltChannel(_channel);
+}
+
 
 void Audio::SetPanning(const Vec2& pos, const Vec2& viewport_size, Uint32 max_offset){
     if(_type == AUDIO_SOUND){
@@ -106,8 +127,10 @@ void Audio::SetPanning(const Vec2& pos, const Vec2& viewport_size, Uint32 max_of
 
         if(ofst_y < 0){
             max_vol = MAX_VOLUME + (static_cast<float>(MAX_VOLUME)/_max_offset) * ofst_y;
-        }else if(ofst_y > 0){
+        }else if(ofst_y >= 0){
             max_vol = MAX_VOLUME - (static_cast<float>(MAX_VOLUME)/_max_offset) * ofst_y;
+        }else{
+            max_vol = MAX_VOLUME;
         }
 
         if(max_vol < 0) max_vol = MIN_VOLUME;
@@ -126,12 +149,12 @@ void Audio::SetPanning(const Vec2& pos, const Vec2& viewport_size, Uint32 max_of
         if(left > max_vol || left < 0) left = 0;
         if(right > max_vol || right < 0) right = 0;
 
+        std::cout <<"max_vol " << max_vol <<" left " << left << " right" << right << std::endl;
         Mix_SetPanning(_channel, left, right);
     }
 }
 
 void Audio::SetDistance(Uint8 dist){
-    std::cout << (int)dist << std::endl;
     if(_type == AUDIO_SOUND){
         _distance = (dist < MAX_VOLUME) ? dist : MAX_VOLUME;
         Mix_SetDistance(_channel, _distance);
@@ -215,4 +238,16 @@ bool Audio::IsPlaying(){
 
 audio_type Audio::Type(){
     return _type;
+}
+
+void Audio::setup_audio_on_play(){
+    if(_volume < 100){
+        SetVolume(_volume);
+    }else if(_mus_volume < 100){
+        SetMusicVolume(_mus_volume);
+    }
+
+    if(_distance > 0){
+        SetDistance(_distance);
+    }
 }
