@@ -1,6 +1,6 @@
 [![BGE](http://ui.boldtemple.net/p/gaming/img/bge_logo.png?=6)](#)
 
-`version 0.4.1a` (pre-alpha) /
+`version 0.4a` (pre-alpha) /
 [Main Web](http://gaming.boldtemple.net/engine/bge/ "boldtemple Game Engine Main web") / 
 [Documentation](https://github.com/boldtempleGaming/Engine/wiki "boldtemple Game Engine Documentation") /
 [TODO](https://github.com/boldtempleGaming/Engine/wiki/TODO "TODO")
