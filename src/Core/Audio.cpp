@@ -57,7 +57,9 @@ void Audio::SetVolume(int volume){
         else if(volume < 0) _volume = 0;
         else _volume = volume;
 
-        Mix_Volume(_channel, ((int)MIX_MAX_VOLUME * _volume) / 100);
+        if(IsPlaying()){
+            Mix_Volume(_channel, ((int)MIX_MAX_VOLUME * _volume) / 100);
+        }
     }
     else if(_type == AUDIO_MUSIC){
         SetMusicVolume(volume);
@@ -72,29 +74,17 @@ void Audio::Play(int loops){
 
     switch(_type){
         case AUDIO_SOUND:
-            int free_channel;
-            int channels;
-            channels = ChannelsAllocated();
-
-            if(!IsPlaying()) {
-                //searching for free channel to play
-                for (free_channel = 0; free_channel < channels; ++free_channel) {
-                    if (Mix_Playing(free_channel) != 1) {
-                        break; // free channel found
-                    }
-                }
-
-                _channel = free_channel; // save occupied channel
-            }else{
-                free_channel = _channel;
+            if(IsPlaying()) {
+                Stop();
             }
 
-            if(channels == 0 || free_channel >= channels){
+            _channel = Mix_PlayChannel(-1, static_cast<Mix_Chunk*>(_audio_data), loops);
+
+            if(_channel == -1){
                 std::cerr << " >> !Warning! << No free audio channels! " << std::endl;
-                return; // you can alloc new channels here :)
+                return;
             }
 
-            Mix_PlayChannel(free_channel, static_cast<Mix_Chunk*>(_audio_data), loops);
             //Mix_ChannelFinished(&Audio::OnHalt); // set callback on channel halting
             break;
 
@@ -107,8 +97,9 @@ void Audio::Play(int loops){
 }
 
 void Audio::Stop(){
-    _is_playing = false;
-    Mix_HaltChannel(_channel);
+    if(IsPlaying()){
+        Mix_HaltChannel(_channel);
+    }
 }
 
 
@@ -149,7 +140,6 @@ void Audio::SetPanning(const Vec2& pos, const Vec2& viewport_size, Uint32 max_of
         if(left > max_vol || left < 0) left = 0;
         if(right > max_vol || right < 0) right = 0;
 
-        std::cout <<"max_vol " << max_vol <<" left " << left << " right" << right << std::endl;
         Mix_SetPanning(_channel, left, right);
     }
 }
@@ -171,6 +161,13 @@ void Audio::AddDistance(int dx){
     }else{
         SetDistance(tmp);
     }
+}
+
+int Audio::GetVolume(){
+    if(_type == AUDIO_SOUND){
+       return _volume;
+    }
+    else return _mus_volume;
 }
 
 Vec2 Audio::GetPosition(){
@@ -214,6 +211,10 @@ Audio::Audio(const std::string& file_path, audio_type type){
     }
 }
 
+Audio::~Audio(){
+    std::cout << "AUDIO DESTRUCT" << std::endl;
+}
+
 bool Audio::IsLoaded(){
     return (_audio_data != nullptr);
 }
@@ -221,11 +222,11 @@ bool Audio::IsLoaded(){
 bool Audio::IsPlaying(){
     switch(_type){
         case AUDIO_SOUND:
-            if(_channel != -1) {
+            if(_channel != INT32_MIN) {
                 if (Mix_Playing(_channel) && !Mix_Paused(_channel)) {
                     return true;
                 }else{
-                    _channel = -1;
+                    _channel = INT32_MIN;
                 }
             }
             break;

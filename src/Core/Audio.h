@@ -29,6 +29,7 @@ public:
     Audio(Mix_Chunk* sound);
     Audio(Mix_Music* sound);
     Audio(const std::string& file_path, audio_type type = AUDIO_SOUND);
+    ~Audio();
 
     void Play(int loops = 0);
     void Stop();
@@ -37,6 +38,8 @@ public:
     void SetPanning(const Vec2& pos, const Vec2& viewport_size, Uint32 max_offset = 0);
     void SetDistance(Uint8 dist);
     void AddDistance(int dx);
+
+    int GetVolume();
     Vec2 GetPosition();
     Uint8 GetDistance();
 
@@ -53,8 +56,7 @@ private:
 
     audio_type _type;
     void* _audio_data = nullptr; // use dynamic or static cast to set type
-    int _channel = -1; // stopped
-    bool _is_playing = false;
+    int _channel = INT32_MIN; // stopped
     Uint8 _distance = 0;
     Uint8 _volume = 100;
     Uint32 _max_offset = 2000;
