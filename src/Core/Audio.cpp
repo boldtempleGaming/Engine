@@ -40,7 +40,7 @@ void Audio::SetMasterVolume(int volume){
     else if(volume < 0) _g_volume = 0;
     else _g_volume = volume;
 
-    Mix_Volume(-1, ((int)MIX_MAX_VOLUME * _g_volume) / 100);
+    Mix_Volume(-1, (MIX_MAX_VOLUME * _g_volume) / 100);
 }
 
 int Audio::GetMasterVolume(){
@@ -52,7 +52,7 @@ void Audio::SetMusicVolume(int volume){
     else if(volume < 0) _mus_volume = 0;
     else _mus_volume = volume;
 
-    Mix_VolumeMusic(((int)MIX_MAX_VOLUME * _mus_volume) / 100);
+    Mix_VolumeMusic((MIX_MAX_VOLUME * _mus_volume) / 100);
 }
 
 int Audio::GetMusicVolume()
@@ -67,7 +67,7 @@ void Audio::SetVolume(int volume){
         else _volume = volume;
 
         if(IsPlaying()){
-            Mix_Volume(_channel, ((int)MIX_MAX_VOLUME * _volume) / 100);
+            Mix_Volume(_channel, (MIX_MAX_VOLUME * _volume) / 100);
         }
     }
     else if(_type == AUDIO_MUSIC){
