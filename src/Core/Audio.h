@@ -23,8 +23,12 @@ public:
     static void Play(Mix_Chunk* sound, int loops = 0);
     static void Play(Mix_Music* music, int loops = 0);
 
-    static void SetGlobalVolume(int volume);
+    static void SetMasterVolume(int volume);
+    static int GetMasterVolume();
+
     static void SetMusicVolume(int volume);
+    static int GetMusicVolume();
+
 
     Audio(Mix_Chunk* sound);
     Audio(Mix_Music* sound);

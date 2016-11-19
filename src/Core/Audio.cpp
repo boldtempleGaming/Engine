@@ -35,12 +35,16 @@ void Audio::Play(Mix_Music* music, int loops){
     }
 }
 
-void Audio::SetGlobalVolume(int volume){
+void Audio::SetMasterVolume(int volume){
     if(volume > 100) _g_volume = 100;
     else if(volume < 0) _g_volume = 0;
     else _g_volume = volume;
 
     Mix_Volume(-1, ((int)MIX_MAX_VOLUME * _g_volume) / 100);
+}
+
+int Audio::GetMasterVolume(){
+    return _g_volume;
 }
 
 void Audio::SetMusicVolume(int volume){
@@ -49,6 +53,11 @@ void Audio::SetMusicVolume(int volume){
     else _mus_volume = volume;
 
     Mix_VolumeMusic(((int)MIX_MAX_VOLUME * _mus_volume) / 100);
+}
+
+int Audio::GetMusicVolume()
+{
+    return _mus_volume;
 }
 
 void Audio::SetVolume(int volume){
@@ -212,7 +221,7 @@ Audio::Audio(const std::string& file_path, audio_type type){
 }
 
 Audio::~Audio(){
-    std::cout << "AUDIO DESTRUCT" << std::endl;
+
 }
 
 bool Audio::IsLoaded(){
