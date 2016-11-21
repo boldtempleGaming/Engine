@@ -13,11 +13,12 @@ ObjListType Object::DeleteCandidates;
 int Object::_last_id = 0;
 
 Object::Object() {
-    _delete_later = false;
-    _owner = nullptr;
-    _id = _last_id++;
-    _type = OBJ_NONE;
-    _ignore_click = false;
+    SetDefaults();
+}
+
+Object::Object(const std::string& label){
+   SetDefaults();
+   _label = label;
 }
 
 Object::~Object() {
@@ -80,7 +81,6 @@ void Object::Connect(Object* obj) {
         std::cout << "[Warning!] Object " << obj->_id << " already connected to " << obj->_owner->_id << std::endl;
     } 
     else if (FindChild(obj) == ChildrenList.end()) {
-        std::cout << "Object connected: " << obj->_id << std::endl;
         ChildrenList.push_back(obj);
         obj->SetOwner(this);
         obj->Move(Vec2()); // update global pos
@@ -88,12 +88,10 @@ void Object::Connect(Object* obj) {
 }
 
 void Object::Disconnect(Object* obj) {
-    for(auto iter = ChildrenList.begin(); iter != ChildrenList.end(); ++iter){
-        if( *iter == obj){
-            std::cout << "Object disconnected: " << obj->_id << std::endl;
-            ChildrenList.erase(iter);
-            obj->SetOwner(nullptr);
-        }
+    auto iter = FindChild(obj);
+    if (iter != ChildrenList.end()) {
+        ChildrenList.erase(iter);
+        obj->SetOwner(nullptr);
     }
 }
 
@@ -133,6 +131,10 @@ int Object::GetId() const {
     return _id;
 }
 
+const std::string& Object::GetLabel(){
+    return _label;
+}
+
 void Object::SetSize(const Vec2& size) {
     _size = size;
 }
@@ -148,12 +150,20 @@ void Object::MoveChildern(const Vec2& delta_pos) {
 }
 
 ObjListType::iterator Object::FindChild(Object* obj) {
-    for (auto it = ChildrenList.begin(); it != ChildrenList.end(); it++) {
+    for (auto it = ChildrenList.begin(); it < ChildrenList.end(); it++) {
         if ((*it)->_id == obj->_id) {
             return it;
         }
     }
     return ChildrenList.end(); //not found
+}
+
+void Object::SetDefaults(){
+    _delete_later = false;
+    _owner = nullptr;
+    _id = _last_id++;
+    _type = OBJ_NONE;
+    _ignore_click = false;
 }
 
 //if you want your object to be clicked call this function on update tick
@@ -171,6 +181,8 @@ void Object::CheckClick(const Camera* camera) {
                 static_cast<int>(_size.y)
             };
             
+            //rectangle 1x1px
+            //FIXME not thread safe
             static SDL_Rect cursor_rect = {0, 0, 1, 1};
             Mouse::GetPos(&cursor_rect.x, &cursor_rect.y);
             

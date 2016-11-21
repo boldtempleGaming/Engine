@@ -35,6 +35,7 @@ public:
     static ObjListType DeleteCandidates;
 
     Object();
+    Object(const std::string& label);
     virtual ~Object();
 
     void DeleteLater();
@@ -56,11 +57,11 @@ public:
     virtual const Vec2& GetGlobalPos() const;
 
     void SetVel(const Vec2& vel);
-
     Vec2 GetVel() const;
 
     obj_type GetType() const;
     int GetId() const;
+    const std::string& GetLabel();
 
     void SetSize(const Vec2& size);
     const Vec2& GetSize() const;
@@ -104,6 +105,7 @@ private:
     SDL_Rect _draw_rect;
 
     int _id;
+    std::string _label;
     obj_type _type;
     Object* _owner;
 
@@ -115,6 +117,8 @@ private:
     void MoveChildern(const Vec2& delta_pos);
 
     ObjListType::iterator FindChild(Object* obj);
+
+    void SetDefaults();
 };
 
 #endif /* SRC_CORE_OBJECT_H_ */
