@@ -57,9 +57,10 @@ endif(WIN32)
 set(SOURCES ${SRC} ${SRC_CORE} ${SRC_GUI} ${SRC_WIDGETS} ${SRC_RENDER} ${SRC_IO} ${SRC_DEMO})
 
 if(AS_LIBRARY)
-    if(COVERAGE_ENABLED){
-        set(CMAKE_STATIC_LINKER_FLAGS "-coverage")
-    }
+    if(COVERAGE_ENABLED)
+        set(CMAKE_STATIC_LINKER_FLAGS "--coverage")
+    endif(COVERAGE_ENABLED)
+    
     add_library(${PROJECT_NAME} STATIC ${SOURCES})
 else()
     set(CMAKE_EXE_LINKER_FLAGS "-static-libstdc++ -static-libgcc -mwindows")
