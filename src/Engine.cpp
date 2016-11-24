@@ -127,9 +127,11 @@ bool Engine::Core_Init() {
         Window::SetMode(800, 640, false);
     }
 
+    Cursor::Init(Resources::GetTexture("cursor.png"), 20, 20);
+
     OnInit(); //CALL user function OnInit
 
-    Cursor::Init(Resources::GetTexture("cursor.png"), 20, 20);
+
 
     std::cout << "Successfully initialized!" << std::endl;
     return true; //success
