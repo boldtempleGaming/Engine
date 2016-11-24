@@ -9,6 +9,7 @@
 #include <iostream>
 #include <Core/Resources.h>
 #include <Core/Collider.h>
+#include <IO/Mouse.h>
 
 Vec2 GRAV(0, 1);
 
@@ -36,9 +37,10 @@ Jim::Jim() {
     _sprite.SetAnimation(anim_stay);
 
     //_sprite.SetAngle(45);
-    Object::SetPos(Vec2());
+    Object::SetPos(Vec2(0,0));
 
-    Collider::RegisterObject(this, Vec2(), GetSize(), false);
+    Collider::RegisterObject(this, Vec2(0,0), GetSize(), false);
+    _timer_controls.SetRange(50);
 }
 
 Jim::Jim(const Vec2& pos){
@@ -76,7 +78,9 @@ Jim::Jim(const Vec2& pos){
     //Window::GetCamera()->SetViewport(Vec2(500, 500));
     Collider::RegisterObject(this, Vec2(36, -8), GetSize() - Vec2(70, 0), false);
 
-    _jump_vel = Vec2();
+    _jump_vel = Vec2(0,0);
+
+    _timer_controls.SetRange(50);
 }
 
 Jim::~Jim() {
@@ -96,7 +100,7 @@ void Jim::OnUpdate() {
     _prev_pos = GetPos();
     //Move(GetVel() + Vec2(0,3));
 
-    _timer_controls.Start();
+
 
 /*
     if(_collision && !(_prev_pos == GetPos())){
@@ -111,7 +115,14 @@ void Jim::OnUpdate() {
     }
 */
 
-    if (_timer_controls.GetTime() > 50 && _is_player) {
+    if(Mouse::Pressed(MOUSE_LEFT)){
+        SetPos(Mouse::GetPos() + Window::GetCamera()->GetPos());
+        SetVel(Vec2::ZERO);
+        _move_vel = Vec2::ZERO;
+    }
+
+
+    if (_timer_controls.OutRange() && _is_player) {
 
         bool jump = false;
 
@@ -170,7 +181,7 @@ void Jim::OnUpdate() {
             //SetVel( GRAV );
         }
 
-        _timer_controls.Stop();
+        _timer_controls.Reset();
     }
 
     _move_vel.y += GRAV.y;
@@ -189,7 +200,7 @@ void Jim::OnRender() {
 
     if(_is_player){
         Camera* cam = Window::GetCamera();
-        cam->SetPos(Vec2(GetGlobalPos().x - Window::GetWidth()/2 + GetSize().x/2, GetGlobalPos().y - Window::GetHeight()/2 + GetSize().y/2));
+        //cam->SetPos(Vec2(GetGlobalPos().x - Window::GetWidth()/2 + GetSize().x/2, GetGlobalPos().y - Window::GetHeight()/2 + GetSize().y/2));
         rect_pos = GetGlobalPos();
     }else{
         if( GetVel().x < 0.1f && GetVel().x > -0.1f && GetVel().y < 0.1f && GetVel().y > -0.1f && _onGround){

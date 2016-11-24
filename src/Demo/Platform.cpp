@@ -10,7 +10,7 @@ Platform::Platform(const Vec2& pos, const Vec2& size){
     _sprite.SetFrameSize(size);
     _sprite.SetTexture(Resources::GetTexture("grassMid.png"));
 
-    Collider::RegisterObject(this, Vec2(), size, true);
+    Collider::RegisterObject(this, Vec2::ZERO, size, true);
 
     SetType(OBJ_GROUND);
 }
