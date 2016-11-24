@@ -34,7 +34,7 @@ if(LINUX)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 	
 	if(COVERAGE_ENABLED)
-	    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -coverage")
+	    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
         endif(COVERAGE_ENABLED)
 	
         include_directories(src ${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIRS} ${SDL2MIXER_INCLUDE_DIRS})
