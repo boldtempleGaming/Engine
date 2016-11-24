@@ -16,9 +16,6 @@ void Collider::ProcessCollisions() {
     int size = _Colliders.size();
     for(int i = 0; i < size; ++i){
 
-        if(_Colliders[i]->_is_static){
-            continue;
-        }
 
         #define I_POS_X (_Colliders[i]->_owner->GetGlobalPos().x + _Colliders[i]->_offset.x)
         #define I_POS_Y (_Colliders[i]->_owner->GetGlobalPos().y + _Colliders[i]->_offset.y)
@@ -34,6 +31,11 @@ void Collider::ProcessCollisions() {
         //Vec2 prev_pos_i = _Colliders[i]->_owner->GetGlobalPos();
         _Colliders[i]->_owner->Move(Vec2(_Colliders[i]->_owner->GetVel().x, 0));
         vel = _Colliders[i]->_owner->GetVel();
+
+        if(_Colliders[i]->_is_static){
+            _Colliders[i]->_owner->SetVel(vel);
+            continue;
+        }
 
         for(int j = i + 1; j < size; ++j){
 
