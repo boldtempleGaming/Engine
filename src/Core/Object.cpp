@@ -52,7 +52,7 @@ void Object::SetPos(const Vec2& new_pos) {
     }
 
     if (!ChildrenList.empty())
-        MoveChildern(Vec2());
+        MoveChildern(Vec2::ZERO);
 }
 
 void Object::Move(const Vec2& delta_pos) {
@@ -65,7 +65,7 @@ void Object::Move(const Vec2& delta_pos) {
     }
 
     if (!ChildrenList.empty())
-        MoveChildern(Vec2());
+        MoveChildern(Vec2::ZERO);
 }
 
 Object* Object::GetOwner() const {
@@ -83,7 +83,7 @@ void Object::Connect(Object* obj) {
     else if (FindChild(obj) == ChildrenList.end()) {
         ChildrenList.push_back(obj);
         obj->SetOwner(this);
-        obj->Move(Vec2()); // update global pos
+        obj->Move(Vec2::ZERO); // update global pos
     }
 }
 
