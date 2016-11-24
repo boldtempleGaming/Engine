@@ -22,7 +22,7 @@ addons:
 language: cpp
 compiler: gcc
 script:
-  - cmake CMakeLists.txt
+  - cmake CMakeLists.txt -DCOVERAGE_ENABLED
   - make -j4
   
 after_success:
