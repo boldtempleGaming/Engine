@@ -32,6 +32,11 @@ if(LINUX)
 	PKG_SEARCH_MODULE(SDL2TTF REQUIRED SDL2_ttf>=2.0.0)
 	PKG_SEARCH_MODULE(SDL2MIXER REQUIRED SDL2_mixer>=2.0.0)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+	
+	if(COVERAGE_ENABLED)
+	    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+        endif(COVERAGE_ENABLED)
+	
         include_directories(src ${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIRS} ${SDL2MIXER_INCLUDE_DIRS})
 endif(LINUX)
 
@@ -56,8 +61,8 @@ endif(WIN32)
 
 set(SOURCES ${SRC} ${SRC_CORE} ${SRC_GUI} ${SRC_WIDGETS} ${SRC_RENDER} ${SRC_IO} ${SRC_DEMO})
 
-if(AS_LIBRARY)
-    add_library(${PROJECT_NAME} STATIC ${SOURCES})
+if(AS_LIBRARY)    
+    add_library(${PROJECT_NAME} SHARED ${SOURCES})
 else()
     set(CMAKE_EXE_LINKER_FLAGS "-static-libstdc++ -static-libgcc -mwindows")
     #Set binary folder
