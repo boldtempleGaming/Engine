@@ -62,7 +62,7 @@ endif(WIN32)
 set(SOURCES ${SRC} ${SRC_CORE} ${SRC_GUI} ${SRC_WIDGETS} ${SRC_RENDER} ${SRC_IO} ${SRC_DEMO})
 
 if(AS_LIBRARY)    
-    add_library(${PROJECT_NAME} STATIC ${SOURCES})
+    add_library(${PROJECT_NAME} SHARED ${SOURCES})
 else()
     set(CMAKE_EXE_LINKER_FLAGS "-static-libstdc++ -static-libgcc -mwindows")
     #Set binary folder
