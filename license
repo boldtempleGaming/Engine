@@ -1,4 +1,4 @@
-MIT License
+boldtemple License (blic - Basic)
 
 Copyright (c) 2017 boldtempleGaming
 
@@ -9,8 +9,14 @@ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1- The origin of this software must not be misrepresented; you must not claim 
+   that you wrote the original software. 
+2- If you use this software in a product, an acknowledgment in the product 
+   documentation would be appreciated but is not required.
+3- Altered source versions must be plainly marked as such, and must not be
+   misrepresented as being the original software.
+4- This notice shall be included in all copies or substantial portions of 
+   the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
