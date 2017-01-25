@@ -11,6 +11,8 @@
 #include <Render/Sprite.h>
 #include <Render/Camera.h>
 
+#include <IO/Keyboard.h>
+
 using namespace std;
 
 
@@ -29,16 +31,39 @@ public:
     }
 
     void OnUpdate(){
-        Object::CheckClick(Window::GetCamera());
+
+        //Track our torch sprite to mouse cursor
+        Vec2 mouse_pos = Mouse::GetPos();
+        Vec2 torch_center_pos =  Object::GetGlobalPos() + Object::GetSize()*0.5f;
+        Vec2 direction = mouse_pos - torch_center_pos;
+
+        torch.SetAngle(direction.GetAngle() + 90.0f);
+
+
+        //Handle pressed keyboard keys
+        const float step = 5.0f;
+        const Vec2 up_step(0, -step);
+        const Vec2 down_step(0, step);
+        const Vec2 left_step(-step, 0);
+        const Vec2 right_step(step, 0);
+
+        if(Keyboard::isKeyDown(KEY_UP)){
+            Object::Move(up_step);
+        }
+        else  if(Keyboard::isKeyDown(KEY_DOWN)){
+            Object::Move(down_step);
+        }
+        else  if(Keyboard::isKeyDown(KEY_LEFT)){
+            Object::Move(left_step);
+        }
+        else  if(Keyboard::isKeyDown(KEY_RIGHT)){
+            Object::Move(right_step);
+        }
     }
 
     void OnRender(){
         //Draw our sprite
         torch.Draw(Object::GetGlobalPos(), Object::GetSize(), Window::GetCamera());
-    }
-
-    void OnClick(){
-        cout << "MyObject clicked!" << endl;
     }
 
 private:
@@ -60,10 +85,6 @@ void Engine::OnInit(){
 
     //Add our object to game
     root->Connect(myObject);
-
-    //Move root and children will be moved with it
-    //But children will save their local coordinates
-    root->Move(Vec2(300, 300));
 }
 
 void Engine::OnUpdate(){
@@ -72,10 +93,6 @@ void Engine::OnUpdate(){
 
 void Engine::OnRender(){
 
-}
-
-void Engine::OnCleanUp(){
-    cout << "Do something before engine closing :)" << endl;
 }
 
 int main(){

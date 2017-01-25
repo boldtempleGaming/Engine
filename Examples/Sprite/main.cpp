@@ -82,7 +82,6 @@ void Engine::OnRender(){
     trackedToMouseTorch.Draw(doubledSize, doubledSize, camera);
 }
 
-#undef main
 int main(){
     Engine engine;
     engine.Start();
