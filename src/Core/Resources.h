@@ -3,8 +3,10 @@
 
 #include <iostream>
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <cstring>
+
+#include <physfs.hpp>
 
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
@@ -29,7 +31,7 @@ public:
     static void SetDefaultFontStyle(const std::string style);
     
     static SDL_Texture* GetTexture(std::string file_path);
-    static TTF_Font* GetFont(std::string file_path, int ptsize);
+    static TTF_Font *GetFont(std::string file_path, int ptsize);
     static Audio* GetAudio(std::string file_path, audio_type type = AUDIO_SOUND);
 
     static void UnloadTexture(std::string file_path);
@@ -38,14 +40,33 @@ public:
     static void UnloadAll();
 
 private:
-    Resources(){};
+    Resources(){}
+
+    struct FontsBufWrapper{
+        std::unordered_map<int, TTF_Font*> Fonts;
+        std::vector<char> RawBuffer;
+    };
+
+    struct AudiosBufWrapper{
+        Audio* audio;
+        std::vector<char> RawBuffer;
+    };
     
-    static std::map<std::string, SDL_Texture*> _Textures;
-    static std::map<std::string, TTF_Font*> _Fonts;
-    static std::map<std::string, Audio*> _Sounds;
+    static std::unordered_map<std::string, SDL_Texture*> _Textures;
+    static std::unordered_map<std::string, FontsBufWrapper> _Fonts;
+    static std::unordered_map<std::string, AudiosBufWrapper> _Sounds;
     static std::string _default_font;
     static int _default_font_ptsize;
     static std::string _default_style;
+
+    static SDL_RWops* ReadFile(const std::string& file_path, std::vector<char> &buffer);
+
+    static SDL_Texture* ReadRWtexture(const std::string& file_path);
+
+    static TTF_Font* ReadFontFromMem(int ptsize, std::vector<char> &buffer);
+    static TTF_Font* ReadRWfont(const std::string& file_path, int ptsize, std::vector<char>& buffer);
+
+    static Audio* ReadRWaudio(const std::string& file_path, audio_type type, std::vector<char> &buffer);
 };
 
 

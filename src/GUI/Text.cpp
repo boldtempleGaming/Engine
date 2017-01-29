@@ -20,6 +20,7 @@ Text::~Text() {
 void Text::Init(const int &x, const int &y, const std::string& text,
         const std::string& font, const int& ptsize) {
 
+    std::cout << font << std::endl;
     _fpath = font;
     _visible = true;
     _font = Resources::GetFont(font, ptsize);
@@ -67,7 +68,7 @@ void Text::SetSize(const int &ptsize) {
 
     //Load font with new size (makes a copy)
     _font = Resources::GetFont(_fpath, ptsize);
-    //Update text texture
+    //Update texture text
     GetTexture();
 }
 
@@ -98,9 +99,11 @@ void Text::GetTexture() {
 
             //Remove surface
             SDL_FreeSurface(surface);
+        }else{
+            std::cerr << ">> !ERROR! << " << " Text:: " << SDL_GetError() << std::endl;
         }
     } else {
-        std::cout << "Nullptr font at text: " << _text << std::endl;
+        std::cerr << ">> !ERROR! << nullptr font at text: " << _text << std::endl;
     }
 
 }

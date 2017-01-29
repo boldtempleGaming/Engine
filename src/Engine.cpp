@@ -97,6 +97,10 @@ void Engine::DeleteObjects(){
 
 bool Engine::Core_Init() {
     quit = false;
+
+    PhysFS::init(nullptr);
+    PhysFS::mount("../Data.zip", "Data", false);
+    PhysFS::mount("../Data", "Data", false);
     
     Resources::SetDefaultFont("PressStart2P.ttf");
     Resources::SetDefaultFontPtsize(9);
