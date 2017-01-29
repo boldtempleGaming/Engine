@@ -4,7 +4,7 @@ project(Engine)
 set(CMAKE_BUILD_TYPE "Debug")
 
 #Build Engine as library if enabled, else as executable
-set(AS_LIBRARY OFF)
+OPTION(AS_LIBRARY ON)
 
 #Get Engine's sources
 AUX_SOURCE_DIRECTORY(src SRC)
@@ -58,7 +58,6 @@ if(WIN32)
     endif()
 endif(WIN32)
 
-
 set(SOURCES ${SRC} ${SRC_CORE} ${SRC_GUI} ${SRC_WIDGETS} ${SRC_RENDER} ${SRC_IO} ${SRC_DEMO})
 
 if(AS_LIBRARY)    
@@ -73,12 +72,12 @@ endif(AS_LIBRARY)
 
 set(SDL2_DEPS ${SDL2_STATIC_LIBRARIES} ${SDL2IMAGE_STATIC_LIBRARIES} ${SDL2TTF_STATIC_LIBRARIES} ${SDL2MIXER_STATIC_LIBRARIES})
 
+
+#Add third-party libs
+add_subdirectory(Third-party)
+
+
 if(LINUX)
-   # add_subdirectory("Third-party/physfs-2.0.3")
-   # include_directories("Third-party/physfs-2.0.3")
-
-   add_subdirectory(Third-party)
-
     target_link_libraries(${PROJECT_NAME} ${SDL2_DEPS} physfs++)
 endif(LINUX)
 
