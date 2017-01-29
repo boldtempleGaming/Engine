@@ -4,7 +4,7 @@ project(Engine)
 set(CMAKE_BUILD_TYPE "Debug")
 
 #Build Engine as library if enabled, else as executable
-set(AS_LIBRARY ON)
+set(AS_LIBRARY OFF)
 
 #Get Engine's sources
 AUX_SOURCE_DIRECTORY(src SRC)
@@ -64,7 +64,7 @@ set(SOURCES ${SRC} ${SRC_CORE} ${SRC_GUI} ${SRC_WIDGETS} ${SRC_RENDER} ${SRC_IO}
 if(AS_LIBRARY)    
     add_library(${PROJECT_NAME} SHARED ${SOURCES})
 else()
-    set(CMAKE_EXE_LINKER_FLAGS "-static-libstdc++ -static-libgcc -mwindows")
+    set(CMAKE_EXE_LINKER_FLAGS "-static-libstdc++ -static-libgcc")
     #Set binary folder
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
     add_executable(${PROJECT_NAME} ${SOURCES})
@@ -74,7 +74,12 @@ endif(AS_LIBRARY)
 set(SDL2_DEPS ${SDL2_STATIC_LIBRARIES} ${SDL2IMAGE_STATIC_LIBRARIES} ${SDL2TTF_STATIC_LIBRARIES} ${SDL2MIXER_STATIC_LIBRARIES})
 
 if(LINUX)
-    target_link_libraries(${PROJECT_NAME} ${SDL2_DEPS})
+   # add_subdirectory("Third-party/physfs-2.0.3")
+   # include_directories("Third-party/physfs-2.0.3")
+
+   add_subdirectory(Third-party)
+
+    target_link_libraries(${PROJECT_NAME} ${SDL2_DEPS} physfs++)
 endif(LINUX)
 
 if(WIN32)

@@ -90,7 +90,7 @@ void Audio::Play(int loops){
             _channel = Mix_PlayChannel(-1, static_cast<Mix_Chunk*>(_audio_data), loops);
 
             if(_channel == -1){
-                std::cerr << " >> !Warning! << No free audio channels! " << std::endl;
+                std::cerr << " >> !Warning! << " << Mix_GetError() << std::endl;
                 return;
             }
 
