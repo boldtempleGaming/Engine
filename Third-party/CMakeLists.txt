@@ -12,13 +12,13 @@ set(PHYSFS_ARCHIVE_MVL OFF CACHE BOOL "MVL" FORCE)
 set(PHYSFS_ARCHIVE_QPAK OFF CACHE BOOL "QPAK" FORCE)
 set(PHYSFS_HAVE_CDROM_SUPPORT OFF CACHE BOOL "CDROM" FORCE)
 
-add_subdirectory("physfs-2.0.3")
+add_subdirectory("physfs")
 
 include_directories("physfs-cpp/include")
 add_subdirectory("physfs-cpp/src")
 
 target_include_directories(physfs++ PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/physfs-2.0.3> # <prefix>/include/mylib
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/physfs>
 )
 
 #exporting includes to Engine
