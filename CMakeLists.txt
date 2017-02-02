@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 project(Engine)
 
-set(CMAKE_BUILD_TYPE "Debug")
-
 #Build Engine as library if enabled, else as executable
 OPTION(AS_LIBRARY ON)
 
@@ -13,7 +11,24 @@ AUX_SOURCE_DIRECTORY(src/GUI SRC_GUI)
 AUX_SOURCE_DIRECTORY(src/GUI/Widgets SRC_WIDGETS)
 AUX_SOURCE_DIRECTORY(src/Render SRC_RENDER)
 AUX_SOURCE_DIRECTORY(src/IO SRC_IO)
-AUX_SOURCE_DIRECTORY(src/Demo SRC_DEMO)
+AUX_SOURCE_DIRECTORY(src/LuaBindings SRC_LUA_BINDINGS)
+AUX_SOURCE_DIRECTORY(src/Common SRC_COMMON)
+
+set(SOURCES
+    ${SRC}
+    ${SRC_CORE}
+    ${SRC_GUI}
+    ${SRC_WIDGETS}
+    ${SRC_RENDER}
+    ${SRC_IO}
+    ${SRC_DEMO}
+    ${SRC_LUA_BINDINGS}
+    ${SRC_COMMON}
+
+    src/Common/sys.h
+    src/Common/constants.h
+    )
+
 
 if(UNIX AND NOT APPLE)
     set(LINUX ON)
@@ -58,8 +73,6 @@ if(WIN32)
     endif()
 endif(WIN32)
 
-set(SOURCES ${SRC} ${SRC_CORE} ${SRC_GUI} ${SRC_WIDGETS} ${SRC_RENDER} ${SRC_IO} ${SRC_DEMO})
-
 if(AS_LIBRARY)    
     add_library(${PROJECT_NAME} SHARED ${SOURCES})
 else()
@@ -70,23 +83,25 @@ else()
 endif(AS_LIBRARY)
 
 
-set(SDL2_DEPS ${SDL2_STATIC_LIBRARIES} ${SDL2IMAGE_STATIC_LIBRARIES} ${SDL2TTF_STATIC_LIBRARIES} ${SDL2MIXER_STATIC_LIBRARIES})
-
 
 #Add third-party libs
 add_subdirectory(Third-party)
+set(SDL2_DEPS ${SDL2_STATIC_LIBRARIES} ${SDL2IMAGE_STATIC_LIBRARIES} ${SDL2TTF_STATIC_LIBRARIES} ${SDL2MIXER_STATIC_LIBRARIES})
 
+set(LIBS ${SDL2_DEPS} physfs++ sol2)
 
 if(LINUX)
-    target_link_libraries(${PROJECT_NAME} ${SDL2_DEPS} physfs++)
+    target_link_libraries(${PROJECT_NAME} ${LIBS})
 endif(LINUX)
 
 if(WIN32)
     if(GNU_CLANG)
-        target_link_libraries(${PROJECT_NAME} ${SDL2_DEPS} )
+        target_link_libraries(${PROJECT_NAME} ${LIBS})
     endif(GNU_CLANG)
 endif(WIN32)
 
-#Require c++11 standard
+
+
+#Require c++14 standard
 set(CXX_STANDARD_REQUIRED ON)
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
