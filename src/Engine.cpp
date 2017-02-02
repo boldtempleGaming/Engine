@@ -119,10 +119,10 @@ bool Engine::Core_Init() {
     //SDL_RenderSetLogicalSize(Window::GetRenderer(), LOGIC_WIN_WIDTH,
     //	LOGIC_WIN_HEIGHT); // одинаковый масштаб на разных разрешениях
 
-    if (SDL_RegisterEvents(EVENT_END - EVENT_NONE) == ((Uint32) -1)) {
-        std::cerr << "Not enough user-defined events left." << std::endl;
-        return false;
-    }
+//    if (SDL_RegisterEvents(EVENT_END - EVENT_NONE) == ((Uint32) -1)) {
+//        std::cerr << "Not enough user-defined events left." << std::endl;
+//        return false;
+//    }
 
     Audio::Init(8);
     GUI::OnInit();

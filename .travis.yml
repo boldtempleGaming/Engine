@@ -12,17 +12,22 @@ sudo: required
 
 addons:
   apt:
+    sources:
+    - ubuntu-toolchain-r-test
     packages:
+    - gcc-4.9
+    - g++-4.9
     - cmake
     - libsdl2-dev
     - libsdl2-image-dev
     - libsdl2-ttf-dev
     - libsdl2-mixer-dev
+    - liblua5.2-dev
 
 language: cpp
 compiler: gcc
 script:
-  - "cmake -D COVERAGE_ENABLED:BOOL=TRUE ."
+  - "CXX=g++-4.9 CC=gcc-4.9 cmake -D COVERAGE_ENABLED:BOOL=TRUE ."
   - "make -j4"
   
 after_success:

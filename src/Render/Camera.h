@@ -3,7 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <Core/Vec2.h>
-#include <constants.h>
+#include <Common/constants.h>
 
 class Camera {
 public:

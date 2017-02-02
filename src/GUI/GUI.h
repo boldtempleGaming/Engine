@@ -15,9 +15,9 @@
 
 #include <SDL2/SDL_ttf.h>
 
-#include <constants.h>
+#include <Common/constants.h>
+#include <Common/sys.h>
 
-#include <Core/sys.h>
 #include <Core/Object.h>
 
 #include <Render/Camera.h>

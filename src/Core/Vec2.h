@@ -33,7 +33,12 @@ public:
     float Dot(const Vec2& right) const;
     float GetAngle() const;
     Vec2 GetNormalized() const;
-    Vec2 GetRotated(const double& angle) const;
+    Vec2 GetRotated(const float &angle) const;
+
+    bool EqualTo(const Vec2& right) const;
+
+    void Rotate(const float &angle);
+    void Normalize();
 
     Vec2& operator=(const Vec2& right);
     bool operator==(const Vec2& right) const;
@@ -100,11 +105,35 @@ Vec2 Vec2::GetNormalized() const {
 }
 
 inline
-Vec2 Vec2::GetRotated(const double& angle) const {
+Vec2 Vec2::GetRotated(const float& angle) const {
     float rad = angle * GRADUS;
     float sn = sin(rad);
     float cs = cos(rad);
+
     return Vec2((x * cs - y * sn), (x * sn + y * cs));
+}
+
+inline
+bool Vec2::EqualTo(const Vec2& right) const{
+    return *this == right;
+}
+
+inline
+void Vec2::Rotate(const float &angle){
+    float rad = angle * GRADUS;
+    float sn = sin(rad);
+    float cs = cos(rad);
+
+    this->x = (x * cs - y * sn);
+    this->y = (x * sn + y * cs);
+}
+
+inline
+void Vec2::Normalize(){
+    float len = this->GetLength();
+
+    this->x /= len;
+    this->y /= len;
 }
 
 inline
