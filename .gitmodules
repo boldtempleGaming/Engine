@@ -1,3 +1,6 @@
 [submodule "Third-party/sol2"]
 	path = Third-party/sol2
 	url = https://github.com/ThePhD/sol2.git
+[submodule "Third-party/physfs-cpp"]
+	path = Third-party/physfs-cpp
+	url = https://github.com/WinPooh32/physfs-cpp.git
