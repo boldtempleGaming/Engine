@@ -4,3 +4,6 @@
 [submodule "Third-party/physfs-cpp"]
 	path = Third-party/physfs-cpp
 	url = https://github.com/WinPooh32/physfs-cpp.git
+[submodule "Third-party/physfs"]
+	path = Third-party/physfs
+	url = https://github.com/WinPooh32/physfs.git
