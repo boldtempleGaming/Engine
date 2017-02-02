@@ -25,7 +25,9 @@ addons:
 
 language: cpp
 compiler: gcc
-env: COMPILER=g++-4.9
+env: 
+  - CXX=g++-4.9
+  - C=gcc-4.9
 script:
   - "cmake -D COVERAGE_ENABLED:BOOL=TRUE ."
   - "make -j4"
