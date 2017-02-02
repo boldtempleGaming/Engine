@@ -12,8 +12,8 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 
+#include <Common/sys.h>
 #include <GUI/Window.h>
-#include <Core/sys.h>
 #include <Core/Audio.h>
 
 class Resources {

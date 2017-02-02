@@ -1,10 +1,10 @@
 #ifndef CHECKBOX_H
 #define	CHECKBOX_H
 
-#include "constants.h"
-#include "GUI/Widget.h"
-#include "GUI/Widgets/Box.h"
-#include "GUI/Widgets/Button.h"
+#include <Common/constants.h>
+#include <GUI/Widget.h>
+#include <GUI/Widgets/Box.h>
+#include <GUI/Widgets/Button.h>
 
 #define BOX_SIZE 32
 
