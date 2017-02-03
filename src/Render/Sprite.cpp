@@ -18,9 +18,6 @@ Sprite::~Sprite() {
 }
 
 void Sprite::Draw(const Vec2& pos, const Vec2& size, const Camera* camera) {
-    //TODO What about performance?
-    //Same performance (~1000 objects) when not animated xD
-
     SDL_Rect dst_rect = {
         static_cast<int>(pos.x),
         static_cast<int>(pos.y),
@@ -62,10 +59,16 @@ void Sprite::SetTexture(SDL_Texture* texture) {
     _texture = texture;
 
     //Get texture size
-    if (_texture) {
+    if (_texture != nullptr) {
         SDL_QueryTexture(_texture, nullptr, nullptr, &_src_rect.w,
                 &_src_rect.h);
+
+        SetFrameSize(Vec2(_src_rect.w, _src_rect.h));
     }
+}
+
+void Sprite::SetTexture(const std::string& file){
+    SetTexture(Resources::GetTexture(file));
 }
 
 void Sprite::SetAngle(int angle) {
@@ -84,12 +87,16 @@ int Sprite::GetAngle() const {
     return _angle;
 }
 
+SDL_RendererFlip Sprite::GetFlip() const{
+    return _flip;
+}
+
 /*==Animation control==*/
 
 void Sprite::SetAnimation(const Animation& anim){
 
     //if animations are different
-    if(anim.GetBeginFrame() != _anim_control.GetBeginFrame() && anim.GetMaxFrame() != _anim_control.GetMaxFrame() ){
+    if(anim.GetBeginFrame() != _anim_control.GetBeginFrame() || anim.GetMaxFrame() != _anim_control.GetMaxFrame() ){
         _anim_control = anim;
         SetFrame(_anim_control.GetCurrentFrame());
     }
@@ -116,10 +123,6 @@ void Sprite::SetFrame(int frame) {
         _frames_per_height = _src_rect.h / _anim_rect.h;
     }
 
-    if(_anim_control.GetBeginFrame() != frame){
-        _anim_control.SetBeginFrame(frame);
-        _anim_control.SetMaxFrame(frame);
-    }
     _anim_control.SetCurrentFrame(frame);
 }
 

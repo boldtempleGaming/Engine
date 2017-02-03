@@ -8,9 +8,12 @@
 #ifndef SRC_RENDER_SPRITE_H_
 #define SRC_RENDER_SPRITE_H_
 
-#include "Render/Surface.h"
-#include "Render/Animation.h"
-#include "Render/Camera.h"
+
+#include <Core/Resources.h>
+
+#include <Render/Surface.h>
+#include <Render/Animation.h>
+#include <Render/Camera.h>
 
 class Sprite {
 public:
@@ -18,13 +21,18 @@ public:
     virtual ~Sprite();
 
     void Draw(const Vec2& pos, const Vec2& size, const Camera* camera);
+    void Draw(const Vec2& pos, const Vec2& size){
+        Draw(pos, size, Window::GetCamera());
+    }
 
     void SetTexture(SDL_Texture* texture);
+    void SetTexture(const std::string& file);
     void SetAngle(int angle);
     void SetFlip(SDL_RendererFlip flip);
 
     SDL_Texture* GetTexture() const;
     int GetAngle() const;
+    SDL_RendererFlip GetFlip() const;
 
     /*==Animation control==*/
     void SetAnimation(const Animation& anim);
