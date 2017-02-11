@@ -16,6 +16,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include <physfs.hpp>
+
 #include <Common/constants.h>
 
 #include <GUI/GUI.h>

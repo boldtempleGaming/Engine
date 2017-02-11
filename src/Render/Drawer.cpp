@@ -124,8 +124,8 @@ void Drawer::RenderAll(SDL_Renderer* renderer, Camera* camera){
             break;
 
         case SHAPE_RECT_DYN:
-            GetRotatetedRect({tmp->points[0].x - camOffset.x,
-                              tmp->points[0].y - camOffset.y},
+            GetRotatetedRect({static_cast<int>(tmp->points[0].x - camOffset.x),
+                              static_cast<int>(tmp->points[0].y - camOffset.y)},
                               pts,
                               tmp->points[1].x,
                               tmp->points[1].y,
