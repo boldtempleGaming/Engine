@@ -50,7 +50,7 @@ SDL_Texture* Resources::GetTexture(std::string file_path){
         if(texture != nullptr){
             _Textures[file_path] = texture;
         }else{
-            std::cerr << " >> !ERROR! << " << SDL_GetError() << std::endl;
+            std::cerr << " >> !ERROR! << Failed to access the \"" << file_path << "\"" << std::endl;
             if (!Window::GetRenderer())
                 std::cerr << " Is Renderer initialized?" << std::endl;
         }
@@ -189,21 +189,10 @@ void Resources::UnloadAll(){
 }
 
 SDL_RWops* Resources::ReadFile(const std::string& file_path, std::vector<char>& buffer){
-    PhysFS::ifstream in_file(file_path);
+    File file(file_path);
 
-    if(in_file){
-        size_t len = in_file.length();
-        buffer.resize(len);
-
-        in_file.read(&buffer[0], len);
-
-        if(in_file){
-            return SDL_RWFromMem(&buffer[0], len);
-        }else{
-            std::cerr << " >> !ERROR! << Couldn't read file: " <<  file_path << std::endl;
-        }
-    }else{
-        std::cerr << " >> !ERROR! << Couldn't open file: " <<  file_path << std::endl;
+    if(file.Read(buffer)){
+        return SDL_RWFromMem(&buffer[0], buffer.size());
     }
 
     return nullptr;

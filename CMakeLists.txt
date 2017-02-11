@@ -4,6 +4,8 @@ project(Engine)
 #Build Engine as library if enabled, else as executable
 OPTION(AS_LIBRARY ON)
 
+add_definitions("-DUSE_PHYSFS")
+
 #Get Engine's sources
 AUX_SOURCE_DIRECTORY(src SRC)
 AUX_SOURCE_DIRECTORY(src/Core SRC_CORE)  
@@ -30,6 +32,8 @@ set(SOURCES
     )
 
 
+set(GNU_CLANG ${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+
 if(UNIX AND NOT APPLE)
     set(LINUX ON)
 endif(UNIX AND NOT APPLE)
@@ -45,21 +49,14 @@ if(LINUX)
         PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2>=2.0.0)
 	PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
 	PKG_SEARCH_MODULE(SDL2TTF REQUIRED SDL2_ttf>=2.0.0)
-	PKG_SEARCH_MODULE(SDL2MIXER REQUIRED SDL2_mixer>=2.0.0)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-	
-	if(COVERAGE_ENABLED)
-	    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
-        endif(COVERAGE_ENABLED)
+        PKG_SEARCH_MODULE(SDL2MIXER REQUIRED SDL2_mixer>=2.0.0)
 	
         include_directories(src ${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIRS} ${SDL2MIXER_INCLUDE_DIRS})
 endif(LINUX)
 
 
 if(WIN32)
-    if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LIB_FLAGS} -Wall")
-
+    if (GNU_CLANG)
         include(FindPkgConfig)
         PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2>=2.0.0)
         PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
@@ -73,10 +70,17 @@ if(WIN32)
     endif()
 endif(WIN32)
 
+
+
+if(COVERAGE_ENABLED)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+endif(COVERAGE_ENABLED)
+
+
+
 if(AS_LIBRARY)    
     add_library(${PROJECT_NAME} SHARED ${SOURCES})
 else()
-    set(CMAKE_EXE_LINKER_FLAGS "-static-libstdc++ -static-libgcc")
     #Set binary folder
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
     add_executable(${PROJECT_NAME} ${SOURCES})

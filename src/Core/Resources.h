@@ -6,8 +6,6 @@
 #include <unordered_map>
 #include <cstring>
 
-#include <physfs.hpp>
-
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
@@ -15,6 +13,7 @@
 #include <Common/sys.h>
 #include <GUI/Window.h>
 #include <Core/Audio.h>
+#include <IO/File.h>
 
 class Resources {
 public:
