@@ -66,7 +66,7 @@ void Engine::Stop() {
 
 
 Object* Engine::GetRootAtLayer(unsigned int layer) {
-    if(layer < _Layers.size() && layer >= 0){
+    if(layer < _Layers.size()){
         return _Layers[layer];
     }
     return nullptr;
@@ -99,9 +99,13 @@ bool Engine::Core_Init() {
     quit = false;
 
     PhysFS::init(nullptr);
+
     PhysFS::mount("../Data.zip", "Data", false);
     PhysFS::mount("../Data", "Data", false);
-    
+    PhysFS::mount("../tmp", "tmp", false);
+
+    PhysFS::setWriteDir("../tmp");
+
     Resources::SetDefaultFont("PressStart2P.ttf");
     Resources::SetDefaultFontPtsize(9);
     Resources::SetDefaultFontStyle("pgui.png");
