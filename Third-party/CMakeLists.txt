@@ -21,7 +21,10 @@ target_include_directories(physfs++ PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/physfs>
 )
 
-#exporting includes to Engine
+#export includes to Engine
+target_include_directories(Engine PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/physfs>
+)
 target_include_directories(Engine PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/physfs-cpp/include>
 )
