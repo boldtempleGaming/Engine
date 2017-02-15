@@ -41,8 +41,8 @@ private:
     mutable std::unique_ptr<PhysFS::ifstream> _in_file;
     mutable std::unique_ptr<PhysFS::ofstream> _out_file;
 
-    mutable bool _can_read;
-    mutable bool _can_write;
+    mutable bool _can_read = false;
+    mutable bool _can_write = false;
 
     bool OpenWriteStream(bool append, bool silent = false) const;
     bool OpenReadStream(bool silent = false) const;

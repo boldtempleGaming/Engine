@@ -3,10 +3,6 @@
 #ifdef USE_PHYSFS
 
 File::File(){
-    _s_file = "";
-
-    _can_read = false;
-    _can_write = false;
 }
 
 File::File(std::string file){
