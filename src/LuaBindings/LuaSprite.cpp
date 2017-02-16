@@ -1,15 +1,9 @@
 #include "LuaSprite.h"
-#include <Render/Sprite.h>
+
 class Animation;
 class Sprite;
 
 void LuaSprite::bind(sol::state &lua){
-
-//    lua.new_simple_usertype<SDL_RendererFlip>("Flip",
-//            "NONE", sol::readonly_property(SDL_FLIP_NONE),
-//            "HORIZONTAL", sol::readonly_property(SDL_FLIP_HORIZONTAL),
-//            "VERTICAL", sol::readonly_property(&SDL_FLIP_VERTICAL)
-//    );
 
     lua.new_enum("Flip",
                  "NONE", SDL_FLIP_NONE,

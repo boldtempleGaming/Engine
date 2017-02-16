@@ -3,10 +3,6 @@
 #ifdef USE_PHYSFS
 
 File::File(){
-    _s_file = "";
-
-    _can_read = false;
-    _can_write = false;
 }
 
 File::File(std::string file){
@@ -39,7 +35,6 @@ void File::Close(){
 bool File::Read(std::vector<char> &data) const{
     size_t size = GetSize();
 
-    data.reserve(size);
     data.resize(size);
 
     return Read(&data[0], size);
@@ -57,6 +52,8 @@ bool File::Read(char* data, size_t length) const{
             }else{
                 success = true;
             }
+
+            _in_file.reset();
         }else{
              std::cerr << " >> !ERROR! << Couldn't open file: " <<  _s_file << std::endl;
         }
@@ -81,6 +78,7 @@ bool File::Write(const char* data, size_t length, bool append, bool create_ifn_e
         if(*_out_file){
             _out_file->write(data, length);
             success = true;
+            _out_file.reset();
         }else{
             std::cerr << " >> !ERROR! << Couldn't write to file: " <<  _s_file << std::endl;
         }
@@ -101,6 +99,8 @@ size_t File::GetSize() const{
 //Also note that if another process/thread is writing to this file at the same time,
 //then the information this function supplies could be incorrect before you get it.
 //Use with caution, or better yet, don't use at all.
+
+    OpenReadStream();
 
     if(_in_file != nullptr){
         return _in_file->length();

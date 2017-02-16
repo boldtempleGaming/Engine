@@ -2,6 +2,7 @@
 #define LUASPRITE_H
 
 #include <sol.hpp>
+#include <Render/Sprite.h>
 
 namespace LuaSprite {
     void bind(sol::state& lua);
