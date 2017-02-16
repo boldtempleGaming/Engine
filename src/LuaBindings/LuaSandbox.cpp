@@ -66,7 +66,7 @@ void LuaSandbox::AddScript(const std::string& origin, const std::string& script_
         _lua["run"](script_lines);
         _lua["push_script"]();
     }catch(sol::error ex){
-        std::cerr << "Error at file: \"" << file << "\"" << std::endl;
+        std::cerr << "Error at file: \"" << origin << "\"" << std::endl;
         std::cerr << ex.what() << std::endl;
     }
 }
