@@ -15,8 +15,8 @@ void LuaMouse::bind(sol::state& lua){
 
     lua.new_simple_usertype<Mouse>("Mouse",
         "setCapture", &Mouse::SetCapture,
-        "getPos", sol::resolve(static_cast<Vec2 (void)>(&Mouse::GetPos)),
-        "setPos", sol::resolve(static_cast<void (const Vec2&)>(&Mouse::SetPos)),
+        "getPos", sol::resolve(static_cast<Vec2 (*)(void)>(&Mouse::GetPos)),
+        "setPos", sol::resolve(static_cast<void (*)(const Vec2&)>(&Mouse::SetPos)),
         "captured", &Mouse::Captured,
         "inWindow", &Mouse::InWindow,
         "anyPressed", &Mouse::AnyPressed,
