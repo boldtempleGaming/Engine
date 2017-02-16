@@ -2,6 +2,7 @@
 #define LUAVEC2_H
 
 #include <sol.hpp>
+#include <Core/Vec2.h>
 
 namespace LuaVec2 {
     void bind(sol::state& lua);

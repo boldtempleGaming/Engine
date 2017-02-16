@@ -1,6 +1,4 @@
 #include "LuaVec2.h"
-#include <iostream>
-#include <Core/Vec2.h>
 
 void LuaVec2::bind(sol::state& lua){
     // make usertype metatable
