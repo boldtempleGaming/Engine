@@ -15,8 +15,8 @@ addons:
     sources:
     - ubuntu-toolchain-r-test
     packages:
-    - gcc-4.9
-    - g++-4.9
+    - gcc-5.0
+    - g++-5.0
     - cmake
     - libsdl2-dev
     - libsdl2-image-dev
@@ -27,7 +27,7 @@ addons:
 language: cpp
 compiler: gcc
 script:
-  - "CXX=g++-4.9 CC=gcc-4.9 cmake -D COVERAGE_ENABLED:BOOL=TRUE ."
+  - "CXX=g++-5.0 CC=gcc-5.0 cmake -D COVERAGE_ENABLED:BOOL=TRUE ."
   - "make -j4"
   
 after_success:
