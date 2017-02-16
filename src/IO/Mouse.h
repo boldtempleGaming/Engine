@@ -52,6 +52,7 @@ public:
     
 
 private:
+    Mouse();
     friend Engine;
     static int _wheel_x, _wheel_y;
     static void SetWheel(const int& x, const int& y);
