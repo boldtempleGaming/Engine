@@ -9,14 +9,16 @@ void LuaMouse::bind(sol::state& lua){
     );
 
     lua.new_enum("MouseWheel",
-                 "WHEEL_UP", MOUSE_WHEEL_UP,
-                 "WHEEL_DOWN", MOUSE_WHEEL_DOWN
+                 "UP", MOUSE_WHEEL_UP,
+                 "DOWN", MOUSE_WHEEL_DOWN
     );
 
     lua.new_simple_usertype<Mouse>("Mouse",
         "setCapture", &Mouse::SetCapture,
         "getPos", sol::resolve(static_cast<Vec2 (*)(void)>(&Mouse::GetPos)),
         "setPos", sol::resolve(static_cast<void (*)(const Vec2&)>(&Mouse::SetPos)),
+        "pressed", &Mouse::Pressed,
+        "wheeled", &Mouse::Wheeled,
         "captured", &Mouse::Captured,
         "inWindow", &Mouse::InWindow,
         "anyPressed", &Mouse::AnyPressed,

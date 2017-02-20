@@ -24,7 +24,9 @@ LuaSandbox::LuaSandbox(){
                          Sprite = Sprite,
                          Animation = Animation,
                          Vec2 = Vec2,
-                         Mouse = Mouse
+                         Mouse = Mouse,
+                         MouseWheel = MouseWheel,
+                         MouseButton = MouseButton
                          } -- add functions you know are safe here
 
                -- run code under environment [Lua 5.2]
