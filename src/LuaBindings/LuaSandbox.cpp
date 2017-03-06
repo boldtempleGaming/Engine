@@ -6,6 +6,7 @@ LuaSandbox::LuaSandbox(){
     LuaSprite::bind(_lua);
     LuaMouse::bind(_lua);
     LuaVec2::bind(_lua);
+    LuaAudio::bind(_lua);
 
     _lua.script(R"(
                count = 0;
@@ -24,6 +25,7 @@ LuaSandbox::LuaSandbox(){
                          Sprite = Sprite,
                          Animation = Animation,
                          Vec2 = Vec2,
+                         Audio = Audio,
                          Mouse = Mouse,
                          MouseWheel = MouseWheel,
                          MouseButton = MouseButton

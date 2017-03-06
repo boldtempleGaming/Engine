@@ -8,6 +8,7 @@
 #include <LuaBindings/LuaVec2.h>
 #include <LuaBindings/LuaSprite.h>
 #include <LuaBindings/LuaMouse.h>
+#include <LuaBindings/LuaAudio.h>
 
 class LuaSandbox
 {

@@ -23,7 +23,7 @@ const int& Resources::GetDefaultFontPtsize(){
 const std::string& Resources::GetDefaultStyle(){
     return _default_style;
 }
-    
+
 void Resources::SetDefaultFont(const std::string font){
     _default_font = font;
 }
@@ -94,47 +94,38 @@ TTF_Font* Resources::GetFont(std::string file_path, int ptsize){
     return nullptr;
 }
 
-Audio* Resources::GetAudio(std::string file_path, audio_type type){
-    Audio* audio = nullptr;
+void* Resources::GetAudio(std::string file_path, bool isMusic){
+    AudiosBufWrapper* wrapped_audio = nullptr;
     file_path = std::string(SOUNDS_PATH) + file_path;
 
     if(_Sounds.count(file_path) == 0){
-        std::cout << "Loading sound " << file_path << std::endl;
+        //if audio is't exist
+        std::cout << "Loading sound" << file_path << std::endl;
 
         _Sounds[file_path] = AudiosBufWrapper();
+        wrapped_audio = &_Sounds[file_path];
 
-        audio = ReadRWaudio(file_path, type, _Sounds[file_path].RawBuffer);
-        if(audio->IsLoaded()){
-            _Sounds[file_path].audio = audio;
-        }else{
-            std::cerr << " >> !ERROR! << Couldn't open sound: " << file_path << std::endl;
-
-            delete(audio);
-            audio = nullptr;
-            _Sounds.erase(file_path);
-        }
+        wrapped_audio->isMusic = isMusic;
+        wrapped_audio->audio = ReadRWaudio(file_path, isMusic, wrapped_audio->RawBuffer);
     }else{
-        audio = _Sounds[file_path].audio;
-        if(audio->Type() != type){
-            delete(audio);
+        wrapped_audio = &_Sounds[file_path];
 
-            std::cout << "Loading music "  << file_path << std::endl;
+        if(isMusic != wrapped_audio->isMusic){
+            FreeSound(*wrapped_audio);
 
-            //audio = new Audio(file_path, type);
-            audio = ReadRWaudio(file_path, type, _Sounds[file_path].RawBuffer);
-            if(audio->IsLoaded()){
-                _Sounds[file_path].audio = audio;
-            }else{
-                std::cerr << " >> !ERROR! << Couldn't open sound: " << file_path << std::endl;
+            std::cout << "Loading sound"  << file_path << std::endl;
 
-                delete(audio);
-                audio = nullptr;
-                _Sounds.erase(file_path);
-            }
+            wrapped_audio->isMusic = isMusic;
+            wrapped_audio->audio = ReadRWaudio(file_path, isMusic, wrapped_audio->RawBuffer);
         }
     }
 
-    return audio;
+    if(wrapped_audio->audio == nullptr){
+        std::cerr << " >> !ERROR! << Couldn't open sound: " << file_path << std::endl;
+        _Sounds.erase(file_path);
+    }
+
+    return wrapped_audio->audio;
 }
 
 void Resources::UnloadTexture(std::string file_path){
@@ -142,8 +133,6 @@ void Resources::UnloadTexture(std::string file_path){
     if(texture != nullptr){
         SDL_DestroyTexture(texture);
     }
-    
-    //_Textures[file_path] = nullptr;
     _Textures.erase(file_path);
 }
 
@@ -158,10 +147,7 @@ void Resources::UnloadFont(std::string file_path){
 }
 
 void Resources::UnloadSound(std::string file_path){
-    Audio* audio = _Sounds[file_path].audio;
-    delete(audio);
-    
-    //_Sounds[file_path] = nullptr;
+     FreeSound(_Sounds[file_path]);
     _Sounds.erase(file_path);
 }
 
@@ -183,9 +169,17 @@ void Resources::UnloadAll(){
     _Fonts.clear();
 
     for(auto it = _Sounds.begin(); it != _Sounds.end(); it++){
-        delete ((*it).second).audio;
+        FreeSound(((*it).second));
     }
     _Sounds.clear();
+}
+
+void Resources::FreeSound(Resources::AudiosBufWrapper& wrapper){
+    if(wrapper.isMusic){
+        Mix_FreeMusic(static_cast<Mix_Music*>(wrapper.audio));
+    }else{
+        Mix_FreeChunk(static_cast<Mix_Chunk*>(wrapper.audio));
+    }
 }
 
 SDL_RWops* Resources::ReadFile(const std::string& file_path, std::vector<char>& buffer){
@@ -213,7 +207,7 @@ SDL_Texture* Resources::ReadRWtexture(const std::string& file_path){
 
 TTF_Font *Resources::ReadFontFromMem(int ptsize, std::vector<char>& buffer){
     SDL_RWops* data = SDL_RWFromConstMem(&buffer[0], buffer.size());
-    return TTF_OpenFontRW(data, 1, ptsize);
+    return TTF_OpenFontRW(data, 0, ptsize);
 }
 
 TTF_Font* Resources::ReadRWfont(const std::string& file_path, int ptsize, std::vector<char>& buffer){
@@ -221,23 +215,23 @@ TTF_Font* Resources::ReadRWfont(const std::string& file_path, int ptsize, std::v
     TTF_Font* font = nullptr;
 
     if(data != nullptr){
-        font = TTF_OpenFontRW(data, 1, ptsize);
+        font = TTF_OpenFontRW(data, 0, ptsize);
     }
 
     return font;
 }
 
-Audio* Resources::ReadRWaudio(const std::string& file_path, audio_type type, std::vector<char>& buffer){
+void* Resources::ReadRWaudio(const std::string& file_path, bool isMusic, std::vector<char>& buffer){
     SDL_RWops* data = Resources::ReadFile(file_path, buffer);
-    Audio* audio = nullptr;
+    void* audio = nullptr;
 
     if(data != nullptr){
-        if(type == AUDIO_SOUND){
-            // This can load WAVE, AIFF, RIFF, OGG, and VOC format
-            audio = new Audio(Mix_LoadWAV_RW(data, 1));
+        // It can load WAVE, AIFF, RIFF, OGG, and VOC format
+        if(isMusic){
+            audio = static_cast<void*>(Mix_LoadMUS_RW(data, 0));
         }
-        else if(type == AUDIO_MUSIC){
-            audio = new Audio(Mix_LoadMUS_RW(data, 1));
+        else{
+            audio = static_cast<void*>(Mix_LoadWAV_RW(data, 0));
         }
     }
 
