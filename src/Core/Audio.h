@@ -6,12 +6,9 @@
 
 #include <cmath>
 #include <SDL2/SDL_mixer.h>
-#include <Core/Vec2.h>
 
-enum audio_type{
-    AUDIO_SOUND = 0,
-    AUDIO_MUSIC
-};
+#include <Core/Resources.h>
+#include <Core/Vec2.h>
 
 class Audio {
 public:
@@ -30,10 +27,13 @@ public:
     static int GetMusicVolume();
 
 
+    Audio();
     Audio(Mix_Chunk* sound);
     Audio(Mix_Music* sound);
-    Audio(const std::string& file_path, audio_type type = AUDIO_SOUND);
+    Audio(const std::string& file_path, bool isMusic = false);
     ~Audio();
+
+    void SetSound(const std::string& sound, bool isMusic = false);
 
     void Play(int loops = 0);
     void Stop();
@@ -49,7 +49,7 @@ public:
 
     bool IsLoaded();
     bool IsPlaying();
-    audio_type Type();
+    bool Type();
 
 private:
     static const int MAX_VOLUME = 255;
@@ -58,7 +58,7 @@ private:
     static int _g_volume;
     static int _mus_volume;
 
-    audio_type _type;
+    bool _isMusic;
     void* _audio_data = nullptr; // use dynamic or static cast to set type
     int _channel = INT32_MIN; // stopped
     Uint8 _distance = 0;
