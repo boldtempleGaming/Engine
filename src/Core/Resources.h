@@ -31,7 +31,7 @@ public:
     
     static SDL_Texture* GetTexture(std::string file_path);
     static TTF_Font *GetFont(std::string file_path, int ptsize);
-    static Audio* GetAudio(std::string file_path, audio_type type = AUDIO_SOUND);
+    static void* GetAudio(std::string file_path, bool isMusic = false);
 
     static void UnloadTexture(std::string file_path);
     static void UnloadFont(std::string file_path);
@@ -47,7 +47,8 @@ private:
     };
 
     struct AudiosBufWrapper{
-        Audio* audio;
+        void* audio;
+        bool isMusic;
         std::vector<char> RawBuffer;
     };
     
@@ -58,14 +59,16 @@ private:
     static int _default_font_ptsize;
     static std::string _default_style;
 
-    static SDL_RWops* ReadFile(const std::string& file_path, std::vector<char> &buffer);
+    static void FreeSound(AudiosBufWrapper& wrapper);
+
+    static SDL_RWops* ReadFile(const std::string& file_path, std::vector<char>& buffer);
 
     static SDL_Texture* ReadRWtexture(const std::string& file_path);
 
-    static TTF_Font* ReadFontFromMem(int ptsize, std::vector<char> &buffer);
+    static TTF_Font* ReadFontFromMem(int ptsize, std::vector<char>& buffer);
     static TTF_Font* ReadRWfont(const std::string& file_path, int ptsize, std::vector<char>& buffer);
 
-    static Audio* ReadRWaudio(const std::string& file_path, audio_type type, std::vector<char> &buffer);
+    static void* ReadRWaudio(const std::string& file_path, bool isMusic, std::vector<char>& buffer);
 };
 
 
