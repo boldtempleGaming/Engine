@@ -14,9 +14,11 @@
 
 class Timer {
 public:
-    static const int SECOND = 1000;
-    static const int MINUTE = SECOND * 60;
-    static const int HOUR = MINUTE * 60;
+    static const int SECOND;
+    static const int MINUTE;
+    static const int HOUR;
+
+    static Uint32 Now();
 
     Timer();
 
@@ -44,11 +46,13 @@ Timer::Timer(): _range(0), _begin_time(0), _finish_time(0){
 inline
 void Timer::Reset() {
     _begin_time = SDL_GetTicks();
+    UpdateFinishTime();
 }
 
 inline
 void Timer::SetRange(Uint32 range){
     _range = range;
+    UpdateFinishTime();
 }
 
 inline
