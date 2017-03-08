@@ -9,6 +9,7 @@
 #include <LuaBindings/LuaSprite.h>
 #include <LuaBindings/LuaMouse.h>
 #include <LuaBindings/LuaAudio.h>
+#include <LuaBindings/LuaKeyboard.h>
 
 class LuaSandbox
 {
@@ -24,7 +25,9 @@ public:
 
 private:
     sol::state _lua;
-    std::vector<sol::table> _Scripts;
+    sol::function  _fun_init;
+    sol::function  _fun_update;
+    sol::function  _fun_render;
 };
 
 #endif // LUASANDBOX_H
