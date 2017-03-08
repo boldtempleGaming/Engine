@@ -127,8 +127,10 @@ bool File::OpenReadStream(bool silent) const{
             _in_file.reset(new PhysFS::ifstream(_s_file));
             _can_read = true;
         }
-        catch(std::invalid_argument ex){
-            if(!silent) std::cerr << " >> !ERROR! << " << ex.what() << std::endl;
+        catch(const std::logic_error& ex){
+            if(!silent) {
+                std::cerr << " >> !ERROR! << " << ex.what() << std::endl;
+            }
             return false;
         }
     }
@@ -168,8 +170,10 @@ bool File::OpenWriteStream(bool append, bool silent) const{
 
             _can_write = true;
         }
-        catch(std::invalid_argument ex){
-            if(!silent) std::cerr << " >> !ERROR! << " << ex.what() << std::endl;
+        catch(std::logic_error ex){
+            if(!silent) {
+                std::cerr << " >> !ERROR! << " << ex.what() << std::endl;
+            }
 
             _can_write = false;
             return false;

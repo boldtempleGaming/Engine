@@ -1,6 +1,9 @@
 #ifndef LUAVEC2_H
 #define LUAVEC2_H
 
+#include <iomanip> // setprecision
+#include <sstream> // stringstream
+
 #include <sol.hpp>
 #include <Core/Vec2.h>
 
