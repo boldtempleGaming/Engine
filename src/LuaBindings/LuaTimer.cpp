@@ -1,6 +1,12 @@
 #include "LuaTimer.h"
 
 void LuaTimer::bind(sol::state& lua){
+    lua.new_enum("Time",
+                 "SECOND", Timer::SECOND,
+                 "MINUTE", Timer::MINUTE,
+                 "HOUR", Timer::HOUR
+    );
+
     lua.new_simple_usertype<Timer>("Timer",
         "now", &Timer::Now,
         "reset", &Timer::Reset,
@@ -8,10 +14,10 @@ void LuaTimer::bind(sol::state& lua){
         "startTime", sol::property(&Timer::GetStartTime),
 
         "inRange", &Timer::InRange,
-        "outRange", &Timer::OutRange,
+        "outRange", &Timer::OutRange
 
-        "SECOND", sol::var(&Timer::SECOND),
-        "MINUTE", sol::var(&Timer::MINUTE),
-        "HOUR", sol::var(&Timer::HOUR)
+//        "SECOND", sol::var(&Timer::SECOND),
+//        "MINUTE", sol::var(&Timer::MINUTE),
+//        "HOUR", sol::var(&Timer::HOUR)
     );
 }

@@ -46,7 +46,8 @@ LuaSandbox::LuaSandbox(){
                           MouseButton = MouseButton,
                           Keyboard = Keyboard,
                           Key = Key,
-                          Timer = Timer
+                          Timer = Timer,
+                          Time = Time
                           }
 
                 Script.env = env;
