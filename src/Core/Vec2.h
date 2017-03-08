@@ -56,8 +56,9 @@ public:
 private:
     mutable bool _changed_length = true;
     mutable bool _changed_angle = true;
-    mutable float _cache_length;
-    mutable float _cache_angle;
+
+    mutable float _cache_length = false;
+    mutable float _cache_angle = false;
 
     void SetCacheFlagTrue();
 };
