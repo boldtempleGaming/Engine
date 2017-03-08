@@ -14,9 +14,9 @@
 
 class Timer {
 public:
-    static const int SECOND;
-    static const int MINUTE;
-    static const int HOUR;
+    const static Uint32 SECOND;
+    const static Uint32 MINUTE;
+    const static Uint32 HOUR;
 
     static Uint32 Now();
 
