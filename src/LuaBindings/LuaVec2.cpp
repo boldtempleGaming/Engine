@@ -24,12 +24,26 @@ void LuaVec2::bind(sol::state& lua){
             "angle", sol::property(&Vec2::GetAngle, &Vec2::Rotate),
             "normalized", sol::property(&Vec2::GetNormalized),
 
+
             sol::meta_function::equal_to, sol::overload(sol::resolve<bool(const Vec2&) const>( &Vec2::operator ==  )),
             sol::meta_function::addition, &operator+,
             sol::meta_function::subtraction, &operator-,
             sol::meta_function::multiplication, sol::overload(sol::resolve<const Vec2(const Vec2&, const Vec2&)>( & operator* ),
                                                               sol::resolve<const Vec2(const Vec2&, const float&)>( & operator* )
                                                               ),
+            "__unm", [](const Vec2& v){
+              return Vec2(-v.x, -v.y);
+            },
+            "__tostring", [](const Vec2& v) {
+                std::stringstream ss;
+                ss << "(" <<  v.x << ", " << v.y << ")";
+                return ss.str();
+            },
+            "__concat", [](std::string str, const Vec2& v){
+                std::stringstream ss;
+                ss << str << "(" << v.x << ", " << v.y << ")";
+                return ss.str();
+            },
 
             "equalTo", &Vec2::EqualTo,
 
