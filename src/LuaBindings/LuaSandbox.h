@@ -4,12 +4,13 @@
 #include <vector>
 
 #include <sol.hpp>
-
+#include <LuaBindings/LuaTimer.h>
 #include <LuaBindings/LuaVec2.h>
 #include <LuaBindings/LuaSprite.h>
 #include <LuaBindings/LuaMouse.h>
 #include <LuaBindings/LuaAudio.h>
 #include <LuaBindings/LuaKeyboard.h>
+
 
 class LuaSandbox
 {
