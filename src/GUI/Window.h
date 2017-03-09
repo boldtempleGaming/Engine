@@ -6,6 +6,7 @@
 
 #include <SDL2/SDL.h>
 
+#include <Core/Vec2.h>
 #include <GUI/GUI.h>
 #include <Render/Camera.h>
 
@@ -16,12 +17,14 @@ public:
 	static Camera* GetCamera();
 	static int GetWidth();
 	static int GetHeight();
+    static Vec2 GetSize();
 
 	static const std::string& GetTitle();
 
-	static bool SetMode(int w, int h, bool full_screen, std::string title = "boldtemple Game Engine");
+    static bool SetMode(int w, int h, bool full_screen, const std::string& title = "boldtemple Game Engine");
 	static void SetWidth(const int& w);
 	static void SetHeight(const int& h);
+    static void SetSize(const Vec2& size);
 
 	static void SetInterpolation(const float& value);
 	static float GetInterpolation();
@@ -39,13 +42,15 @@ public:
 private:
 	Window();
 	~Window();
+
+    static SDL_Window* _window;
+    static SDL_Renderer* _renderer;
+
 	static Camera _camera;
-	static SDL_Window* _window;
-	static SDL_Renderer* _renderer;
-	static std::string _title;
-	static int _w, _h;
+    static Vec2 _size;
 	static bool _full_screen;
 	static SDL_Color _color_background;
+    static std::string _title;
 
 	static bool Init();
 };
