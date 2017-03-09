@@ -9,6 +9,7 @@ LuaSandbox::LuaSandbox(){
     LuaVec2::bind(_lua);
     LuaAudio::bind(_lua);
     LuaKeyboard::bind(_lua);
+    LuaCamera::bind(_lua);
 
 
     _lua.script(R"(
@@ -47,7 +48,8 @@ LuaSandbox::LuaSandbox(){
                           Keyboard = Keyboard,
                           Key = Key,
                           Timer = Timer,
-                          Time = Time
+                          Time = Time,
+                          Camera = Camera
                           }
 
                 Script.env = env;

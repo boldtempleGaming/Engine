@@ -10,6 +10,7 @@
 #include <LuaBindings/LuaMouse.h>
 #include <LuaBindings/LuaAudio.h>
 #include <LuaBindings/LuaKeyboard.h>
+#include <LuaBindings/LuaCamera.h>
 
 
 class LuaSandbox
