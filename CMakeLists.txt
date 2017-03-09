@@ -57,6 +57,9 @@ endif(LINUX)
 
 if(WIN32)
     if (GNU_CLANG)
+        #Fix for sol2 lib building under MinGW
+        add_definitions(-D_GLIBCXX_USE_C99_CTYPE_TR1)
+
         include(FindPkgConfig)
         PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2>=2.0.0)
         PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
