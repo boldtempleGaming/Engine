@@ -3,12 +3,14 @@
 LuaSandbox::LuaSandbox(){
     _lua.open_libraries(sol::lib::base, sol::lib::package, sol::lib::math);
 
+    LuaWindow::bind(_lua);
     LuaTimer::bind(_lua);
     LuaSprite::bind(_lua);
     LuaMouse::bind(_lua);
     LuaVec2::bind(_lua);
     LuaAudio::bind(_lua);
     LuaKeyboard::bind(_lua);
+    LuaCamera::bind(_lua);
 
 
     _lua.script(R"(
@@ -47,7 +49,9 @@ LuaSandbox::LuaSandbox(){
                           Keyboard = Keyboard,
                           Key = Key,
                           Timer = Timer,
-                          Time = Time
+                          Time = Time,
+                          Camera = Camera,
+                          Window = Window
                           }
 
                 Script.env = env;

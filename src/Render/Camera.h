@@ -7,7 +7,7 @@
 
 class Camera {
 public:
-    Camera() {};
+    Camera() {}
     Camera(const Vec2& pos, const Vec2& viewport);
     void SetPos(const Vec2& pos);
     void SetViewport(const Vec2& viewport);

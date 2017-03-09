@@ -4,8 +4,7 @@ Camera Window::_camera;
 SDL_Window* Window::_window = nullptr;
 SDL_Renderer* Window::_renderer = nullptr;
 std::string Window::_title = "No Title";
-int Window::_w = 1280;
-int Window::_h = 720;
+Vec2 Window::_size(1280, 720);
 bool Window::_full_screen = false;
 SDL_Color Window::_color_background = COLOR_GRAY;
 
@@ -24,10 +23,11 @@ bool Window::Init() {
     }
 
     //WINDOW INIT------------------------------------------------------
-    //Выравниваем окно по центру экрна
-    _window = SDL_CreateWindow(_title.c_str(), SDL_WINDOWPOS_CENTERED,
-                              SDL_WINDOWPOS_CENTERED, _w, _h,
-                              SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP * _full_screen);
+    //Centering window on the screen
+    _window = SDL_CreateWindow(_title.c_str(),
+                               SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                               _size.x, _size.y,
+                               SDL_WINDOW_FULLSCREEN_DESKTOP * _full_screen);
     if (_window == nullptr) {
         std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
         return false;
@@ -38,11 +38,11 @@ bool Window::Init() {
     }
     
     //Set the best scaling quality(anisotropic filtering)
-    //SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best"); 
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best");
 
     //RENDER INIT------------------------------------------------------
     _renderer = SDL_CreateRenderer(_window, -1,
-                                  SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC); // SDL_RENDERER_PRESENTVSYNC
+                                   SDL_RENDERER_ACCELERATED); // SDL_RENDERER_PRESENTVSYNC
     if (_renderer == nullptr) {
         std::cerr << "SDL_CreateRenderer Error: " << SDL_GetError()
         << std::endl;
@@ -52,7 +52,7 @@ bool Window::Init() {
     SDL_SetRenderDrawColor(Window::GetRenderer(), _color_background.r,
                                _color_background.g, _color_background.b, 0);
 
-    //SDL_RenderSetLogicalSize(Window::GetRenderer(), _w, _h);
+    SDL_RenderSetLogicalSize(Window::GetRenderer(), _size.x, _size.y);
 
     return true;
 }
@@ -66,27 +66,27 @@ const std::string& Window::GetTitle() {
     return _title;
 }
 
-bool Window::SetMode(int w, int h, bool full_screen, std::string title) {
-    _w = w;
-    _h = h;
+bool Window::SetMode(int w, int h, bool full_screen, const std::string &title) {
+    _size.x = w;
+    _size.y = h;
     _full_screen = full_screen;
     _title = title;
 
-    _camera.SetViewport(Vec2(_w, _h));
-    GUI::GetCamera()->SetViewport(Vec2(_w, _h));
+    _camera.SetViewport(_size);
+    GUI::GetCamera()->SetViewport(_size);
 
     //Check window existence
     if (IsInitialised()) {
         bool error = false;
 
         SDL_SetWindowTitle(_window, _title.c_str());
-        SDL_SetWindowSize(_window, _w, _h);
+        SDL_SetWindowSize(_window, _size.x, _size.y);
 
-        if (SDL_SetWindowFullscreen(_window, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN * _full_screen) < 0) {
+        if (SDL_SetWindowFullscreen(_window,  SDL_WINDOW_FULLSCREEN_DESKTOP * _full_screen) < 0) {
             ShowError(error);
         }
 
-        //SDL_RenderSetLogicalSize(Window::GetRenderer(), _w, _h);
+        SDL_RenderSetLogicalSize(Window::GetRenderer(), _size.x, _size.y);
         return !error;
     } else {
         return Init();
@@ -106,19 +106,27 @@ Camera* Window::GetCamera() {
 }
 
 void Window::SetWidth(const int &w) {
-    SetMode(w, _h, _full_screen, _title);
+    SetMode(w, _size.y, _full_screen, _title);
 }
 
 void Window::SetHeight(const int &h) {
-    SetMode(_w, h, _full_screen, _title);
+    SetMode(_size.x, h, _full_screen, _title);
+}
+
+void Window::SetSize(const Vec2 &size){
+    _size = size;
 }
 
 int Window::GetWidth() {
-    return _w;
+    return _size.x;
 }
 
 int Window::GetHeight() {
-    return _h;
+    return _size.y;
+}
+
+Vec2 Window::GetSize(){
+    return _size;
 }
 
 bool Window::IsInitialised() {
