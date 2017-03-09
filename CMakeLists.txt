@@ -39,12 +39,21 @@ if(UNIX AND NOT APPLE)
 endif(UNIX AND NOT APPLE)
 
 
+
 if(APPLE)
         message(SEND_ERROR "MacOSX is unsupported yet, try to build as for linux")
 endif(APPLE)
 
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
+            message(SEND_ERROR "MSVC isn't configured yet, but it's able to compile with it ;)")
+endif()
 
-if(LINUX)
+if(WIN32)
+    #Fix for sol2 lib building under MinGW
+    add_definitions(-D_GLIBCXX_USE_C99_CTYPE_TR1)
+endif(WIN32)
+
+if(LINUX OR (WIN32 AND GNU_CLANG))
         include(FindPkgConfig)
         PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2>=2.0.0)
 	PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
@@ -53,22 +62,6 @@ if(LINUX)
 	
         include_directories(src ${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIRS} ${SDL2MIXER_INCLUDE_DIRS})
 endif(LINUX)
-
-
-if(WIN32)
-    if (GNU_CLANG)
-        include(FindPkgConfig)
-        PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2>=2.0.0)
-        PKG_SEARCH_MODULE(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
-        PKG_SEARCH_MODULE(SDL2TTF REQUIRED SDL2_ttf>=2.0.0)
-        PKG_SEARCH_MODULE(SDL2MIXER REQUIRED SDL2_mixer>=2.0.0)
-
-        include_directories(src ${SDL2_INCLUDE_DIRS} ${SDL2IMAGE_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIRS} ${SDL2MIXER_INCLUDE_DIRS})
-    elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
-            message(SEND_ERROR "MSVC isn't configured yet, but it's able to compile with it ;)")
-            return()
-    endif()
-endif(WIN32)
 
 
 
