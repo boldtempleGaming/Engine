@@ -25,7 +25,9 @@ void LuaSprite::bind(sol::state &lua){
             sol::constructors<sol::types<>>(),
 
             "setTexture", sol::resolve<void(const std::string&)>(&Sprite::SetTexture),
-            "draw", sol::resolve<void(const Vec2&, const Vec2&)>(&Sprite::Draw),
+            "draw",  sol::overload(sol::resolve<void(const Vec2&, const Vec2&)>(&Sprite::Draw),
+                                   sol::resolve<void(const Vec2&, const Vec2&, const Camera*)>(&Sprite::Draw)
+                                   ),
 
             // gets or set the value using member variable syntax
             "flip", sol::property(&Sprite::GetFlip, &Sprite::SetFlip),

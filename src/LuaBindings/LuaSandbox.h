@@ -4,6 +4,7 @@
 #include <vector>
 
 #include <sol.hpp>
+#include <LuaBindings/LuaWindow.h>
 #include <LuaBindings/LuaTimer.h>
 #include <LuaBindings/LuaVec2.h>
 #include <LuaBindings/LuaSprite.h>
