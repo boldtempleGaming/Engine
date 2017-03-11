@@ -27,7 +27,7 @@ void Animation::SetCurrentFrame(Uint16 frame) {
 }
 
 void Animation::SetFrameRate(Uint16 rate) {
-    if (rate > 0) {
+    if (rate >= 0) {
         _frame_rate = rate;
     }
 }
