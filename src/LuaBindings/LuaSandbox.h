@@ -4,6 +4,10 @@
 #include <vector>
 
 #include <sol.hpp>
+
+#include <Core/Object.h>
+
+#include <LuaBindings/LuaProxyObject.h>
 #include <LuaBindings/LuaWindow.h>
 #include <LuaBindings/LuaTimer.h>
 #include <LuaBindings/LuaVec2.h>
@@ -20,6 +24,7 @@ public:
     LuaSandbox();
 
     void AddScript(const std::string& origin, const std::string& script_lines);
+    void AddObject(const std::string& origin, const std::string& script_lines, Object *owner);
 
     void EngineInit();
     void EngineUpdate();

@@ -1,8 +1,9 @@
 #include "LuaSandbox.h"
 
 LuaSandbox::LuaSandbox(){
-    _lua.open_libraries(sol::lib::base, sol::lib::package, sol::lib::math);
+    _lua.open_libraries(sol::lib::base, sol::lib::package, sol::lib::math, sol::lib::table);
 
+    LuaProxyObject::bind(_lua);
     LuaWindow::bind(_lua);
     LuaTimer::bind(_lua);
     LuaSprite::bind(_lua);
@@ -14,28 +15,31 @@ LuaSandbox::LuaSandbox(){
 
 
     _lua.script(R"(
-               count = 0;
+               count = 0
                ScriptsArray = {}
+               ObjectsArray = {}
 
                function push_script()
-                 count = count + 1
-                 ScriptsArray[count] = Script
+                    count = count + 1
+                    table.insert(ScriptsArray, count, Script)
                end
 
-                function copy(obj)
-                  if type(obj) ~= 'table' then return obj end
-                  local res = {}
-                  for k, v in pairs(obj) do res[copy(k)] = copy(v) end
-                  return res
+                function push_object(id)
+                    ObjectsArray[id] = Object
                 end
 
-               -- run code under environment [Lua 5.2]
-               function run(untrusted_code)
+                function remove_object(id)
+                     ObjectsArray[id] = nil
+                end
+
+                -- run code under environment [Lua 5.2]
+               function run(untrusted_code, run_object)
                 -- make environment
                 -- add functions you know are safe here
                 local env = {
                           print = print,
                           math = math,
+                          table = table,
                           pcall = pcall,
                           require = require,
                           Sprite = Sprite,
@@ -54,8 +58,14 @@ LuaSandbox::LuaSandbox(){
                           Window = Window
                           }
 
-                Script.env = env;
-                env.Script = Script
+                if run_object then
+                    Object.env = env
+                    env.Object = Object
+                else
+                    Script.env = env
+                    env.Script = Script
+                end
+
 
                  local untrusted_function = load(untrusted_code, nil, 't', env), message
                  if not untrusted_function then return nil, message end
@@ -91,8 +101,24 @@ LuaSandbox::LuaSandbox(){
 void LuaSandbox::AddScript(const std::string& origin, const std::string& script_lines){
     try{
         sol::table table = _lua.create_named_table("Script");
-        _lua["run"](script_lines);
+        _lua["run"](script_lines, false);
         _lua["push_script"]();
+    }
+    catch(const sol::error& ex){
+        std::cerr << "Error at file: \"" << origin << "\"" << std::endl;
+        std::cerr << ex.what() << std::endl;
+    }
+}
+
+void LuaSandbox::AddObject(const std::string& origin, const std::string& script_lines, Object* owner){
+    try{
+        sol::table table = _lua.create_named_table("Object");
+        _lua["run"](script_lines, true);
+
+        LuaProxyObject* proxy = new LuaProxyObject(table, _lua["remove_object"]);
+        owner->Connect(proxy);
+
+        _lua["push_object"](proxy->GetId());
     }
     catch(const sol::error& ex){
         std::cerr << "Error at file: \"" << origin << "\"" << std::endl;
