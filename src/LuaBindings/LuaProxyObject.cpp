@@ -8,8 +8,8 @@ void LuaProxyObject::bind(sol::state& lua){
         "disconnect", &Object::Disconnect,
         "move",  &Object::Move,
         "owner",  sol::property(&Object::GetOwner),
-        "pos", sol::property(&Object::GetGlobalPos, &Object::GetGlobalPos),
-        "localPos", sol::property(&Object::GetPos, &Object::GetPos),
+        "globalPos", sol::property(&Object::GetGlobalPos),
+        "localPos", sol::property(&Object::GetPos, &Object::SetPos),
         "size", sol::property(&Object::GetSize, &Object::SetSize),
         "vel", sol::property(&Object::GetVel, &Object::SetVel),
         "id", sol::property(&Object::GetId)
