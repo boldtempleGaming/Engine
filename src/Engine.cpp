@@ -46,10 +46,9 @@ void Engine::Start() {
         Surface::SetInterpolation(lag / _ms_per_update);
         Core_Render();
 
-        Core_Event(event, keyboardState);
-
         while (lag > _ms_per_update)
         {
+            Core_Event(event, keyboardState);
             Core_Update();
             lag -= _ms_per_update;
         }
