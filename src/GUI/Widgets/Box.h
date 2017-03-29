@@ -19,9 +19,10 @@
 
 class Box: public Widget {
 public:
-    Box(Object* owner, const Vec2& pos, const Vec2& size, const std::string& font, int font_pt_size);
+    Box(const Vec2& pos, const Vec2& size, const std::string& font, int font_pt_size);
     virtual ~Box();
 
+    virtual void Move(const Vec2& delta_pos);
     virtual void SetPos(const Vec2& pos);
     virtual void SetSize(const Vec2& size);
     virtual void OnUpdate();
