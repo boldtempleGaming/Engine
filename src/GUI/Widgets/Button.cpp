@@ -23,6 +23,16 @@ void Button::RegisterAction(std::function<void(void) > action) {
     _action = action;
 }
 
+void Button::SetText(const std::string& str){
+    Box::SetText(str);
+
+    _text_offset.x = GetSize().x/2 - _text_size.x/2;
+    _text_offset.y = GetSize().y/2 - _text_size.y/2;
+
+    Box::SetText(str);
+    CalcTextPos();
+}
+
 void Button::OnUpdate() {
     if (!IsVisible()) {
         return;
@@ -50,15 +60,16 @@ void Button::OnUpdate() {
 }
 
 void Button::SetPos(const Vec2& pos) {
-    Object::SetPos(pos);
+    Box::SetPos(pos);
 
-    //Justify text to center
-    _text_draw_rect = {
-        static_cast<int> ((GetGlobalPos().x + (GetSize().x - TEXT_OFFSET) / 2 - _text_size.x / 2) - GUI::GetCamera()->X()),
-        static_cast<int> ((GetGlobalPos().y + (GetSize().y - TEXT_OFFSET) / 2 - _text_size.y / 2) - GUI::GetCamera()->Y()),
-        static_cast<int> (GetSize().x - TEXT_OFFSET),
-        static_cast<int> (GetSize().y - TEXT_OFFSET)
-    };
+//    //Justify text to center
+//    _text_draw_rect = {
+//        static_cast<int> ((GetGlobalPos().x + (GetSize().x - TEXT_OFFSET) / 2 - _text_size.x / 2) - GUI::GetCamera()->X()),
+//        static_cast<int> ((GetGlobalPos().y + (GetSize().y - TEXT_OFFSET) / 2 - _text_size.y / 2) - GUI::GetCamera()->Y()),
+//        static_cast<int> (GetSize().x - TEXT_OFFSET),
+//        static_cast<int> (GetSize().y - TEXT_OFFSET)
+//    };
+
 }
 
 void Button::OnClick() {
