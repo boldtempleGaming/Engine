@@ -22,19 +22,23 @@ public:
     Box(const Vec2& pos, const Vec2& size, const std::string& font, int font_pt_size);
     virtual ~Box();
 
-    virtual void Move(const Vec2& delta_pos);
-    virtual void SetPos(const Vec2& pos);
     virtual void SetSize(const Vec2& size);
     virtual void OnUpdate();
     virtual void OnRender();
     virtual void OnClick();
 
+    virtual void Move(const Vec2& delta_pos);
+    virtual void SetPos(const Vec2& pos);
+
     void SetIcon(const std::string& icon);
     void SetText(const std::string& str);
 
 protected:
-    const int TEXT_OFFSET = 4; // pixels
-    const int LINE_SPACE = 1;
+    int _pt_size;
+    int _line_spacing = 0;
+    SDL_Rect _text_offset = {4, 4, 4, 4};
+
+    std::string _str_text;
 
     SDL_Texture* _text_texture;
     Text _text;
@@ -43,6 +47,8 @@ protected:
 
     bool _has_icon;
     Sprite _icon;
+
+    void CalcTextPos();
 };
 
 #endif /* SRC_GUI_BOX_H_ */
