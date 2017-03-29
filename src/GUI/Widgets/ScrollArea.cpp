@@ -34,8 +34,8 @@ void ScrollArea::RenderChildren() {
         SetTmpCam();
 
         SDL_Rect new_view = {
-            static_cast<int>(_pos.x),
-            static_cast<int>(_pos.y),
+            static_cast<int>(_global_pos.x),
+            static_cast<int>(_global_pos.y),
             static_cast<int>(_size.x), 
             static_cast<int>(_size.y)
         };

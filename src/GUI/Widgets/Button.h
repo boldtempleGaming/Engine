@@ -19,6 +19,8 @@ public:
     void RegisterAction(std::function<void(void)> action);
    // void RegisterAction(std::Mem_fn<void(void)> mem_action);
 
+    void SetText(const std::string& str);
+
     virtual void OnUpdate();
     virtual void SetPos(const Vec2& pos);
     virtual void OnClick();
