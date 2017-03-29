@@ -170,13 +170,13 @@ void Object::SetDefaults(){
 
 void Object::CheckClick(const Camera* camera) {
     if (!_ignore_click) {
-        //Was mouse buttun clicked?
+        //Was mouse button clicked?
         if (Mouse::AnyPressed()) {
             SDL_Rect result;
             
             SDL_Rect obj_rect = {
-                static_cast<int>(GetGlobalPos().x - camera->X()), 
-                static_cast<int>(GetGlobalPos().y - camera->Y()), 
+                static_cast<int>(_global_pos.x),
+                static_cast<int>(_global_pos.y),
                 static_cast<int>(_size.x), 
                 static_cast<int>(_size.y)
             };
@@ -186,11 +186,13 @@ void Object::CheckClick(const Camera* camera) {
             static SDL_Rect cursor_rect = {0, 0, 1, 1};
             Mouse::GetPos(&cursor_rect.x, &cursor_rect.y);
             
-            //check intersection
-            SDL_bool inter = SDL_IntersectRect(&cursor_rect, &obj_rect, &result);
-            if (inter == SDL_TRUE) {
-                //Set to last clicked
-                GUI::SetLastCliked(this);
+            if(camera->InView(&cursor_rect)){
+                //check intersection
+                SDL_bool inter = SDL_IntersectRect(&cursor_rect, &obj_rect, &result);
+                if (inter == SDL_TRUE) {
+                    //Set to last clicked
+                    GUI::SetLastCliked(this);
+                }
             }
         }
     }

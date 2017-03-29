@@ -43,15 +43,15 @@ public:
     /**
      * Set new Vec2 position
      */
-    void SetPos(const Vec2& new_pos);
+    virtual void SetPos(const Vec2& new_pos);
     /**
      * Move object on Vec2 delta position (dx, dy)
      */
-    void Move(const Vec2& delta_pos);
+    virtual void Move(const Vec2& delta_pos);
 
     Object* GetOwner() const;
-    void Connect(Object* obj);
-    void Disconnect(Object* obj);
+    virtual void Connect(Object* obj);
+    virtual void Disconnect(Object* obj);
 
     virtual const Vec2& GetPos() const;
     virtual const Vec2& GetGlobalPos() const;
