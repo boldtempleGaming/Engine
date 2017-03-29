@@ -10,7 +10,6 @@ Text::Text() {
 
 Text::~Text() {
     SDL_DestroyTexture(_texture);
-    //Fonts will be destroyed with GUI
 }
 
 void Text::Init(const int &x, const int &y, const std::string& text,
@@ -76,6 +75,8 @@ void Text::GetTexture() {
                 //Get texture size
                 _rect.w = surface->w;
                 _rect.h = surface->h;
+
+                SDL_SetSurfaceBlendMode(surface, SDL_BLENDMODE_NONE);
 
                 _texture = SDL_CreateTextureFromSurface(Window::GetRenderer(), surface);
 
