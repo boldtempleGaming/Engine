@@ -1,8 +1,8 @@
 #include "CheckBox.h"
 
-CheckBox::CheckBox(Object* owner, const Vec2& pos, const Vec2& size,
+CheckBox::CheckBox(const Vec2& pos, const Vec2& size,
         const int& widget_width, const std::string& label) :
-Widget(owner, pos, size) {
+Widget(pos, size) {
     _checked = false;
     _clicked = false;
     _state = BUTTON_NORMAL;
@@ -11,11 +11,11 @@ Widget(owner, pos, size) {
 
     _style = _style_unchecked;
 
-    _box = new Box(this, Vec2(0, 0), Vec2(100, 100), Resources::GetDefaultFont(),
-            Resources::GetDefaultFontPtsize());
-
-    _box->SetPos(Vec2(size.x - 4, size.x / 2 - 8));
-    _box->SetSize(Vec2(widget_width - size.x, size.y / 2 + 4));
+    _box = new Box(Vec2(0, 0),
+                   Vec2(100, 100),
+                   Resources::GetDefaultFont(),
+                   Resources::GetDefaultFontPtsize());
+    Connect(_box);
 
     _box->IgnoreClick(true);
     _box->ShowBack(false);
@@ -25,11 +25,11 @@ Widget(owner, pos, size) {
 }
 
 CheckBox::~CheckBox() {
-    delete(_box);
+    //delete(_box);
 }
 
 void CheckBox::OnUpdate() {
-    CheckClick(GUI::GetCamera());
+    CheckClick(_camera);
 
     if (_clicked) {
         if (_state == BUTTON_NORMAL || _state == BUTTON_RELEASED) {

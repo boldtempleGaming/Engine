@@ -10,7 +10,7 @@
 
 class CheckBox : public Widget {
 public:
-    CheckBox(Object* owner, const Vec2& pos, const Vec2& size, 
+    CheckBox(const Vec2& pos, const Vec2& size,
             const int& widget_width, const std::string& label);
     virtual ~CheckBox();
 
