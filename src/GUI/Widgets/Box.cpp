@@ -8,8 +8,8 @@
 
 #include "GUI/Widgets/Box.h"
 
-Box::Box(Object* owner, const Vec2& pos, const Vec2& size, const std::string& font, int font_pt_size) :
-        Widget(owner, pos, size)
+Box::Box(const Vec2& pos, const Vec2& size, const std::string& font, int font_pt_size) :
+        Widget(pos, size)
 {
     ShowBack(false);
     _text.Init(0, 0, "", font, font_pt_size);
@@ -45,12 +45,16 @@ void Box::OnRender() {
     }
 }
 
+void Box::Move(const Vec2 &delta_pos){
+    SetPos(GetPos() + delta_pos);
+}
+
 void Box::SetPos(const Vec2 &pos) {
     Widget::SetPos(pos);
 
     _text_draw_rect = {
-        static_cast<int>(Object::GetGlobalPos().x),
-        static_cast<int>(Object::GetGlobalPos().y),
+        static_cast<int>(GetGlobalPos().x - GUI::GetCamera()->X()),
+        static_cast<int>(GetGlobalPos().y - GUI::GetCamera()->Y()),
         static_cast<int>(GetSize().x - TEXT_OFFSET),
         static_cast<int>(GetSize().y - TEXT_OFFSET)
     };

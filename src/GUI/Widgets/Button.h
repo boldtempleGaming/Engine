@@ -12,7 +12,7 @@ enum button_state{
 
 class Button: public Box {
 public:
-    Button(Object* owner, const Vec2& pos, const Vec2& size, const std::string& font, int font_pt_size);
+    Button(const Vec2& pos, const Vec2& size, const std::string& font, int font_pt_size);
     virtual ~Button();
 
     void SetStyle(const std::string& style, const Vec2& pos_normal, const Vec2& pos_pressed, int tile_resolution);

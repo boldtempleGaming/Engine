@@ -1,7 +1,10 @@
 #include "LuaSandbox.h"
 
 LuaSandbox::LuaSandbox(){
-    _lua.open_libraries(sol::lib::base, sol::lib::package, sol::lib::math, sol::lib::table);
+    _lua.open_libraries(sol::lib::base,
+                        sol::lib::package,
+                        sol::lib::math,
+                        sol::lib::table);
 
     LuaProxyObject::bind(_lua);
     LuaWindow::bind(_lua);

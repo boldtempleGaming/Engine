@@ -1,7 +1,7 @@
 #include "Button.h"
 
-Button::Button(Object* owner, const Vec2& pos, const Vec2& size, const std::string& font, int font_pt_size) :
-Box(owner, pos, size, font, font_pt_size) {
+Button::Button(const Vec2& pos, const Vec2& size, const std::string& font, int font_pt_size) :
+Box(pos, size, font, font_pt_size) {
     ShowBack(true);
     _clicked = false;
     _action = nullptr;
@@ -28,7 +28,7 @@ void Button::OnUpdate() {
         return;
     }
 
-    CheckClick(GUI::GetCamera());
+    CheckClick(_camera);
     if (_clicked) {
         if (_state == BUTTON_NORMAL || _state == BUTTON_RELEASED) {
             _state = BUTTON_HOVERED;
@@ -54,8 +54,8 @@ void Button::SetPos(const Vec2& pos) {
 
     //Justify text to center
     _text_draw_rect = {
-        static_cast<int> (GetPos().x + (GetSize().x - TEXT_OFFSET) / 2 - _text_size.x / 2),
-        static_cast<int> (GetPos().y + (GetSize().y - TEXT_OFFSET) / 2 - _text_size.y / 2),
+        static_cast<int> ((GetGlobalPos().x + (GetSize().x - TEXT_OFFSET) / 2 - _text_size.x / 2) - GUI::GetCamera()->X()),
+        static_cast<int> ((GetGlobalPos().y + (GetSize().y - TEXT_OFFSET) / 2 - _text_size.y / 2) - GUI::GetCamera()->Y()),
         static_cast<int> (GetSize().x - TEXT_OFFSET),
         static_cast<int> (GetSize().y - TEXT_OFFSET)
     };

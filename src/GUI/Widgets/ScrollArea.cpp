@@ -8,26 +8,16 @@
 
 #include "ScrollArea.h"
 
-ScrollArea::ScrollArea(Object* owner, const Vec2& pos, const Vec2& size) :
-        Widget(owner, pos, size) {
-    SDL_Texture* texture = SDL_CreateTexture(Window::GetRenderer(),
-            SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, _size.x,
-            _size.y);
-    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
-    _back.SetTexture(texture);
+ScrollArea::ScrollArea(const Vec2& pos, const Vec2& size) :
+        Widget(pos, size, new Camera()) {
+    _camera->SetPos(GetGlobalPos());
+    _camera->SetViewport(size);
 
-    _camera.SetPos(pos);
-    _camera.SetViewport(size);
+    _scroll_cam_scope = false;
 }
 
 ScrollArea::~ScrollArea() {
-
-}
-
-//TODO Hack :C
-const Vec2& ScrollArea::GetGlobalPos() const{
-    static Vec2 tmp = _global_pos;// - _pos;
-    return tmp;
+    delete _camera;
 }
 
 void ScrollArea::OnUpdate() {
@@ -41,45 +31,78 @@ void ScrollArea::OnRender() {
 //Implements drawing children to texture
 void ScrollArea::RenderChildren() {
     if (_visible && _bg_visible) {
-
-        /*
-        //change the rendering target
-        SDL_SetRenderTarget(Window::GetRenderer(), _back.GetTexture());
-        SDL_SetRenderDrawColor(Window::GetRenderer(), BACKGROUND_COLOR.r, BACKGROUND_COLOR.g, BACKGROUND_COLOR.b, 0);
-        SDL_RenderClear(Window::GetRenderer());
-         */
+        SetTmpCam();
 
         SDL_Rect new_view = {
-            static_cast<int>(_pos.x), 
-            static_cast<int>(_pos.y), 
+            static_cast<int>(_pos.x),
+            static_cast<int>(_pos.y),
             static_cast<int>(_size.x), 
             static_cast<int>(_size.y)
         };
         
         SDL_RenderSetViewport(Window::GetRenderer(), &new_view);
-
         Object::RenderChildren();
-
-        //back to default target
-        //SDL_SetRenderTarget(Window::GetRenderer(), nullptr);
-
-        //draw texture to main renderer
-        //_back.Draw(_global_pos, GetSize(), &_camera);
-
         SDL_RenderSetViewport(Window::GetRenderer(), nullptr);
+
+        SetTmpCam();
     }
 }
 
+void ScrollArea::UpdateChildren() {
+    SetTmpCam();
+    Object::UpdateChildren();
+    SetTmpCam();
+}
+
+void ScrollArea::Connect(Object* obj){
+    SetTmpCam();
+    Widget::Connect(obj);
+    MoveChildern(Vec2::ZERO);
+    SetTmpCam();
+}
+
+void ScrollArea::Move(const Vec2& delta_pos){
+    SetTmpCam();
+    Widget::Move(delta_pos);
+    _camera->SetPos(GetGlobalPos());
+    SetTmpCam();
+}
+
+void ScrollArea::SetPos(const Vec2& new_pos){
+    SetTmpCam();
+    Widget::SetPos(new_pos);
+    _camera->SetPos(GetGlobalPos());
+    SetTmpCam();
+}
+
 void ScrollArea::Scroll(const Vec2& direct) {
+    SetTmpCam();
     Object::MoveChildern(direct);
+    SetTmpCam();
 }
 
 //Vertical scroll
 void ScrollArea::ScrollV(int step) {
+    SetTmpCam();
     Object::MoveChildern(Vec2(0, step));
+    SetTmpCam();
 }
 
 //Horizontal scroll
 void ScrollArea::ScollH(int step) {
+    SetTmpCam();
     Object::MoveChildern(Vec2(step, 0));
+    SetTmpCam();
+}
+
+void ScrollArea::SetTmpCam(){
+    if(_scroll_cam_scope){
+        GUI::GetCamera()->SetPos(_old_cam_pos);
+        _scroll_cam_scope = false;
+    }
+    else{
+        _old_cam_pos = GUI::GetCamera()->GetPos();
+        GUI::GetCamera()->SetPos(GetGlobalPos());
+        _scroll_cam_scope = true;
+    }
 }

@@ -31,7 +31,7 @@ void GUI::OnInit(){
 	}
 
     //Init GUI camera
-    _camera = new Camera(Vec2(), Vec2(Window::GetWidth(), Window::GetHeight()));
+    _camera = new Camera(Vec2::ZERO, Vec2(Window::GetWidth(), Window::GetHeight()));
 }
 
 void GUI::OnUpdate(){
