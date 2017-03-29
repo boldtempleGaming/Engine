@@ -8,16 +8,13 @@
 
 #include "GUI/Widget.h"
 
-Widget::Widget(Object* owner, const Vec2& pos, const Vec2& size):
+Widget::Widget(const Vec2& pos, const Vec2& size, Camera* cam):
     _visible(true), _bg_visible(true)
 {
     Object::SetSize(size);
     _back.SetFrameSize(size);
     SetPos(pos);
-
-    if(owner){
-        owner->Connect(this);
-    }
+    _camera = cam;
 }
 
 Widget::~Widget() {
@@ -61,6 +58,19 @@ void Widget::SetBackGround(const std::string& tileset,const Vec2& skin, int tile
     Surface::GetSkinnedRect(texture_skin, texture_back, &skin, &rect, tile_size);
 
     _back.SetTexture(texture_back);
+}
+
+void Widget::SetCamera(Camera *cam){
+    _camera = cam;
+}
+
+void Widget::Connect(Object *obj){
+    Object::Connect(obj);
+
+    Widget* wgt = dynamic_cast<Widget*>(obj);
+    if(wgt){
+        wgt->_camera = this->_camera;
+    }
 }
 
 const bool& Widget::IsVisible() const{

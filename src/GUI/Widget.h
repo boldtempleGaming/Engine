@@ -17,16 +17,20 @@
 
 class Widget: public Object {
 public:
-    Widget(Object* owner, const Vec2& pos, const Vec2& size);
+    Widget(const Vec2& pos, const Vec2& size, Camera* cam = GUI::GetCamera());
     virtual ~Widget();
     void Show(bool show);
     void ShowBack(bool show_bg);
     void SetBackGround(const std::string& tileset, const Vec2& skin, int tile_size);
+    void SetCamera(Camera* cam);
+
+    virtual void Connect(Object *obj);
 
     const bool& IsVisible() const;
     const bool& BackIsVisible() const;
 
 protected:
+    Camera* _camera = nullptr;
     bool _visible;
     bool _bg_visible;
     Sprite _back;
