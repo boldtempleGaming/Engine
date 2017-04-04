@@ -28,10 +28,6 @@ Box::~Box() {
     SDL_DestroyTexture(_text_texture);
 }
 
-void Box::OnUpdate(){
-    //Object::CheckClick();
-}
-
 void Box::OnRender() {
     if (_visible) {
         if (_bg_visible){
@@ -59,9 +55,6 @@ void Box::SetSize(const Vec2& size) {
     CalcTextPos();
 }
 
-void  Box::OnClick(){
-}
-
 void Box::Move(const Vec2 &delta_pos){
     Widget::Move(delta_pos);
     CalcTextPos();
@@ -87,11 +80,12 @@ void Box::SetIcon(const std::string& icon){
 void Box::SetText(const std::string &str) {
     _str_text = str;
 
+    if(_text_texture){
+        SDL_DestroyTexture(_text_texture);
+        _text_texture = nullptr;
+    }
+
     if(_str_text.empty()){
-        if(_text_texture){
-            SDL_DestroyTexture(_text_texture);
-            _text_texture = nullptr;
-        }
         return;
     }else{
         _text_texture = SDL_CreateTexture(Window::GetRenderer(),
@@ -147,10 +141,22 @@ void Box::SetText(const std::string &str) {
     SDL_SetRenderTarget(Window::GetRenderer(), nullptr);
 }
 
+void Box::SetOffset(const SDL_Rect& offset){
+    _text_offset = offset;
+}
+
+SDL_Rect Box::GetOffset(){
+    return _text_offset;
+}
+
+Vec2 Box::GetTextSize() const{
+    return _text_size;
+}
+
 void Box::CalcTextPos(){
     _text_draw_rect = {
-        static_cast<int>(GetGlobalPos().x - GUI::GetCamera()->X() +  _text_offset.x),
-        static_cast<int>(GetGlobalPos().y - GUI::GetCamera()->Y() +  _text_offset.y),
+        static_cast<int>(GetGlobalPos().x - _camera->X() +  _text_offset.x),
+        static_cast<int>(GetGlobalPos().y - _camera->Y() +  _text_offset.y),
         static_cast<int>(GetSize().x -  _text_offset.x - _text_offset.w),
         static_cast<int>(GetSize().y -  _text_offset.y - _text_offset.h)
     };
