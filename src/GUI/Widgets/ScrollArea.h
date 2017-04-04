@@ -18,33 +18,19 @@ public:
     ScrollArea(const Vec2& pos, const Vec2& size);
     virtual ~ScrollArea();
 
-    //virtual const Vec2& GetGlobalPos() const;
-
-    virtual void SetCamera(Camera* cam);
-
-    virtual void OnUpdate();
-    virtual void OnRender();
-    virtual void RenderChildren();
-    virtual void UpdateChildren();
-
     virtual void SetSize(const Vec2 &size);
 
-    virtual void Connect(Object* obj);
-
-    virtual void Move(const Vec2 &delta_pos);
-    virtual void SetPos(const Vec2& new_pos);
+    virtual void OnRender();
+    virtual void RenderChildren();
 
     void Scroll(const Vec2& direct);
-    //Vertical scroll
     void ScrollV(int step);
-    //Horizontal scroll
-    void ScollH(int step);
+    void ScrollH(int step);
 
 private:
-    Vec2 _old_cam_pos;
-    bool _scroll_cam_scope;
-    void SetTmpCam();
+    SDL_Texture* _area = nullptr;
 
+    void CreateTexture();
 };
 
 #endif /* SRC_GUI_SCROLLAREA_H_ */

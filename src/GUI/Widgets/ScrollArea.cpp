@@ -9,123 +9,83 @@
 #include "ScrollArea.h"
 
 ScrollArea::ScrollArea(const Vec2& pos, const Vec2& size) :
-        Widget(pos, size, new Camera()) {
-    _camera->SetPos(GetGlobalPos());
-    _camera->SetViewport(size);
-
-    _scroll_cam_scope = false;
-
+        Widget(pos, size) {
     ShowBack(false);
     IgnoreClick(false);
+
+    CreateTexture();
 }
 
 ScrollArea::~ScrollArea() {
-    delete _camera;
+    SDL_DestroyTexture(_area);
 }
 
-void ScrollArea::SetCamera(Camera *cam){
-    //std::cout << "NO" << std::endl;
-    //Widget::SetCamera(cam);
-}
-
-void ScrollArea::OnUpdate() {
-    Widget::OnUpdate();
+void ScrollArea::SetSize(const Vec2 &size){
+    Widget::SetSize(size);
+    CreateTexture();
 }
 
 void ScrollArea::OnRender() {
     if (_bg_visible){
         _back.Draw(Object::GetGlobalPos(), Object::GetSize(), GUI::GetCamera());
     }
+
+    static SDL_Rect new_view;
+    new_view = {
+        static_cast<int>(_global_pos.x - GUI::GetCamera()->X()),
+        static_cast<int>(_global_pos.y - GUI::GetCamera()->Y()),
+        static_cast<int>(_size.x),
+        static_cast<int>(_size.y)
+    };
+    Surface::Draw(_area, &new_view);
 }
 
 //Implements drawing children to texture
 void ScrollArea::RenderChildren() {
     if (_visible) {
-        SetTmpCam();
+        //change the rendering target
+        SDL_SetRenderTarget(Window::GetRenderer(), _area);
+        SDL_SetRenderDrawColor(Window::GetRenderer(), 0, 0, 0, 0);
+        SDL_RenderClear(Window::GetRenderer());
 
-        SDL_Rect new_view = {
-            static_cast<int>(_global_pos.x),
-            static_cast<int>(_global_pos.y),
-            static_cast<int>(_size.x), 
-            static_cast<int>(_size.y)
-        };
-        
-        SDL_RenderSetViewport(Window::GetRenderer(), &new_view);
+        Surface::BeginViewport(_global_pos, _size);
+
         Object::RenderChildren();
-        SDL_RenderSetViewport(Window::GetRenderer(), nullptr);
 
-        SetTmpCam();
+        Surface::EndViewport();
+
+        SDL_Color bg = Window::GetBackgroundColor();
+        SDL_SetRenderDrawColor(Window::GetRenderer(), bg.r, bg.g, bg.b, bg.a);
+
+        //change the target back to the default
+        SDL_SetRenderTarget(Window::GetRenderer(), nullptr);
     }
-}
-
-void ScrollArea::UpdateChildren() {
-    if (_visible){
-        SetTmpCam();
-        Object::UpdateChildren();
-        SetTmpCam();
-    }
-}
-
-void ScrollArea::SetSize(const Vec2 &size){
-    Widget::SetSize(size);
-    _camera->SetViewport(size);
-}
-
-void ScrollArea::Connect(Object* obj){
-    SetTmpCam();
-    Widget::Connect(obj);
-
-    Widget* wgt = dynamic_cast<Widget*>(obj);
-    if(wgt){
-        wgt->SetCamera(_camera);
-    }
-
-    MoveChildern(Vec2::ZERO);
-    SetTmpCam();
-}
-
-void ScrollArea::Move(const Vec2& delta_pos){
-    SetTmpCam();
-    Widget::Move(delta_pos);
-    _camera->SetPos(GetGlobalPos());
-    SetTmpCam();
-}
-
-void ScrollArea::SetPos(const Vec2& new_pos){
-    SetTmpCam();
-    Widget::SetPos(new_pos);
-    _camera->SetPos(GetGlobalPos());
-    SetTmpCam();
 }
 
 void ScrollArea::Scroll(const Vec2& direct) {
-    SetTmpCam();
     Object::MoveChildern(direct);
-    SetTmpCam();
 }
 
 //Vertical scroll
 void ScrollArea::ScrollV(int step) {
-    SetTmpCam();
     Object::MoveChildern(Vec2(0, step));
-    SetTmpCam();
 }
 
 //Horizontal scroll
-void ScrollArea::ScollH(int step) {
-    SetTmpCam();
+void ScrollArea::ScrollH(int step) {
     Object::MoveChildern(Vec2(step, 0));
-    SetTmpCam();
 }
 
-void ScrollArea::SetTmpCam(){
-    if(_scroll_cam_scope){
-        GUI::GetCamera()->SetPos(_old_cam_pos);
-        _scroll_cam_scope = false;
+void ScrollArea::CreateTexture(){
+    if(_area){
+        SDL_DestroyTexture(_area);
     }
-    else{
-        _old_cam_pos = GUI::GetCamera()->GetPos();
-        GUI::GetCamera()->SetPos(GetGlobalPos());
-        _scroll_cam_scope = true;
-    }
+
+    _area = SDL_CreateTexture(Window::GetRenderer(),
+                              SDL_PIXELFORMAT_RGBA8888,
+                              SDL_TEXTUREACCESS_TARGET,
+                              static_cast<int>(GetSize().x),
+                              static_cast<int>(GetSize().y));
+
+    SDL_SetTextureBlendMode(_area, SDL_BLENDMODE_BLEND);
 }
