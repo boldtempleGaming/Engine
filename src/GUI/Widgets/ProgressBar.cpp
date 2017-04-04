@@ -106,8 +106,8 @@ void ProgressBar::RenderProgress(){
 }
 
 void ProgressBar::CalcProgressPos(){
-    _progress_draw_rect = {GetGlobalPos().x + 6 - _camera->X(),
-                           GetGlobalPos().y + 6 - _camera->Y(),
+    _progress_draw_rect = {GetGlobalPos().x + 6,
+                           GetGlobalPos().y + 6,
                            ((GetSize().x - 12) * (_value))/100,
                            GetSize().y - 12};
 }

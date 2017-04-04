@@ -155,8 +155,8 @@ Vec2 Box::GetTextSize() const{
 
 void Box::CalcTextPos(){
     _text_draw_rect = {
-        static_cast<int>(GetGlobalPos().x - _camera->X() +  _text_offset.x),
-        static_cast<int>(GetGlobalPos().y - _camera->Y() +  _text_offset.y),
+        static_cast<int>(GetGlobalPos().x + _text_offset.x),
+        static_cast<int>(GetGlobalPos().y + _text_offset.y),
         static_cast<int>(GetSize().x -  _text_offset.x - _text_offset.w),
         static_cast<int>(GetSize().y -  _text_offset.y - _text_offset.h)
     };
