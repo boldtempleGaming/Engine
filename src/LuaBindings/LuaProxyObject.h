@@ -14,7 +14,7 @@ public:
 
     virtual void OnUpdate();
     virtual void OnRender();
-    virtual void OnClick();
+    virtual void OnTopMouseEvent();
     virtual void OnCollide(Object* obj);
 
 private:

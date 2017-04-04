@@ -35,11 +35,11 @@ public:
     static void OnUpdate();
     static void OnRender();
 
-    static void SetLastCliked(Object* obj);
+    static void SetTopObject(Object* obj);
     static Object* GetLastClicked();
 
 private:
-    static Object* _last_clicked;
+    static Object* _top_object;
     static Camera* _camera;
 };
 

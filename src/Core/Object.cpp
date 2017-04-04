@@ -167,39 +167,23 @@ void Object::SetDefaults(){
 }
 
 //if you want your object to be clicked call this function on update tick
-
-void Object::CheckClick(const Camera* camera) {
+void Object::CheckTop(const Camera* camera) {
     if (!_ignore_click) {
-        //Was mouse button clicked?
-        if (Mouse::AnyPressed()) {
-            SDL_Rect result;
-            
-            SDL_Rect obj_rect = {
-                static_cast<int>(_global_pos.x),
-                static_cast<int>(_global_pos.y),
-                static_cast<int>(_size.x), 
-                static_cast<int>(_size.y)
-            };
-            
-            //rectangle 1x1px
-            //FIXME not thread safe
-            static SDL_Rect cursor_rect = {0, 0, 1, 1};
-            Mouse::GetPos(&cursor_rect.x, &cursor_rect.y);
-            
-            if(camera->InView(&cursor_rect)){
-                //check intersection
-                SDL_bool inter = SDL_IntersectRect(&cursor_rect, &obj_rect, &result);
-                if (inter == SDL_TRUE) {
-                    //Set to last clicked
-                    GUI::SetLastCliked(this);
-                }
+        if(Mouse::Intersect(this)){
+            if(camera->InView(Mouse::GetPos(), Vec2(1,1))){
+                OnMouse();
+                GUI::SetTopObject(this);
             }
         }
     }
 }
 
-void Object::IgnoreClick(bool ignore) {
-    _ignore_click = ignore;
+void Object::IgnoreClick(bool ignored) {
+    _ignore_click = ignored;
+}
+
+bool Object::IsClickIgnored(){
+    return _ignore_click;
 }
 
 void Object::OnUpdate() {
@@ -214,7 +198,11 @@ void Object::OnCollide(Object* obj) {
 
 }
 
-void Object::OnClick() {
+void Object::OnMouse(){
+
+}
+
+void Object::OnTopMouseEvent() {
 
 }
 

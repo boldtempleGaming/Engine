@@ -53,7 +53,6 @@ public:
 private:
     std::vector<Object*> _Layers;
     std::vector<Object*> _DeleteCandidates;
-    Object* root_obj;
     double _ms_per_update;
 
     void DeleteObjects();

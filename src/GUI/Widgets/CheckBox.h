@@ -16,7 +16,7 @@ public:
 
     virtual void OnUpdate();
     virtual void OnRender();
-    virtual void OnClick();
+    virtual void OnTopMouseEvent();
 
     void SetState(bool checked);
     bool GetState();
@@ -24,13 +24,13 @@ public:
 private:
     bool _checked;
     bool _clicked;
-    button_state _state;
 
     Vec2 _style;
     Vec2 _style_unchecked;
     Vec2 _style_checked;
 
     Box* _box;
+    Box* _label;
 };
 
 #endif	/* CHECKBOX_H */

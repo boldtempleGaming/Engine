@@ -20,10 +20,14 @@ public:
 
     //virtual const Vec2& GetGlobalPos() const;
 
+    virtual void SetCamera(Camera* cam);
+
     virtual void OnUpdate();
     virtual void OnRender();
     virtual void RenderChildren();
     virtual void UpdateChildren();
+
+    virtual void SetSize(const Vec2 &size);
 
     virtual void Connect(Object* obj);
 

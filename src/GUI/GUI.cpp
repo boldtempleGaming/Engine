@@ -8,7 +8,7 @@
 
 #include "GUI.h"
 
-Object* GUI::_last_clicked = nullptr;
+Object* GUI::_top_object = nullptr;
 Camera* GUI::_camera = nullptr;
 
 GUI::GUI() {
@@ -42,10 +42,10 @@ void GUI::OnRender(){
 
 }
 
-void  GUI::SetLastCliked(Object* obj){
-    _last_clicked = obj;
+void  GUI::SetTopObject(Object* obj){
+    _top_object = obj;
 }
 
 Object*  GUI::GetLastClicked(){
-    return _last_clicked;
+    return _top_object;
 }

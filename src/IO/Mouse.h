@@ -29,6 +29,7 @@ enum mouse_wheel {
     MOUSE_WHEEL_DOWN
 };
 
+class Object;
 class Engine;
 class Mouse {
 public:
@@ -40,6 +41,9 @@ public:
     static Vec2 GetWheel();
     static void GetWheel(int* x, int* y);
     
+    static bool Intersect(const Vec2 &pos, const Vec2& size);
+    static bool Intersect(Object* object);
+
     static bool Captured();
     static bool InWindow();
     
@@ -98,6 +102,19 @@ void Mouse::GetWheel(int* x, int* y){
     if(y != nullptr){
         *y = _wheel_y;
     }
+}
+
+inline
+bool Mouse::Intersect(const Vec2& pos, const Vec2 &size){
+    Vec2 mouse_pos = GetPos();
+    if(mouse_pos.x < pos.x || mouse_pos.x > pos.x + size.x) return false;
+    if(mouse_pos.y < pos.y || mouse_pos.y > pos.y + size.y) return false;
+    return true;
+}
+
+inline
+bool Mouse::Intersect(Object* object){
+    return Intersect(object->GetGlobalPos(), object->GetSize());
 }
 
 inline

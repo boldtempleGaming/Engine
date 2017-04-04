@@ -23,15 +23,19 @@ public:
     virtual ~Box();
 
     virtual void SetSize(const Vec2& size);
-    virtual void OnUpdate();
     virtual void OnRender();
-    virtual void OnClick();
 
     virtual void Move(const Vec2& delta_pos);
     virtual void SetPos(const Vec2& pos);
 
     void SetIcon(const std::string& icon);
-    void SetText(const std::string& str);
+    virtual void SetText(const std::string& str);
+
+    void SetOffset(const SDL_Rect& offset);
+    SDL_Rect GetOffset();
+
+    Vec2 GetTextSize() const;
+
 
 protected:
     int _pt_size;

@@ -5,54 +5,43 @@ CheckBox::CheckBox(const Vec2& pos, const Vec2& size,
 Widget(pos, size) {
     _checked = false;
     _clicked = false;
-    _state = BUTTON_NORMAL;
     _style_unchecked = Vec2(24, 0);
     _style_checked = Vec2(24, 24);
 
     _style = _style_unchecked;
 
-    _box = new Box(Vec2(0, 0),
-                   Vec2(100, 100),
+    _box = new Box(Vec2::ZERO,
+                   Vec2(widget_width, size.y),
                    Resources::GetDefaultFont(),
                    Resources::GetDefaultFontPtsize());
-    Connect(_box);
 
-    _box->IgnoreClick(true);
-    _box->ShowBack(false);
+
+    _box->SetText(label);
+    Vec2 txt_size = _box->GetTextSize();
+    _box->SetOffset({static_cast<int>(size.x + 4), (size.y - txt_size.y)/2, 4, 4});
     _box->SetText(label);
 
+    Connect(_box);
+
+    this->IgnoreClick(true);
     SetBackGround(Resources::GetDefaultStyle(), Vec2(24, 0), 8);
+
+    _box->AddAction("mouseup", [this](){
+        if (_checked) {
+            _checked = false;
+            SetBackGround("pgui.png", _style_unchecked, 8);
+        } else {
+            _checked = true;
+            SetBackGround("pgui.png", _style_checked, 8);
+        }
+    }, this);
 }
 
 CheckBox::~CheckBox() {
-    //delete(_box);
 }
 
 void CheckBox::OnUpdate() {
-    CheckClick(_camera);
-
-    if (_clicked) {
-        if (_state == BUTTON_NORMAL || _state == BUTTON_RELEASED) {
-            _state = BUTTON_HOVERED;
-        } else if (_state == BUTTON_HOVERED) {
-
-        }
-        _clicked = false;
-    } else {
-        if (_state == BUTTON_HOVERED) {
-            _state = BUTTON_RELEASED;
-
-            if (_checked) {
-                _checked = false;
-                SetBackGround("pgui.png", _style_unchecked, 8);
-            } else {
-                _checked = true;
-                SetBackGround("pgui.png", _style_checked, 8);
-            }
-        } else if (_state == BUTTON_RELEASED) {
-            _state = BUTTON_NORMAL;
-        }
-    }
+    Widget::OnUpdate();
 }
 
 void CheckBox::OnRender() {
@@ -61,12 +50,14 @@ void CheckBox::OnRender() {
     }
 }
 
-void CheckBox::OnClick() {
-    _clicked = true;
+void CheckBox::OnTopMouseEvent() {
+    Widget::OnTopMouseEvent();
+
 }
 
 void CheckBox::SetState(bool checked) {
     _checked = checked;
+    //FIXME background
 }
 
 bool CheckBox::GetState() {
