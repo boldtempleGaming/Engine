@@ -38,7 +38,7 @@ void LuaProxyObject::OnRender(){
     _fun_render(this, _data_storage);
 }
 
-void LuaProxyObject::OnClick(){
+void LuaProxyObject::OnTopMouseEvent(){
 
 }
 
