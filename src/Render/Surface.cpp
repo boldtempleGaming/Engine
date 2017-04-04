@@ -1,57 +1,68 @@
 #include "Surface.h"
 
 double Surface::_interpolation = 0;
+std::vector<Surface::viewport> Surface::_ViewportsStack;
 
 void Surface::Draw(SDL_Texture* texture, SDL_Rect* dstrect) {
-    if (texture) {
-        SDL_RenderCopy(Window::GetRenderer(), texture, nullptr, dstrect);
-    } else {
-        DrawRect(dstrect, COLOR_MAGENTA);
-    }
+    SDL_Rect tmp = MoveToViewport(dstrect);
 
+    if (texture) {
+        SDL_RenderCopy(Window::GetRenderer(), texture, nullptr, &tmp);
+    } else {
+        DrawRect(&tmp, COLOR_MAGENTA);
+    }
 }
 
 void Surface::Draw(SDL_Texture* texture, SDL_Rect* srcrect, SDL_Rect* dstrect) {
-    if (texture) {
-        SDL_RenderCopy(Window::GetRenderer(), texture, srcrect, dstrect);
-    } else {
-        DrawRect(dstrect, COLOR_MAGENTA);
-    }
+    SDL_Rect tmp = MoveToViewport(dstrect);
 
+    if (texture) {
+        SDL_RenderCopy(Window::GetRenderer(), texture, srcrect, &tmp);
+    } else {
+        DrawRect(&tmp, COLOR_MAGENTA);
+    }
 }
 
 void Surface::Draw(SDL_Texture* texture, SDL_Rect* srcrect, SDL_Rect* dstrect,
         const double angle) {
+    SDL_Rect tmp = MoveToViewport(dstrect);
+
     if (texture) {
         SDL_RendererFlip flip = SDL_FLIP_NONE;
-        SDL_RenderCopyEx(Window::GetRenderer(), texture, srcrect, dstrect,
+        SDL_RenderCopyEx(Window::GetRenderer(), texture, srcrect, &tmp,
                 angle, nullptr, flip);
     } else {
-        DrawRect(dstrect, COLOR_MAGENTA);
+        DrawRect(&tmp, COLOR_MAGENTA);
     }
 }
 
 void Surface::Draw(SDL_Texture* texture, SDL_Rect* srcrect, SDL_Rect* dstrect,
         const double angle, SDL_RendererFlip flip) {
+    SDL_Rect tmp = MoveToViewport(dstrect);
+
     if (texture) {
-        SDL_RenderCopyEx(Window::GetRenderer(), texture, srcrect, dstrect,  angle, nullptr, flip);
+        SDL_RenderCopyEx(Window::GetRenderer(), texture, srcrect, &tmp,  angle, nullptr, flip);
     } else {
-        DrawRect(dstrect, COLOR_MAGENTA);
+        DrawRect(&tmp, COLOR_MAGENTA);
     }
 }
 
 void Surface::DrawRect(SDL_Rect* rect, const Uint8 r, const Uint8 g,
         const Uint8 b, const Uint8 a) {
+    SDL_Rect tmp = MoveToViewport(rect);
+
     SDL_SetRenderDrawColor(Window::GetRenderer(), r, g, b, a);
-    SDL_RenderFillRect(Window::GetRenderer(), rect);
+    SDL_RenderFillRect(Window::GetRenderer(), &tmp);
     SDL_Color background = Window::GetBackgroundColor();
     SDL_SetRenderDrawColor(Window::GetRenderer(), background.r,
                            background.g, background.b, 255);
 }
 
 void Surface::DrawRect(SDL_Rect* rect, SDL_Color color) {
+    SDL_Rect tmp = MoveToViewport(rect);
+
     SDL_SetRenderDrawColor(Window::GetRenderer(), color.r, color.g, color.b, color.a);
-    SDL_RenderFillRect(Window::GetRenderer(), rect);
+    SDL_RenderFillRect(Window::GetRenderer(), &tmp);
     SDL_Color background = Window::GetBackgroundColor();
     SDL_SetRenderDrawColor(Window::GetRenderer(), background.r,
                            background.g, background.b, 255);
@@ -156,4 +167,23 @@ void Surface::SetInterpolation(const double& inter) {
 
 double Surface::GetInterpolation() {
     return _interpolation;
+}
+
+void Surface::BeginViewport(const Vec2& scr_offset, const Vec2& viewport_size){
+    _ViewportsStack.emplace_back(scr_offset, viewport_size);
+}
+
+void Surface::EndViewport(){
+    _ViewportsStack.pop_back();
+}
+
+SDL_Rect Surface::MoveToViewport(SDL_Rect* rect){
+    viewport tmp =  _ViewportsStack.back();
+
+    return {
+        rect->x - static_cast<int>(tmp._offset.x),
+        rect->y - static_cast<int>(tmp._offset.y),
+        rect->w,
+        rect->h
+    };
 }

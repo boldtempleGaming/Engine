@@ -8,9 +8,8 @@
 #ifndef SURFACE_H_
 #define SURFACE_H_
 
-#include <string>
-#include <iostream>
-#include <map>
+#include <utility>
+#include <vector>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -47,10 +46,25 @@ public:
 
     static void SetInterpolation(const double& inter);
     static double GetInterpolation();
-private:
-    static double _interpolation;
-    static std::map<std::string, SDL_Texture*> Textures;
 
+    static void BeginViewport(const Vec2& scr_offset, const Vec2& viewport_size);
+    static void EndViewport();
+
+private:
+    struct viewport {
+        Vec2 _offset;
+        Vec2 _size;
+
+        viewport(const Vec2 offset,
+                 const Vec2 size):
+            _offset(std::move(offset)),
+            _size(std::move(size)) {}
+    };
+
+    static double _interpolation;
+    static std::vector<viewport> _ViewportsStack;
+
+    static SDL_Rect MoveToViewport(SDL_Rect* rect);
 };
 
 #endif /* SURFACE_H_ */
