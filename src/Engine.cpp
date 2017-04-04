@@ -12,8 +12,7 @@ Engine::Engine() {
 }
 
 Engine::~Engine() {
-    if (root_obj)
-        Core_CleanUp(); //Очищаем все
+    Core_CleanUp(); //Очищаем все
 }
 
 void SetVideo(int w, int h, bool full_screen, std::string win_title) {
@@ -44,12 +43,12 @@ void Engine::Start() {
         lag += elapsed;
 
         Surface::SetInterpolation(lag / _ms_per_update);
-        Core_Render();
 
         while (lag > _ms_per_update)
         {
             Core_Event(event, keyboardState);
             Core_Update();
+            Core_Render();
             lag -= _ms_per_update;
         }
 
@@ -62,7 +61,6 @@ void Engine::Start() {
 void Engine::Stop() {
     quit = true;
 }
-
 
 Object* Engine::GetRootAtLayer(unsigned int layer) {
     if(layer < _Layers.size()){
@@ -114,18 +112,7 @@ bool Engine::Core_Init() {
         return false;
     }
 
-    //Alloc root object
-    root_obj = new Object;
-
-    SDL_SetRenderDrawBlendMode(Window::GetRenderer(), SDL_BLENDMODE_BLEND); // https://wiki.libsdl.org/SDL_SetRenderDrawBlendMode
-
-    //SDL_RenderSetLogicalSize(Window::GetRenderer(), LOGIC_WIN_WIDTH,
-    //	LOGIC_WIN_HEIGHT); // одинаковый масштаб на разных разрешениях
-
-//    if (SDL_RegisterEvents(EVENT_END - EVENT_NONE) == ((Uint32) -1)) {
-//        std::cerr << "Not enough user-defined events left." << std::endl;
-//        return false;
-//    }
+    SDL_SetRenderDrawBlendMode(Window::GetRenderer(), SDL_BLENDMODE_ADD); // https://wiki.libsdl.org/SDL_SetRenderDrawBlendMode
 
     Audio::Init(8);
     GUI::OnInit();
@@ -135,21 +122,16 @@ bool Engine::Core_Init() {
     }
 
     Cursor::Init(Resources::GetTexture("cursor.png"), 20, 20);
-
     OnInit(); //CALL user function OnInit
-
-
 
     std::cout << "Successfully initialized!" << std::endl;
     return true; //success
 }
 
 void Engine::Core_Event(SDL_Event* event, const Uint8* keyboardState) {
-
     Mouse::ResetWheel();
     
     while (SDL_PollEvent(event)) {
-
         bool ALT_F4 = keyboardState[SDL_SCANCODE_LALT]
                 && keyboardState[SDL_SCANCODE_F4];
 
@@ -170,12 +152,9 @@ void Engine::Core_Event(SDL_Event* event, const Uint8* keyboardState) {
 }
 
 void Engine::Core_Update() {
+    GUI::SetTopObject(nullptr);
     DeleteObjects();
-
     OnUpdate(); //User OnUpdate
-
-    //Catch mouse button click
-    GUI::SetLastCliked(nullptr);
 
     int length = _Layers.size();
     for(int i = 0; i < length; ++i){
@@ -184,17 +163,15 @@ void Engine::Core_Update() {
 
     //root_obj->UpdateChildren();
     if(GUI::GetLastClicked()){
-        GUI::GetLastClicked()->OnClick();
+        GUI::GetLastClicked()->OnTopMouseEvent();
     }
 
     GUI::OnUpdate();
-
     Collider::ProcessCollisions();
 }
 
 void Engine::Core_Render() {
     SDL_RenderClear(Window::GetRenderer());
-
     OnRender();
 
     int length = _Layers.size();
@@ -203,9 +180,7 @@ void Engine::Core_Render() {
     }
 
     GUI::OnRender();
-
     Cursor::Draw();
-
     SDL_RenderPresent(Window::GetRenderer());
 }
 
@@ -216,8 +191,7 @@ void Engine::Core_CleanUp() {
     Resources::UnloadAll();
 
     std::cout << "Destroy objects..." << std::endl;
-    delete (root_obj);
-    root_obj = nullptr;
+
 
     std::cout << "Closing window..." << std::endl;
     Window::OnCleanUp();
