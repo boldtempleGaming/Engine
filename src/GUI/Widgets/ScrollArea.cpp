@@ -88,4 +88,15 @@ void ScrollArea::CreateTexture(){
                               static_cast<int>(GetSize().y));
 
     SDL_SetTextureBlendMode(_area, SDL_BLENDMODE_BLEND);
+
+    //Clean texture
+    SDL_SetRenderTarget(Window::GetRenderer(), _area);
+    SDL_SetRenderDrawColor(Window::GetRenderer(), 0, 0, 0, 0);
+    SDL_RenderClear(Window::GetRenderer());
+
+    SDL_Color bg = Window::GetBackgroundColor();
+    SDL_SetRenderDrawColor(Window::GetRenderer(), bg.r, bg.g, bg.b, bg.a);
+
+    //change the target back to the default
+    SDL_SetRenderTarget(Window::GetRenderer(), nullptr);
 }
