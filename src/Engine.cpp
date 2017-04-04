@@ -121,6 +121,8 @@ bool Engine::Core_Init() {
         Window::SetMode(800, 640, false);
     }
 
+    Surface::BeginViewport(Vec2::ZERO, Window::GetSize());
+
     Cursor::Init(Resources::GetTexture("cursor.png"), 20, 20);
     OnInit(); //CALL user function OnInit
 

@@ -36,7 +36,6 @@ ComboBox::ComboBox(const Vec2& pos, const Vec2& size):
                this->SetSelected(my_idx);
                btns_list->Show(false);
 
-               std::cout << "SELECTED" << std::endl;
                Disconnect(btns_list);
                btns_list->DeleteLater();
             }, btns_list);

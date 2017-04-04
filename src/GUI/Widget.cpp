@@ -8,13 +8,13 @@
 
 #include "GUI/Widget.h"
 
-Widget::Widget(const Vec2& pos, const Vec2& size, Camera* cam):
+Widget::Widget(const Vec2& pos, const Vec2& size):
     _visible(true), _bg_visible(true)
 {
+    Object::SetPos(pos);
     Object::SetSize(size);
+
     _back.SetFrameSize(size);
-    SetPos(pos);
-    _camera = cam;
 }
 
 Widget::~Widget() {
@@ -60,27 +60,6 @@ void Widget::SetBackGround(const std::string& tileset,const Vec2& skin, int tile
     _back.SetTexture(texture_back);
 }
 
-void Widget::SetCamera(Camera *cam){
-    _camera = cam;
-
-    auto children = GetChildrenList();
-    for(auto it = children.begin(); it != children.end(); ++it){
-        Widget* wgt = dynamic_cast<Widget*>(*it);
-        if(wgt){
-            wgt->SetCamera(cam);
-        }
-    }
-}
-
-void Widget::Connect(Object *obj){
-    Object::Connect(obj);
-
-    Widget* wgt = dynamic_cast<Widget*>(obj);
-    if(wgt){
-        wgt->SetCamera(this->_camera);
-    }
-}
-
 void Widget::OnTopMouseEvent(){
     if(Mouse::AnyPressed()){
         if(Mouse::Pressed(MOUSE_LEFT)){
@@ -118,7 +97,7 @@ void Widget::OnUpdate(){
         return;
     }
 
-    CheckTop(_camera);
+    CheckTop(GUI::GetCamera());
 
     if(_was_intersected && !_intersected){
         EmitAction("mouseleave");

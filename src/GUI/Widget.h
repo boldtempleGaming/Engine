@@ -29,18 +29,16 @@ enum widget_state{
 
 class Widget: public Object {
 public:
-    Widget(const Vec2& pos, const Vec2& size, Camera* cam = GUI::GetCamera());
+    Widget(const Vec2& pos, const Vec2& size);
     virtual ~Widget();
     void Show(bool show);
     void ShowBack(bool show_bg);
     virtual void SetBackGround(const std::string& tileset, const Vec2& skin, int tile_size);
-    virtual void SetCamera(Camera* cam);
 
     void AddAction(const std::string& action_name, std::function<void(void)> action, Object* listener);
     void DeleteAction(const std::string& action_name, Object* listener);
     void DeleteAllActions(Object* listener);
 
-    virtual void Connect(Object *obj);
     virtual void OnTopMouseEvent();
     virtual void OnMouse();
     virtual void OnUpdate();
