@@ -67,13 +67,15 @@ public:
     const Vec2& GetSize() const;
 
     //if you want to your object to be clicked call this function
-    void CheckClick(const Camera* camera);
-    void IgnoreClick(bool ignore);
+    void CheckTop(const Camera* camera);
+    void IgnoreClick(bool ignored);
+    bool IsClickIgnored();
 
     virtual void OnUpdate();
     virtual void OnRender();
     virtual void OnCollide(Object* obj);
-    virtual void OnClick();
+    virtual void OnMouse();
+    virtual void OnTopMouseEvent();
 
     /**
      * Update all children
