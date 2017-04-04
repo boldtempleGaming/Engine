@@ -14,23 +14,33 @@ ScrollArea::ScrollArea(const Vec2& pos, const Vec2& size) :
     _camera->SetViewport(size);
 
     _scroll_cam_scope = false;
+
+    ShowBack(false);
+    IgnoreClick(false);
 }
 
 ScrollArea::~ScrollArea() {
     delete _camera;
 }
 
-void ScrollArea::OnUpdate() {
+void ScrollArea::SetCamera(Camera *cam){
+    //std::cout << "NO" << std::endl;
+    //Widget::SetCamera(cam);
+}
 
+void ScrollArea::OnUpdate() {
+    Widget::OnUpdate();
 }
 
 void ScrollArea::OnRender() {
-
+    if (_bg_visible){
+        _back.Draw(Object::GetGlobalPos(), Object::GetSize(), GUI::GetCamera());
+    }
 }
 
 //Implements drawing children to texture
 void ScrollArea::RenderChildren() {
-    if (_visible && _bg_visible) {
+    if (_visible) {
         SetTmpCam();
 
         SDL_Rect new_view = {
@@ -49,14 +59,27 @@ void ScrollArea::RenderChildren() {
 }
 
 void ScrollArea::UpdateChildren() {
-    SetTmpCam();
-    Object::UpdateChildren();
-    SetTmpCam();
+    if (_visible){
+        SetTmpCam();
+        Object::UpdateChildren();
+        SetTmpCam();
+    }
+}
+
+void ScrollArea::SetSize(const Vec2 &size){
+    Widget::SetSize(size);
+    _camera->SetViewport(size);
 }
 
 void ScrollArea::Connect(Object* obj){
     SetTmpCam();
     Widget::Connect(obj);
+
+    Widget* wgt = dynamic_cast<Widget*>(obj);
+    if(wgt){
+        wgt->SetCamera(_camera);
+    }
+
     MoveChildern(Vec2::ZERO);
     SetTmpCam();
 }
