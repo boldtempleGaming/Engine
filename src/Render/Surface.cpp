@@ -177,6 +177,28 @@ void Surface::EndViewport(){
     _ViewportsStack.pop_back();
 }
 
+const Surface::viewport& Surface::GetLastViewport(){
+    return _ViewportsStack.back();
+}
+
+void Surface::CullViewport(Vec2& l_offset, Vec2& l_size,
+                           const Vec2& r_offset, const Vec2& r_size){
+
+    if(l_offset.x < r_offset.x){
+        l_offset.x = r_offset.x;
+    }
+    else if(l_offset.x + l_size.x > r_offset.x + r_size.x){
+        l_size.x = (r_offset.x + r_size.x) - l_offset.x;
+    }
+
+    if(l_offset.y < r_offset.y){
+        l_offset.y = r_offset.y;
+    }
+    else if(l_offset.y + l_size.y > r_offset.y + r_size.y){
+        l_size.y = (r_offset.y + r_size.y) - l_offset.y;
+    }
+}
+
 SDL_Rect Surface::MoveToViewport(SDL_Rect* rect){
     viewport tmp =  _ViewportsStack.back();
 

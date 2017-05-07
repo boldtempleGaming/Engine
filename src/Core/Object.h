@@ -16,6 +16,7 @@
 #include <SDL2/SDL.h>
 
 #include <Core/Vec2.h>
+#include <Render/Surface.h>
 #include <Render/Camera.h>
 
 enum obj_type {
@@ -25,7 +26,7 @@ enum obj_type {
     OBJ_WIDGET
 };
 
-class ScrollArea; // объявление класса
+class ScrollArea;
 class Object;
 
 typedef std::vector<Object*> ObjListType;
@@ -66,16 +67,21 @@ public:
     void SetSize(const Vec2& size);
     const Vec2& GetSize() const;
 
-    //if you want to your object to be clicked call this function
-    void CheckTop(const Camera* camera);
+    //Check top object for mouse events
+    void CheckTop();
+
     void IgnoreClick(bool ignored);
+    void IgnoreWheel(bool ignored);
+
     bool IsClickIgnored();
+    bool IsWheelIgnored();
 
     virtual void OnUpdate();
     virtual void OnRender();
     virtual void OnCollide(Object* obj);
     virtual void OnMouse();
     virtual void OnTopMouseEvent();
+    virtual void OnTopMouseWheelEvent();
 
     /**
      * Update all children
@@ -100,10 +106,12 @@ private:
 
     bool _delete_later;
     bool _ignore_click;
+    bool _ignore_wheel;
     Vec2 _pos;
     Vec2 _size;
     Vec2 _global_pos;
     Vec2 _vel;
+
     SDL_Rect _draw_rect;
 
     int _id;

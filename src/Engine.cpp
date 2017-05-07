@@ -155,17 +155,14 @@ void Engine::Core_Event(SDL_Event* event, const Uint8* keyboardState) {
 
 void Engine::Core_Update() {
     GUI::SetTopObject(nullptr);
+    GUI::SetTopWheeled(nullptr);
+
     DeleteObjects();
     OnUpdate(); //User OnUpdate
 
     int length = _Layers.size();
     for(int i = 0; i < length; ++i){
         _Layers[i]->UpdateChildren();
-    }
-
-    //root_obj->UpdateChildren();
-    if(GUI::GetLastClicked()){
-        GUI::GetLastClicked()->OnTopMouseEvent();
     }
 
     GUI::OnUpdate();

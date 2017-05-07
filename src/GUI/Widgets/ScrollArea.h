@@ -18,16 +18,29 @@ public:
     ScrollArea(const Vec2& pos, const Vec2& size);
     virtual ~ScrollArea();
 
-    virtual void SetSize(const Vec2 &size);
+    virtual void SetPos(const Vec2& new_pos);
+    virtual void SetSize(const Vec2& size);
 
     virtual void OnRender();
-    virtual void RenderChildren();
 
-    void Scroll(const Vec2& direct);
+    virtual void UpdateChildren();
+    virtual void RenderChildren();
+    virtual void Connect(Object* obj);
+
+    void SetContentSize(const Vec2& size);
+    void SetWidthLimit(const Vec2& width_limit);
+    void SetHeightLimit(const Vec2& height_limit);
+
+    void Scroll(const Vec2& direction);
     void ScrollV(int step);
     void ScrollH(int step);
 
 private:
+    Object* _container;
+
+    Vec2 _width_limit = Vec2::ZERO; // no limits
+    Vec2 _heigth_limit = Vec2::ZERO;
+
     SDL_Texture* _area = nullptr;
 
     void CreateTexture();
