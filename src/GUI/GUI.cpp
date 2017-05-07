@@ -8,7 +8,8 @@
 
 #include "GUI.h"
 
-Object* GUI::_top_object = nullptr;
+Object* GUI::_top_mouse_btn = nullptr;
+Object* GUI::_top_wheeled = nullptr;
 Camera* GUI::_camera = nullptr;
 
 GUI::GUI() {
@@ -35,7 +36,13 @@ void GUI::OnInit(){
 }
 
 void GUI::OnUpdate(){
+    if(_top_mouse_btn){
+        _top_mouse_btn->OnTopMouseEvent();
+    }
 
+    if(_top_wheeled){
+       _top_wheeled->OnTopMouseWheelEvent();
+    }
 }
 
 void GUI::OnRender(){
@@ -43,9 +50,17 @@ void GUI::OnRender(){
 }
 
 void  GUI::SetTopObject(Object* obj){
-    _top_object = obj;
+    _top_mouse_btn = obj;
 }
 
-Object*  GUI::GetLastClicked(){
-    return _top_object;
+void GUI::SetTopWheeled(Object* obj){
+    _top_wheeled = obj;
+}
+
+Object* GUI::GetLastClicked(){
+    return _top_mouse_btn;
+}
+
+Object* GUI::GetTopWheeled(){
+    return _top_wheeled;
 }

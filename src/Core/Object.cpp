@@ -46,6 +46,7 @@ void Object::SetPos(const Vec2& new_pos) {
     _pos = new_pos;
 
     if (_owner) {
+        auto tmp_global = _owner->GetGlobalPos();
         _global_pos = _owner->GetGlobalPos() + GetPos();
     } else {
         _global_pos = _pos;
@@ -167,23 +168,41 @@ void Object::SetDefaults(){
 }
 
 //if you want your object to be clicked call this function on update tick
-void Object::CheckTop(const Camera* camera) {
-    if (!_ignore_click) {
-        if(Mouse::Intersect(this)){
-            if(camera->InView(Mouse::GetPos(), Vec2(1,1))){
-                OnMouse();
+void Object::CheckTop() {
+
+    if(Mouse::Intersect(this)){
+        const Surface::viewport* view = &(Surface::GetLastViewport());
+
+        if(Mouse::Intersect(view->_offset, view->_size)){
+            OnMouse();
+
+            if (!_ignore_click) {
                 GUI::SetTopObject(this);
+            }
+
+            if(!_ignore_wheel){
+                GUI::SetTopWheeled(this);
             }
         }
     }
+
+
 }
 
 void Object::IgnoreClick(bool ignored) {
     _ignore_click = ignored;
 }
 
+void Object::IgnoreWheel(bool ignored){
+    _ignore_wheel = ignored;
+}
+
 bool Object::IsClickIgnored(){
     return _ignore_click;
+}
+
+bool Object::IsWheelIgnored(){
+    return _ignore_wheel;
 }
 
 void Object::OnUpdate() {
@@ -203,6 +222,10 @@ void Object::OnMouse(){
 }
 
 void Object::OnTopMouseEvent() {
+
+}
+
+void Object::OnTopMouseWheelEvent(){
 
 }
 

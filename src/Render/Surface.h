@@ -24,8 +24,17 @@
 #include <Common/constants.h>
 
 class Surface {
-
 public:
+    struct viewport {
+        Vec2 _offset;
+        Vec2 _size;
+
+        viewport(const Vec2 offset,
+                 const Vec2 size):
+            _offset(std::move(offset)),
+            _size(std::move(size)) {}
+    };
+
     static void Draw(SDL_Texture* texture, SDL_Rect* dstrect);
     static void Draw(SDL_Texture* texture, SDL_Rect* srcrect,
             SDL_Rect* dstrect);
@@ -50,17 +59,11 @@ public:
     static void BeginViewport(const Vec2& scr_offset, const Vec2& viewport_size);
     static void EndViewport();
 
+    static const viewport& GetLastViewport();
+    static void CullViewport(Vec2& l_offset, Vec2& l_size,
+                             const Vec2& r_offset, const Vec2& r_size);
+
 private:
-    struct viewport {
-        Vec2 _offset;
-        Vec2 _size;
-
-        viewport(const Vec2 offset,
-                 const Vec2 size):
-            _offset(std::move(offset)),
-            _size(std::move(size)) {}
-    };
-
     static double _interpolation;
     static std::vector<viewport> _ViewportsStack;
 

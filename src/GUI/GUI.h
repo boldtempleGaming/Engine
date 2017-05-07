@@ -24,6 +24,7 @@
 
 #include <GUI/Window.h>
 
+class Object;
 class GUI {
 public:
     GUI();
@@ -36,10 +37,14 @@ public:
     static void OnRender();
 
     static void SetTopObject(Object* obj);
+    static void SetTopWheeled(Object* obj);
+
     static Object* GetLastClicked();
+    static Object* GetTopWheeled();
 
 private:
-    static Object* _top_object;
+    static Object* _top_mouse_btn;
+    static Object* _top_wheeled;
     static Camera* _camera;
 };
 
