@@ -20,7 +20,9 @@ public:
     virtual void SetText(const std::string& str);
 
 private:
-    int _selected;
+    static const int max_items = 5;
+    int _selected = 0;
+    ScrollArea* _btns_area = nullptr;
     std::list<std::string> _Items;
 
     void ShowItems();
