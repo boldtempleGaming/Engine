@@ -40,6 +40,7 @@ public:
     void DeleteAllActions(Object* listener);
 
     virtual void OnTopMouseEvent();
+    virtual void OnTopMouseWheelEvent();
     virtual void OnMouse();
     virtual void OnUpdate();
 

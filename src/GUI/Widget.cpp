@@ -15,6 +15,8 @@ Widget::Widget(const Vec2& pos, const Vec2& size):
     Object::SetSize(size);
 
     _back.SetFrameSize(size);
+
+    IgnoreWheel(true);
 }
 
 Widget::~Widget() {
@@ -55,7 +57,9 @@ void Widget::SetBackGround(const std::string& tileset,const Vec2& skin, int tile
                                                   rect.h);
     SDL_SetTextureBlendMode(texture_back, SDL_BLENDMODE_BLEND);
 
+    Surface::BeginViewport(Vec2::ZERO, Vec2(rect.x, rect.y));
     Surface::GetSkinnedRect(texture_skin, texture_back, &skin, &rect, tile_size);
+    Surface::EndViewport();
 
     _back.SetTexture(texture_back);
 }
@@ -81,14 +85,16 @@ void Widget::OnTopMouseEvent(){
     _was_intersected = true;
 }
 
-void Widget::OnMouse(){
+void Widget::OnTopMouseWheelEvent(){
     if(Mouse::Wheeled(MOUSE_WHEEL_UP)){
         EmitAction("wheelup");
     }
     else if(Mouse::Wheeled(MOUSE_WHEEL_DOWN)){
         EmitAction("wheeldown");
     }
+}
 
+void Widget::OnMouse(){
     _intersected = true;
 }
 
@@ -97,10 +103,17 @@ void Widget::OnUpdate(){
         return;
     }
 
-    CheckTop(GUI::GetCamera());
+    CheckTop();
+
+    if(!_intersected){
+        if(Mouse::AnyPressed()){
+            EmitAction("mousepressout");
+        }
+    }
 
     if(_was_intersected && !_intersected){
         EmitAction("mouseleave");
+
         _was_intersected = false;
         _state = WIDGET_NORMAL;
     }
