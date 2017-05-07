@@ -125,3 +125,13 @@ set(SOL_COMP
 add_library(sol2 STATIC sol2/sol.hpp ${SOL_HEADERS} ${SOL_COMP})
 target_link_libraries(sol2 ${LUA_LIBRARIES})
 set_target_properties(sol2 PROPERTIES LINKER_LANGUAGE CXX)
+
+
+########
+#SimpleJSON
+
+target_include_directories(Engine PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/SimpleJSON/>
+)
+add_library(SimpleJSON STATIC SimpleJSON/json.hpp)
+set_target_properties(SimpleJSON PROPERTIES LINKER_LANGUAGE CXX)

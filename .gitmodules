@@ -7,3 +7,6 @@
 [submodule "Third-party/physfs"]
 	path = Third-party/physfs
 	url = https://github.com/WinPooh32/physfs.git
+[submodule "Third-party/SimpleJSON"]
+	path = Third-party/SimpleJSON
+	url = https://github.com/nbsdx/SimpleJSON.git

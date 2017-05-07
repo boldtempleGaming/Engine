@@ -85,7 +85,7 @@ endif(AS_LIBRARY)
 add_subdirectory(Third-party)
 set(SDL2_DEPS ${SDL2_STATIC_LIBRARIES} ${SDL2IMAGE_STATIC_LIBRARIES} ${SDL2TTF_STATIC_LIBRARIES} ${SDL2MIXER_STATIC_LIBRARIES})
 
-set(LIBS ${SDL2_DEPS} physfs++ sol2)
+set(LIBS ${SDL2_DEPS} physfs++ sol2 SimpleJSON)
 
 if(LINUX)
     target_link_libraries(${PROJECT_NAME} ${LIBS})
