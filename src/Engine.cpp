@@ -137,6 +137,8 @@ void Engine::Core_Event(SDL_Event* event, const Uint8* keyboardState) {
         bool ALT_F4 = keyboardState[SDL_SCANCODE_LALT]
                 && keyboardState[SDL_SCANCODE_F4];
 
+        Window::OnEvent(event);
+
         if (ALT_F4 || (event->type == SDL_QUIT)) {
             Stop();
             return;
