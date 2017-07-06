@@ -57,12 +57,14 @@ public:
     virtual const Vec2& GetPos() const;
     virtual const Vec2& GetGlobalPos() const;
 
+    void SetLabel(const std::string& label);
+    const std::string& GetLabel();
+
     void SetVel(const Vec2& vel);
     Vec2 GetVel() const;
 
     obj_type GetType() const;
     int GetId() const;
-    const std::string& GetLabel();
 
     void SetSize(const Vec2& size);
     const Vec2& GetSize() const;
@@ -95,13 +97,15 @@ public:
 protected:
     void SetType(obj_type type);
     ObjListType GetChildrenList();
+    ObjListType _ChildrenList;
+    std::string _label;
 
 private:
     friend ScrollArea;
 
     static int _last_id; //last created object id
 
-    ObjListType ChildrenList;
+
     //std::list< /*subsystem type*/ > _subsystems; //TODO subsystem list
 
     bool _delete_later;
@@ -115,7 +119,6 @@ private:
     SDL_Rect _draw_rect;
 
     int _id;
-    std::string _label;
     obj_type _type;
     Object* _owner;
 
