@@ -16,7 +16,7 @@ ScrollArea::ScrollArea(const Vec2& pos, const Vec2& size) :
 
     _container = new Object();
 
-    ChildrenList.push_back(_container);
+    _ChildrenList.push_back(_container);
     _container->SetOwner(this);
     _container->SetPos(Vec2::ZERO);
 
