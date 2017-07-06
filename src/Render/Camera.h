@@ -10,7 +10,7 @@ public:
     Camera() {}
     Camera(const Vec2& pos, const Vec2& viewport);
     void SetPos(const Vec2& pos);
-    void SetViewport(const Vec2& viewport);
+    void SetViewport(const Vec2& viewport, const Vec2 &offset);
     bool InView(SDL_Rect* rect) const;
     bool InView(int x, int y, int h, int w) const;
     bool InView(const Vec2& pos, const Vec2& size) const;
@@ -25,6 +25,7 @@ public:
 private:
     Vec2 _pos;
     Vec2 _viewport; // aka size
+    Vec2 _offset;
 };
 
 #endif /* CAMERA_H_ */

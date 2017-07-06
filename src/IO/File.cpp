@@ -5,11 +5,14 @@
 File::File(){
 }
 
-File::File(std::string file){
-    Open(file);
+File::~File(){
 }
 
-bool File::Open(std::string file, bool trunc){
+File::File(const std::string& file, bool trunc){
+    Open(file, trunc);
+}
+
+bool File::Open(const std::string& file, bool trunc){
     _s_file = file;
 
     if(!OpenReadStream(true)){
@@ -189,11 +192,15 @@ File::File(){
     _s_file = "";
 }
 
-File::File(std::string file){
-    Open(file);
+File::File(const std::string& file, bool trunc){
+    Open(file, trunc);
 }
 
-bool File::Open(std::string file, bool trunc){
+File::~File(){
+    Close();
+}
+
+bool File::Open(const std::string& file, bool trunc){
     _s_file = file;
 
     Close();

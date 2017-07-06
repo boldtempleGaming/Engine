@@ -67,13 +67,13 @@ const std::string& Window::GetTitle() {
 }
 
 bool Window::SetMode(int w, int h, bool full_screen, const std::string &title) {
-    _size.x = w;
-    _size.y = h;
+    SetSize(Vec2(w, h));
+
     _full_screen = full_screen;
     _title = title;
 
-    _camera.SetViewport(_size);
-    GUI::GetCamera()->SetViewport(_size);
+    _camera.SetViewport(_size, Vec2::ZERO);
+    GUI::GetCamera()->SetViewport(_size, Vec2::ZERO);
 
     //Check window existence
     if (IsInitialised()) {
@@ -135,6 +135,55 @@ bool Window::IsInitialised() {
 
 bool Window::IsFullscreen() {
     return _full_screen;
+}
+
+void Window::OnEvent(const SDL_Event* event){
+    if (event->type == SDL_WINDOWEVENT) {
+            switch (event->window.event) {
+//            case SDL_WINDOWEVENT_SHOWN:
+//                break;
+//            case SDL_WINDOWEVENT_HIDDEN:
+//                break;
+//            case SDL_WINDOWEVENT_EXPOSED:
+//                break;
+//            case SDL_WINDOWEVENT_MOVED:
+//                break;
+            case SDL_WINDOWEVENT_RESIZED:
+            case SDL_WINDOWEVENT_SIZE_CHANGED:
+                SetSize(Vec2(event->window.data1,
+                             event->window.data2));
+                break;
+//            case SDL_WINDOWEVENT_MINIMIZED:
+//                break;
+//            case SDL_WINDOWEVENT_MAXIMIZED:
+//                break;
+//            case SDL_WINDOWEVENT_RESTORED:
+//                break;
+//            case SDL_WINDOWEVENT_ENTER:
+//                break;
+//            case SDL_WINDOWEVENT_LEAVE:
+//                break;
+//            case SDL_WINDOWEVENT_FOCUS_GAINED:
+//                break;
+//            case SDL_WINDOWEVENT_FOCUS_LOST:
+//                break;
+//            case SDL_WINDOWEVENT_CLOSE:
+//                break;
+//    #if SDL_VERSION_ATLEAST(2, 0, 5)
+//            case SDL_WINDOWEVENT_TAKE_FOCUS:
+//                SDL_Log("Window %d is offered a focus", event->window.windowID);
+//                break;
+//            case SDL_WINDOWEVENT_HIT_TEST:
+//                SDL_Log("Window %d has a special hit test", event->window.windowID);
+//                break;
+//    #endif
+//            default:
+//                SDL_Log("Window %d got unknown event %d",
+//                        event->window.windowID, event->window.event);
+//                break;
+            }
+        }
+
 }
 
 void Window::OnCleanUp() {

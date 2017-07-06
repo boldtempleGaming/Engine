@@ -106,7 +106,7 @@ void Mouse::GetWheel(int* x, int* y){
 
 inline
 bool Mouse::Intersect(const Vec2& pos, const Vec2 &size){
-    Vec2 mouse_pos = GetPos();
+    Vec2 mouse_pos = GetPos() + Window::GetCamera()->GetPos();
     if(mouse_pos.x < pos.x || mouse_pos.x > pos.x + size.x) return false;
     if(mouse_pos.y < pos.y || mouse_pos.y > pos.y + size.y) return false;
     return true;

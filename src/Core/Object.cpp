@@ -26,8 +26,8 @@ Object::~Object() {
         _owner->Disconnect(this);
     }
 
-    while (!ChildrenList.empty()) {
-        auto it = ChildrenList.begin();
+    while (!_ChildrenList.empty()) {
+        auto it = _ChildrenList.begin();
         delete (*it);
     }
 
@@ -52,7 +52,7 @@ void Object::SetPos(const Vec2& new_pos) {
         _global_pos = _pos;
     }
 
-    if (!ChildrenList.empty())
+    if (!_ChildrenList.empty())
         MoveChildern(Vec2::ZERO);
 }
 
@@ -65,7 +65,7 @@ void Object::Move(const Vec2& delta_pos) {
         _global_pos = _pos;
     }
 
-    if (!ChildrenList.empty())
+    if (!_ChildrenList.empty())
         MoveChildern(Vec2::ZERO);
 }
 
@@ -81,8 +81,8 @@ void Object::Connect(Object* obj) {
     if (obj->_owner != nullptr) {
         std::cout << "[Warning!] Object " << obj->_id << " already connected to " << obj->_owner->_id << std::endl;
     } 
-    else if (FindChild(obj) == ChildrenList.end()) {
-        ChildrenList.push_back(obj);
+    else if (FindChild(obj) == _ChildrenList.end()) {
+        _ChildrenList.push_back(obj);
         obj->SetOwner(this);
         obj->Move(Vec2::ZERO); // update global pos
     }
@@ -90,8 +90,8 @@ void Object::Connect(Object* obj) {
 
 void Object::Disconnect(Object* obj) {
     auto iter = FindChild(obj);
-    if (iter != ChildrenList.end()) {
-        ChildrenList.erase(iter);
+    if (iter != _ChildrenList.end()) {
+        _ChildrenList.erase(iter);
         obj->SetOwner(nullptr);
     }
 }
@@ -101,7 +101,7 @@ void Object::SetType(obj_type type) {
 }
 
 ObjListType Object::GetChildrenList() {
-    return ChildrenList;
+    return _ChildrenList;
 }
 
 const Vec2& Object::GetPos() const {
@@ -111,6 +111,17 @@ const Vec2& Object::GetPos() const {
 const Vec2& Object::GetGlobalPos() const {
     return _global_pos;
 }
+
+void Object::SetLabel(const std::string &label)
+{
+    _label = label;
+}
+
+
+const std::string& Object::GetLabel(){
+    return _label;
+}
+
 
 void Object::SetVel(const Vec2 &vel) {
     _vel = vel;
@@ -132,10 +143,6 @@ int Object::GetId() const {
     return _id;
 }
 
-const std::string& Object::GetLabel(){
-    return _label;
-}
-
 void Object::SetSize(const Vec2& size) {
     _size = size;
 }
@@ -145,18 +152,18 @@ const Vec2& Object::GetSize() const {
 }
 
 void Object::MoveChildern(const Vec2& delta_pos) {
-    for (auto it = ChildrenList.begin(); it != ChildrenList.end(); it++) {
+    for (auto it = _ChildrenList.begin(); it != _ChildrenList.end(); it++) {
         (*it)->Move(delta_pos);
     }
 }
 
 ObjListType::iterator Object::FindChild(Object* obj) {
-    for (auto it = ChildrenList.begin(); it < ChildrenList.end(); it++) {
+    for (auto it = _ChildrenList.begin(); it < _ChildrenList.end(); it++) {
         if ((*it)->_id == obj->_id) {
             return it;
         }
     }
-    return ChildrenList.end(); //not found
+    return _ChildrenList.end(); //not found
 }
 
 void Object::SetDefaults(){
@@ -230,27 +237,27 @@ void Object::OnTopMouseWheelEvent(){
 }
 
 void Object::UpdateChildren() {
-    if (ChildrenList.empty()) {
+    if (_ChildrenList.empty()) {
         return;
     }
 
-    size_t len = ChildrenList.size();
+    size_t len = _ChildrenList.size();
 
     for (size_t i = 0; i < len; ++i) {
-        ChildrenList[i]->OnUpdate();
-        ChildrenList[i]->UpdateChildren();
+        _ChildrenList[i]->OnUpdate();
+        _ChildrenList[i]->UpdateChildren();
     }
 }
 
 void Object::RenderChildren() {
-    if (ChildrenList.empty()) {
+    if (_ChildrenList.empty()) {
         return;
     }
 
-    size_t len = ChildrenList.size();
+    size_t len = _ChildrenList.size();
 
     for (size_t i = 0; i < len; ++i) {
-        ChildrenList[i]->OnRender();
-        ChildrenList[i]->RenderChildren();
+        _ChildrenList[i]->OnRender();
+        _ChildrenList[i]->RenderChildren();
     }
 }

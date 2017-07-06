@@ -35,6 +35,7 @@ public:
 	static bool IsInitialised();
 	static bool IsFullscreen();
 
+    static void OnEvent(const SDL_Event * event);
 	static void OnCleanUp();
 
 	/* more Window functions are there https://wiki.libsdl.org/CategoryVideo */

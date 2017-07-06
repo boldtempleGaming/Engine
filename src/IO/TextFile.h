@@ -7,10 +7,10 @@ class TextFile : public File
 {
 public:
     TextFile();
-    TextFile(std::string file);
+    TextFile(const std::string& file, bool trunc = false);
 
     std::string Read();
-    bool Write(const std::string& data);
+    bool Write(const std::string& data, bool append = false);
 };
 
 #endif // TEXTFILE_H
