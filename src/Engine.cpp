@@ -49,6 +49,9 @@ void Engine::Start() {
             Core_Event(event, keyboardState);
             Core_Update();
             Core_Render();
+            
+            DeleteObjects();
+            
             lag -= _ms_per_update;
         }
 
@@ -147,8 +150,7 @@ void Engine::Core_Event(SDL_Event* event, const Uint8* keyboardState) {
         if (event->type == SDL_MOUSEWHEEL) {
             Mouse::SetWheel(event->wheel.x, event->wheel.y);
         }
-
-        //FIXME WHY?!?!
+        
         //User OnEvent
         OnEvent(event, keyboardState);
     }
@@ -159,7 +161,6 @@ void Engine::Core_Update() {
     GUI::SetTopObject(nullptr);
     GUI::SetTopWheeled(nullptr);
 
-    DeleteObjects();
     OnUpdate(); //User OnUpdate
 
     int length = _Layers.size();
