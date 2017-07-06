@@ -4,8 +4,7 @@ project(Engine)
 #Build Engine as library if enabled, else as executable
 OPTION(AS_LIBRARY ON)
 
-#add_definitions("-DUSE_PHYSFS")
-#add_definitions("-DUSE_LUA")
+add_definitions("-DUSE_PHYSFS")
 
 #Get Engine's sources
 AUX_SOURCE_DIRECTORY(src SRC)

@@ -49,11 +49,9 @@ void Engine::Start() {
             Core_Event(event, keyboardState);
             Core_Update();
             Core_Render();
-
-            DeleteObjects();
             lag -= _ms_per_update;
         }
-        Core_Event(event, keyboardState);
+
     }
 
     delete (event);
@@ -97,7 +95,6 @@ void Engine::DeleteObjects(){
 bool Engine::Core_Init() {
     quit = false;
 
-#ifdef USE_PHYSFS
     PhysFS::init(nullptr);
 
     PhysFS::mount("../Data.zip", "Data", false);
@@ -105,7 +102,6 @@ bool Engine::Core_Init() {
     PhysFS::mount("../tmp", "tmp", false);
 
     PhysFS::setWriteDir("../tmp");
-#endif
 
     Resources::SetDefaultFont("PressStart2P.ttf");
     Resources::SetDefaultFontPtsize(9);
@@ -116,7 +112,7 @@ bool Engine::Core_Init() {
         return false;
     }
 
-//    SDL_SetRenderDrawBlendMode(Window::GetRenderer(), SDL_BLENDMODE_ADD); // https://wiki.libsdl.org/SDL_SetRenderDrawBlendMode
+    SDL_SetRenderDrawBlendMode(Window::GetRenderer(), SDL_BLENDMODE_ADD); // https://wiki.libsdl.org/SDL_SetRenderDrawBlendMode
 
     Audio::Init(8);
     GUI::OnInit();
@@ -127,7 +123,7 @@ bool Engine::Core_Init() {
 
     Surface::BeginViewport(Vec2::ZERO, Window::GetSize());
 
-    //Cursor::Init(Resources::GetTexture("cursor.png"), 20, 20);
+    Cursor::Init(Resources::GetTexture("cursor.png"), 20, 20);
     OnInit(); //CALL user function OnInit
 
     std::cout << "Successfully initialized!" << std::endl;
@@ -163,37 +159,30 @@ void Engine::Core_Update() {
     GUI::SetTopObject(nullptr);
     GUI::SetTopWheeled(nullptr);
 
-
+    DeleteObjects();
+    OnUpdate(); //User OnUpdate
 
     int length = _Layers.size();
     for(int i = 0; i < length; ++i){
         _Layers[i]->UpdateChildren();
     }
 
-    OnUpdate(); //User OnUpdate
-
     GUI::OnUpdate();
+    Collider::ProcessCollisions();
 }
 
 void Engine::Core_Render() {
-    //SDL_RenderClear(Window::GetRenderer());
-    static SDL_Color back;
-    back = Window::GetBackgroundColor();
-
-    glClearColor( (float)back.r/255.0f, (float)back.g/255.0f, (float)back.b/255.0f, 1.0f );
-    glClear( GL_COLOR_BUFFER_BIT );
+    SDL_RenderClear(Window::GetRenderer());
+    OnRender();
 
     int length = _Layers.size();
     for(int i = 0; i < length; ++i){
         _Layers[i]->RenderChildren();
     }
 
-    OnRender();
     GUI::OnRender();
     Cursor::Draw();
-
-    //SDL_RenderPresent(Window::GetRenderer());
-    SDL_GL_SwapWindow(Window::GetWindow());
+    SDL_RenderPresent(Window::GetRenderer());
 }
 
 void Engine::Core_CleanUp() {
