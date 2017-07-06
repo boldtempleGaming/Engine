@@ -20,9 +20,10 @@ class File
 {
 public:
     File();
-    File(std::string file);
+    File(const std::string& file, bool trunc = false);
+    ~File();
 
-    bool Open(std::string file, bool trunc = false);
+    bool Open(const std::string& file, bool trunc = false);
     void Close();
 
     bool Read(std::vector<char>& data) const;
