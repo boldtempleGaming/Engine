@@ -29,7 +29,7 @@ boldtemple Game Engine, build using C++11 and SDL2.
 * Scene manager
 * Script engine integration
 
-<br/>
+
 ## Showcase
 
 |                       MyFirstGame                                   |                                      Simple-Game                              |
