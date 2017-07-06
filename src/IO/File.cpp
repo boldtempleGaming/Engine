@@ -5,8 +5,8 @@
 File::File(){
 }
 
-File::File(std::string file){
-    Open(file);
+File::File(std::string file, bool trunc){
+    Open(file, trunc);
 }
 
 bool File::Open(std::string file, bool trunc){
