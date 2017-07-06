@@ -8,8 +8,9 @@ void Camera::SetPos(const Vec2& pos) {
     _pos = pos;
 }
 
-void Camera::SetViewport(const Vec2& viewport) {
+void Camera::SetViewport(const Vec2& viewport, const Vec2& offset) {
     _viewport = viewport;
+    _offset = offset;
 }
 
 bool Camera::InView(SDL_Rect* rect) const {
@@ -35,7 +36,7 @@ void Camera::Move(const Vec2& delta_pos) {
 }
 
 Vec2 Camera::GetPos() const{
-    return _pos;
+    return _pos - _offset;
 }
 
 Vec2 Camera::GetViewport() const{
@@ -43,11 +44,11 @@ Vec2 Camera::GetViewport() const{
 }
 
 int Camera::X() const {
-    return _pos.x;
+    return GetPos().x;
 }
 
 int Camera::Y() const {
-    return _pos.y;
+    return GetPos().y;
 }
 
 int Camera::W() const {
