@@ -12,17 +12,19 @@
 #include "Core/Vec2.h"
 #include "Core/Object.h"
 
-enum TYPE_COLLIDER {
-    COLLIDER_RECT = 0,
-    COLLIDER_CIRCLE
-};
-
 class Collider {
 public:
+    enum TYPE_COLLIDER {
+        COLLIDER_RECT = 0,
+        COLLIDER_CIRCLE
+    };
+
     static void ProcessCollisions();
-    static void RegisterObject(Object* obj, Vec2 offset, Vec2 size, bool is_static);
+    static void RegisterObject(Object* obj, const Vec2& offset = Vec2::ZERO, const Vec2& size = Vec2::ZERO, bool is_static = true);
     static void UnregisterObject(Object* obj);
     static Collider* GetCollider(Object* obj);
+
+    void SetStatic(bool is_static);
 
     void SetCircleRadius(float radius);
     float GetCircleRadius();
@@ -36,7 +38,6 @@ public:
     bool _is_static = true;
     Vec2 _offset;
     Vec2 _size;
-protected:
     float _radius = 0;
 
 private:

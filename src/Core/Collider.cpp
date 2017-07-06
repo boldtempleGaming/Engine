@@ -10,13 +10,11 @@ Collider::~Collider(){
 }
 
 void Collider::ProcessCollisions() {
-    Vec2 dif;
-    Vec2 vel;
+    static Vec2 dif;
+    static Vec2 vel;
 
     int size = _Colliders.size();
     for(int i = 0; i < size; ++i){
-
-
         #define I_POS_X (_Colliders[i]->_owner->GetGlobalPos().x + _Colliders[i]->_offset.x)
         #define I_POS_Y (_Colliders[i]->_owner->GetGlobalPos().y + _Colliders[i]->_offset.y)
         #define I_SIZE_W (_Colliders[i]->_size.x)
@@ -37,8 +35,8 @@ void Collider::ProcessCollisions() {
             continue;
         }
 
-        for(int j = i + 1; j < size; ++j){
-
+        for(int j = 0; j < size; ++j){
+            if(i == j) continue;
             if(_Colliders[i]->CheckCollision(_Colliders[j], dif)){
                 if(_Colliders[i]->_owner->GetVel().x >= 0) {
                     dif.x = J_POS_X - (I_POS_X + I_SIZE_W);
@@ -56,7 +54,8 @@ void Collider::ProcessCollisions() {
         }
 
         _Colliders[i]->_owner->Move(Vec2(0, _Colliders[i]->_owner->GetVel().y));
-        for(int j = i + 1; j < size; ++j) {
+        for(int j = 0; j < size; ++j) {
+            if(i == j) continue;
             if(_Colliders[i]->CheckCollision(_Colliders[j], dif)){
 
                 if(_Colliders[i]->_owner->GetVel().y >= 0) {
@@ -77,7 +76,7 @@ void Collider::ProcessCollisions() {
     }
 }
 
-void Collider::RegisterObject(Object* obj, Vec2 offset, Vec2 size, bool is_static) {
+void Collider::RegisterObject(Object* obj, const Vec2& offset, const Vec2& size, bool is_static) {
     if(obj != nullptr){
         if(Find(obj) == _Colliders.end()){
             Collider* coll = new Collider(obj);
@@ -111,6 +110,10 @@ Collider* Collider::GetCollider(Object* obj){
     return nullptr;
 }
 
+void Collider::SetStatic(bool is_static){
+    _is_static = is_static;
+}
+
 void Collider::SetCircleRadius(float radius){
     _radius = radius;
 }
@@ -127,37 +130,72 @@ Object* Collider::GetOwner(){
     return _owner;
 }
 
-TYPE_COLLIDER Collider::GetType(){
+Collider::TYPE_COLLIDER Collider::GetType(){
     return _type;
 }
 
-void Collider::SetType(TYPE_COLLIDER type){
+void Collider::SetType(Collider::TYPE_COLLIDER type){
        _type = type;
 }
 
 bool Collider::CheckCollision(Collider* col, Vec2& dif){
-    if(!_owner || !col->_owner){
+    if(_owner == nullptr || col->_owner == nullptr){
         return false;
     }
 
-    //RECT AND RECT
+    static Vec2 this_pos;
+    static Vec2 col_pos;
+
+    this_pos = _owner->GetGlobalPos() + _offset;
+    col_pos = col->_owner->GetGlobalPos() + col->_offset;
+
+    //RECT VS RECT
     if(_type == COLLIDER_RECT && _type == col->_type){
-
-        Vec2 this_pos = _owner->GetGlobalPos() + _offset;
-        //Vec2 this_size = _owner->GetSize();
-
-        Vec2 col_pos = col->GetOwner()->GetGlobalPos() + col->_offset;
-        //Vec2 col_size = col->GetOwner()->GetSize();
-
         if(this_pos.x >= col_pos.x + col->_size.x || this_pos.x + _size.x <= col_pos.x) return false;
         if(this_pos.y >= col_pos.y + col->_size.y || this_pos.y + _size.y <= col_pos.y) return false;
+
         return true;
-    }//CIRCLE AND CIRCLE
+    }
+    //CIRCLE VS CIRCLE
     else if(_type == COLLIDER_CIRCLE && _type == col->_type){
-
-    }//CIRCLE AND RECT
+        return (this_pos - col_pos).GetLength() >= this->_radius + col->_radius;
+    }
+    //CIRCLE VS RECT
     else{
+        static Vec2 dist;
+        static Vec2 rect_center;
+        static Vec2 rect_half_size;
+        static Vec2 circle_pos;
+        static int radius;
+        static float dx;
+        static float dy;
 
+        if(_type == COLLIDER_CIRCLE){
+            rect_half_size = col->_size * 0.5f;
+            rect_center = col->GetOwner()->GetGlobalPos() + col->_offset + rect_half_size;
+            circle_pos = this_pos;
+            radius = col->_radius;
+        }
+        else{
+            rect_half_size = this->_size * 0.5f;
+            rect_center = this_pos + rect_half_size;
+            circle_pos = col->GetOwner()->GetGlobalPos() + col->_offset;
+            radius = col->_radius;
+        }
+
+        dist.x = fabs(circle_pos.x - rect_center.x);
+        dist.y = fabs(circle_pos.y - rect_center.y);
+
+        if (dist.x > (rect_half_size.x + radius)) { return false; }
+        if (dist.y > (rect_half_size.y + radius)) { return false; }
+
+        if (dist.x <= (rect_half_size.x)) { return true; }
+        if (dist.x <= (rect_half_size.y)) { return true; }
+
+        dx = dist.x - rect_half_size.x;
+        dy = dist.y - rect_half_size.y;
+
+        return dx*dx + dy*dy <= (radius*radius);
     }
 
     return false;
