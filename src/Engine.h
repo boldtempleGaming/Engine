@@ -16,7 +16,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#ifdef USE_PHYSFS
 #include <physfs.hpp>
+#endif
 
 #include <Common/constants.h>
 

@@ -98,6 +98,7 @@ void Engine::DeleteObjects(){
 bool Engine::Core_Init() {
     quit = false;
 
+    #ifdef USE_PHYSFS
     PhysFS::init(nullptr);
 
     PhysFS::mount("../Data.zip", "Data", false);
@@ -105,6 +106,7 @@ bool Engine::Core_Init() {
     PhysFS::mount("../tmp", "tmp", false);
 
     PhysFS::setWriteDir("../tmp");
+    #endif
 
     Resources::SetDefaultFont("PressStart2P.ttf");
     Resources::SetDefaultFontPtsize(9);
