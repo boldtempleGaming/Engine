@@ -14,8 +14,8 @@ option(BUILD_DYNAMIC_LIB OFF)
 
 #Third-party libraries
 option(USE_LUA ON)
-option(USE_PHYSFS OFF)
-option(USE_SIMPLE_JSON OFF)
+option(USE_PHYSFS ON)
+option(USE_SIMPLE_JSON ON)
 #======================================================
 
 
