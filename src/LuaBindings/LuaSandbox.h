@@ -7,7 +7,7 @@
 
 #include "Core/Object.h"
 
-#include "LuaBindings/LuaProxyObject.h>
+#include "LuaBindings/LuaProxyObject.h"
 #include "LuaBindings/LuaWindow.h"
 #include "LuaBindings/LuaTimer.h"
 #include "LuaBindings/LuaVec2.h"
