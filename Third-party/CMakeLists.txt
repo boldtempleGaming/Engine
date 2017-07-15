@@ -43,6 +43,8 @@ endif()
 if(USE_PHYSFS)
     message("Checking physfs...")
 
+    set(PHYSFS_BUILD_SHARED OFF CACHE BOOL "SHARED" FORCE)
+
     set(PHYSFS_BUILD_TEST OFF CACHE BOOL "disable tests" FORCE)
     set(PHYSFS_ARCHIVE_7Z OFF CACHE BOOL "7z" FORCE)
     set(PHYSFS_ARCHIVE_GRP OFF CACHE BOOL "GRP" FORCE)
@@ -58,7 +60,7 @@ if(USE_PHYSFS)
     add_subdirectory("physfs-cpp/src")
 
     target_include_directories(physfs++ PUBLIC
-      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/physfs>
+      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/physfs/src>
     )
 
     #populate includes list
@@ -70,7 +72,6 @@ if(USE_PHYSFS)
 
     set(EXPORT_LIBS
         ${EXPORT_LIBS}
-        physfs
         physfs++
         )
 endif()
