@@ -7,8 +7,8 @@
 #include <cmath>
 #include <SDL2/SDL_mixer.h>
 
-#include <Core/Resources.h>
-#include <Core/Vec2.h>
+#include "Core/Resources.h"
+#include "Core/Vec2.h"
 
 class Audio {
 public:

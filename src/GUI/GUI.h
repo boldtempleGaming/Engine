@@ -15,14 +15,14 @@
 
 #include <SDL2/SDL_ttf.h>
 
-#include <Common/constants.h>
-#include <Common/sys.h>
+#include "Common/constants.h"
+#include "Common/sys.h"
 
-#include <Core/Object.h>
+#include "Core/Object.h"
 
-#include <Render/Camera.h>
+#include "Render/Camera.h"
 
-#include <GUI/Window.h>
+#include "GUI/Window.h"
 
 class Object;
 class GUI {

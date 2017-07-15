@@ -2,7 +2,7 @@
 #define LUAAUDIO_H
 
 #include <sol.hpp>
-#include <Core/Audio.h>
+#include "Core/Audio.h"
 
 namespace LuaAudio {
     void bind(sol::state& lua);

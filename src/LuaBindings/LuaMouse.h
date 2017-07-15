@@ -2,7 +2,7 @@
 #define LUAMOUSE_H
 
 #include <sol.hpp>
-#include <IO/Mouse.h>
+#include "IO/Mouse.h"
 
 namespace LuaMouse {
     void bind(sol::state& lua);

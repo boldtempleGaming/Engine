@@ -2,8 +2,7 @@
 #define LUAPROXYOBJECT_H
 
 #include <sol.hpp>
-
-#include <Core/Object.h>
+#include "Core/Object.h"
 
 class LuaProxyObject: public Object{
 public:

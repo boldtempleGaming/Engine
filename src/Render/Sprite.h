@@ -9,11 +9,11 @@
 #define SRC_RENDER_SPRITE_H_
 
 
-#include <Core/Resources.h>
+#include "Core/Resources.h"
 
-#include <Render/Surface.h>
-#include <Render/Animation.h>
-#include <Render/Camera.h>
+#include "Render/Surface.h"
+#include "Render/Animation.h"
+#include "Render/Camera.h"
 
 class Sprite {
 public:

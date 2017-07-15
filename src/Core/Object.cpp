@@ -7,7 +7,7 @@
 !*/
 
 #include "Object.h"
-#include <IO/Mouse.h> //FIXME WTF? THIS SHIT DOESNT COMPILE IN Object.h
+#include "IO/Mouse.h" //FIXME WTF? THIS SHIT DOESNT COMPILE IN Object.h
 
 ObjListType Object::DeleteCandidates;
 int Object::_last_id = 0;

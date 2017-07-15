@@ -5,18 +5,17 @@
 
 #include <sol.hpp>
 
-#include <Core/Object.h>
+#include "Core/Object.h"
 
-#include <LuaBindings/LuaProxyObject.h>
-#include <LuaBindings/LuaWindow.h>
-#include <LuaBindings/LuaTimer.h>
-#include <LuaBindings/LuaVec2.h>
-#include <LuaBindings/LuaSprite.h>
-#include <LuaBindings/LuaMouse.h>
-#include <LuaBindings/LuaAudio.h>
-#include <LuaBindings/LuaKeyboard.h>
-#include <LuaBindings/LuaCamera.h>
-
+#include "LuaBindings/LuaProxyObject.h>
+#include "LuaBindings/LuaWindow.h"
+#include "LuaBindings/LuaTimer.h"
+#include "LuaBindings/LuaVec2.h"
+#include "LuaBindings/LuaSprite.h"
+#include "LuaBindings/LuaMouse.h"
+#include "LuaBindings/LuaAudio.h"
+#include "LuaBindings/LuaKeyboard.h"
+#include "LuaBindings/LuaCamera.h"
 
 class LuaSandbox
 {

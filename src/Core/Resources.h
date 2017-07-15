@@ -10,10 +10,10 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 
-#include <Common/sys.h>
-#include <GUI/Window.h>
-#include <Core/Audio.h>
-#include <IO/File.h>
+#include "Common/sys.h"
+#include "GUI/Window.h"
+#include "Core/Audio.h"
+#include "IO/File.h"
 
 class Resources {
 public:

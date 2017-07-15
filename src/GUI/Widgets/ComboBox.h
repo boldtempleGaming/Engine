@@ -4,10 +4,10 @@
 #include <iterator>
 #include <list>
 
-#include <GUI/Widget.h>
-#include <GUI/Widgets/Box.h>
-#include <GUI/Widgets/Button.h>
-#include <GUI/Widgets/ScrollArea.h>
+#include "GUI/Widget.h"
+#include "GUI/Widgets/Box.h"
+#include "GUI/Widgets/Button.h"
+#include "GUI/Widgets/ScrollArea.h"
 
 class ComboBox : public Box{
 public:

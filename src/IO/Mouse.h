@@ -13,10 +13,10 @@
 
 #include <SDL2/SDL.h>
 
-#include <Core/Vec2.h>
-#include <GUI/Window.h>
+#include "Core/Vec2.h"
+#include "GUI/Window.h"
 
-#include <Engine.h>
+#include "Engine.h"
 
 enum mouse_button {
     MOUSE_LEFT = 1,

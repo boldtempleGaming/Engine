@@ -2,7 +2,7 @@
 #define LUACAMERA_H
 
 #include <sol.hpp>
-#include <Render/Camera.h>
+#include "Render/Camera.h"
 
 namespace LuaCamera {
     void bind(sol::state& lua);
