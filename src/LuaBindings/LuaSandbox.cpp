@@ -1,6 +1,13 @@
 #include "LuaSandbox.h"
 
-LuaSandbox::LuaSandbox(){
+sol::state     LuaSandbox::_lua;
+sol::function  LuaSandbox::_fun_init;
+sol::function  LuaSandbox::_fun_update;
+sol::function  LuaSandbox::_fun_render;
+
+LuaSandbox::LuaSandbox(){}
+
+void LuaSandbox::Init(){
     _lua.open_libraries(sol::lib::base,
                         sol::lib::package,
                         sol::lib::math,
@@ -18,6 +25,7 @@ LuaSandbox::LuaSandbox(){
 
 
     _lua.script(R"(
+               package.path = "./../Data/?.lua"
                count = 0
                ScriptsArray = {}
                ObjectsArray = {}
@@ -63,6 +71,7 @@ LuaSandbox::LuaSandbox(){
 
                 if run_object then
                     Object.env = env
+                    Object.find = LuaProxyObject.find
                     env.Object = Object
                 else
                     Script.env = env

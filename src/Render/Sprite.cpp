@@ -1,4 +1,4 @@
-#include <Render/Sprite.h>
+#include "Sprite.h"
 #include <iostream>
 
 Sprite::Sprite() :

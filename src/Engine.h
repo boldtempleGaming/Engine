@@ -20,21 +20,21 @@
 #include <physfs.hpp>
 #endif
 
-#include <Common/constants.h>
+#include "Common/constants.h"
 
-#include <GUI/GUI.h>
-#include <GUI/Window.h>
-#include <GUI/Cursor.h>
+#include "GUI/GUI.h"
+#include "GUI/Window.h"
+#include "GUI/Cursor.h"
 
-#include <Core/Object.h>
-#include <Core/Resources.h>
-#include <Core/Collider.h>
+#include "Core/Object.h"
+#include "Core/Resources.h"
+#include "Core/Collider.h"
 
-#include <Render/Camera.h>
-#include <Render/Surface.h>
+#include "Render/Camera.h"
+#include "Render/Surface.h"
 
-#include <IO/Mouse.h>
-#include <IO/Keyboard.h>
+#include "IO/Mouse.h"
+#include "IO/Keyboard.h"
 
 class Engine {
 public:

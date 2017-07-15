@@ -6,9 +6,9 @@
 
 #include <SDL2/SDL.h>
 
-#include <Core/Vec2.h>
-#include <GUI/GUI.h>
-#include <Render/Camera.h>
+#include "Core/Vec2.h"
+#include "GUI/GUI.h"
+#include "Render/Camera.h"
 
 class Window {
 public:

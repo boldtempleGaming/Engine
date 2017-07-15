@@ -1,7 +1,7 @@
 #ifndef TEXTFILE_H
 #define TEXTFILE_H
 
-#include <IO/File.h>
+#include "IO/File.h"
 
 class TextFile : public File
 {

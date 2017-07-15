@@ -9,13 +9,17 @@ void LuaAudio::bind(sol::state& lua){
         "play", sol::resolve<void (int)>(&Audio::Play),
         "stop", &Audio::Stop,
 
-        "setVolume", &Audio::SetVolume,
+        "setListener", &Audio::SetListener,
         "setPanning", &Audio::SetPanning,
-        "setDistance", &Audio::SetDistance,
-
         "addDistance", &Audio::AddDistance,
+        "delListener", &Audio::DelListener,
 
         "isLoaded", &Audio::IsLoaded,
-        "isPlaying", &Audio::IsPlaying
+        "isPlaying", &Audio::IsPlaying,
+
+        //"listener", sol::property(&Audio::SetListener, &Audio::GetListener),
+        "dist", sol::property(&Audio::GetDistance, &Audio::SetDistance),
+        "vol", sol::property(&Audio::GetVolume, &Audio::SetVolume),
+        "pos", sol::property(&Audio::GetWorldPos, &Audio::SetWorldPos)
     );
 }

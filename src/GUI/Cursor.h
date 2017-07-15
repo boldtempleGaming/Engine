@@ -2,7 +2,7 @@
 #define CURSOR_H_
 
 #include <SDL2/SDL.h>
-#include <Render/Surface.h>
+#include "Render/Surface.h"
 
 class Cursor {
 public:

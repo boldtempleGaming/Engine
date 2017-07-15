@@ -1,7 +1,7 @@
 #ifndef PROGRESSBAR_H
 #define PROGRESSBAR_H
 
-#include <GUI/Widgets/Box.h>
+#include "GUI/Widgets/Box.h"
 
 class ProgressBar : public Box{
 public:

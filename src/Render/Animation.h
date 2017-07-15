@@ -9,7 +9,7 @@
 #define ANIMATION_H_
 
 #include <SDL2/SDL.h>
-#include <Core/Vec2.h>
+#include "Core/Vec2.h"
 
 class Animation {
 public:

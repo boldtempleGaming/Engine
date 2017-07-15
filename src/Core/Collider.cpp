@@ -1,4 +1,5 @@
 #include "Collider.h"
+
 std::vector<Collider*> Collider::_Colliders;
 
 Collider::Collider(Object *obj){

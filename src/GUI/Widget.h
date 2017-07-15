@@ -14,11 +14,11 @@
 #include <vector>
 #include <functional>
 
-#include <Core/Vec2.h>
-#include <Core/Object.h>
-#include <Core/Resources.h>
-#include <Render/Sprite.h>
-#include <IO/Mouse.h>
+#include "Core/Vec2.h"
+#include "Core/Object.h"
+#include "Core/Resources.h"
+#include "Render/Sprite.h"
+#include "IO/Mouse.h"
 
 enum widget_state{
     WIDGET_NORMAL = 0,

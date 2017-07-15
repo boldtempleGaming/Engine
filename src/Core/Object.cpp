@@ -7,10 +7,21 @@
 !*/
 
 #include "Object.h"
-#include <IO/Mouse.h> //FIXME WTF? THIS SHIT DOESNT COMPILE IN Object.h
+#include "IO/Mouse.h" //FIXME WTF? THIS SHIT DOESNT COMPILE IN Object.h
 
 ObjListType Object::DeleteCandidates;
+std::unordered_map<std::string, Object*> Object::_AllObjects;
 int Object::_last_id = 0;
+
+Object* Object::FindByLabel(const std::string &label){
+   auto found = _AllObjects.find(label);
+
+   if(found != _AllObjects.end()){
+       return found->second;
+   }else{
+       return nullptr;
+   }
+}
 
 Object::Object() {
     SetDefaults();
@@ -18,7 +29,7 @@ Object::Object() {
 
 Object::Object(const std::string& label){
    SetDefaults();
-   _label = label;
+   SetLabel(label);
 }
 
 Object::~Object() {
@@ -34,6 +45,8 @@ Object::~Object() {
     if (_id == _last_id - 1) {
         _last_id = 0; // reset when all objects are deleted
     }
+
+    _AllObjects.erase(_label);
 }
 
 void Object::DeleteLater(){
@@ -112,16 +125,20 @@ const Vec2& Object::GetGlobalPos() const {
     return _global_pos;
 }
 
-void Object::SetLabel(const std::string &label)
-{
-    _label = label;
-}
+void Object::SetLabel(const std::string& label){
+    auto found = _AllObjects.find(label);
 
+    if(found != _AllObjects.end()){
+        std::cerr << "Label '" << label << " has been already taken!" << std::endl;
+    }else{
+        _label = label;
+        _AllObjects[label] = this;
+    }
+}
 
 const std::string& Object::GetLabel(){
     return _label;
 }
-
 
 void Object::SetVel(const Vec2 &vel) {
     _vel = vel;
@@ -193,7 +210,6 @@ void Object::CheckTop() {
         }
     }
 
-
 }
 
 void Object::IgnoreClick(bool ignored) {
@@ -210,6 +226,10 @@ bool Object::IsClickIgnored(){
 
 bool Object::IsWheelIgnored(){
     return _ignore_wheel;
+}
+
+bool Object::IsDeletedLater(){
+    return _delete_later;
 }
 
 void Object::OnUpdate() {

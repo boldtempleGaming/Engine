@@ -2,7 +2,7 @@
 #define LUAKEYBOARD_H
 
 #include <sol.hpp>
-#include <IO/Keyboard.h>
+#include "IO/Keyboard.h"
 
 namespace LuaKeyboard {
     void bind(sol::state& lua);

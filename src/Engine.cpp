@@ -172,6 +172,7 @@ void Engine::Core_Update() {
 
     GUI::OnUpdate();
     Collider::ProcessCollisions();
+    Audio::CalcListenersPanning();
 }
 
 void Engine::Core_Render() {

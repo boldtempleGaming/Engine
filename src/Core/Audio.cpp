@@ -2,6 +2,7 @@
 
 int Audio::_g_volume = 100;
 int Audio::_mus_volume = 100;
+std::set<Audio*> Audio::_WithListeners;
 
 void Audio::Init(int alloc_channels){
     Mix_Init(MIX_INIT_OGG | MIX_INIT_MP3);
@@ -55,13 +56,50 @@ void Audio::SetMusicVolume(int volume){
     Mix_VolumeMusic((MIX_MAX_VOLUME * _mus_volume) / 100);
 }
 
-int Audio::GetMusicVolume()
-{
+int Audio::GetMusicVolume(){
     return _mus_volume;
 }
 
-Audio::Audio(){
+void Audio::CalcListenersPanning(){
+    for(Audio* audio: _WithListeners) {
+        audio->CalcPanning();
+    }
+}
+
+Audio::Audio(Mix_Music* music){
+    _isMusic = true;
+    _audio_data = music;
+}
+
+Audio::Audio(Mix_Chunk* sound){
     _isMusic = false;
+    _audio_data = sound;
+}
+
+Audio::Audio(const std::string& file_path, bool isMusic){
+    if(isMusic){
+        Mix_Music* music;
+        music = Mix_LoadMUS(file_path.c_str());
+
+        if(music != nullptr){
+            _audio_data = music;
+            _isMusic = true;
+        }
+    }else{
+        Mix_Chunk* chunk;
+        chunk = Mix_LoadWAV(file_path.c_str());
+
+        if(chunk != nullptr){
+            _audio_data = chunk;
+            _isMusic = false;
+        }else{
+            std::cerr << " >> !ERROR! << " << Mix_GetError << std::endl;
+        }
+    }
+}
+
+Audio::~Audio(){
+    DelListener();
 }
 
 void Audio::SetVolume(int volume){
@@ -92,6 +130,8 @@ void Audio::Play(int loops){
         }
 
         _channel = Mix_PlayChannel(-1, static_cast<Mix_Chunk*>(_audio_data), loops);
+        SetVolume(_volume);
+        CalcPanning();
 
         if(_channel == -1){
             std::cerr << " >> !Warning! << " << Mix_GetError() << std::endl;
@@ -112,7 +152,7 @@ void Audio::Stop(){
 
 
 void Audio::SetPanning(const Vec2& pos, const Vec2& viewport_size, Uint32 max_offset){
-    if(!_isMusic){
+    if(!_isMusic && IsPlaying()){
         _position = pos;
 
         if(max_offset != 0) _max_offset = max_offset;
@@ -152,6 +192,10 @@ void Audio::SetPanning(const Vec2& pos, const Vec2& viewport_size, Uint32 max_of
     }
 }
 
+void Audio::SetWorldPos(const Vec2& pos){
+    _world_position = pos;
+}
+
 void Audio::SetDistance(Uint8 dist){
     if(!_isMusic){
         _distance = (dist < MAX_VOLUME) ? dist : MAX_VOLUME;
@@ -171,6 +215,28 @@ void Audio::AddDistance(int dx){
     }
 }
 
+void Audio::SetListener(Object* listener, Uint32 max_offset){
+    if(listener == nullptr){
+        DelListener();
+        return;
+    }
+
+    _max_offset = max_offset;
+    _listener = listener;
+    _WithListeners.insert(this);
+
+    CalcPanning();
+}
+
+void Audio::DelListener(){
+    _listener = nullptr;
+    _WithListeners.erase(this);
+}
+
+Object* Audio::GetListener(){
+    return _listener;
+}
+
 int Audio::GetVolume(){
     if(_isMusic){
        return _mus_volume;
@@ -183,43 +249,15 @@ Vec2 Audio::GetPosition(){
     return _position;
 }
 
+Vec2 Audio::GetWorldPos(){
+    return _world_position;
+}
+
 Uint8 Audio::GetDistance(){
     return _distance;
 }
 
-Audio::Audio(Mix_Music* music){
-    _isMusic = true;
-    _audio_data = music;
-}
-
-Audio::Audio(Mix_Chunk* sound){
-    _isMusic = false;
-    _audio_data = sound;
-}
-
-Audio::Audio(const std::string& file_path, bool isMusic){
-    if(isMusic){
-        Mix_Music* music;
-        music = Mix_LoadMUS(file_path.c_str());
-
-        if(music != nullptr){
-            _audio_data = music;
-            _isMusic = true;
-        }
-    }else{
-        Mix_Chunk* chunk;
-        chunk = Mix_LoadWAV(file_path.c_str());
-
-        if(chunk != nullptr){
-            _audio_data = chunk;
-            _isMusic = false;
-        }else{
-            std::cerr << " >> !ERROR! << " << Mix_GetError << std::endl;
-        }
-    }
-}
-
-Audio::~Audio(){
+Audio::Audio(){
 
 }
 
@@ -261,5 +299,13 @@ void Audio::setup_audio_on_play(){
 
     if(_distance > 0){
         SetDistance(_distance);
+    }
+}
+
+void Audio::CalcPanning(){
+    if(_listener != nullptr){
+        SetPanning((Window::GetSize()*0.5) - _listener->GetGlobalPos() + _world_position,
+                          Window::GetSize(),
+                          _max_offset);
     }
 }

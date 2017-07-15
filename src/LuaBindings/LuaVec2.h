@@ -5,7 +5,7 @@
 #include <sstream> // stringstream
 
 #include <sol.hpp>
-#include <Core/Vec2.h>
+#include "Core/Vec2.h"
 
 namespace LuaVec2 {
     void bind(sol::state& lua);

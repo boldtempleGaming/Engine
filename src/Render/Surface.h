@@ -14,14 +14,14 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include <Core/Vec2.h>
+#include "Core/Vec2.h"
 
-#include <GUI/colors.h>
-#include <GUI/Window.h>
+#include "GUI/colors.h"
+#include "GUI/Window.h"
 
-#include <Render/Camera.h>
+#include "Render/Camera.h"
 
-#include <Common/constants.h>
+#include "Common/constants.h"
 
 class Surface {
 public:
