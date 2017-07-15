@@ -3,6 +3,7 @@
 
 void LuaProxyObject::bind(sol::state& lua){
     lua.new_simple_usertype<Object>("LuaObject",
+        "find", &Object::FindByLabel,
         "delete", &Object::DeleteLater,
         "connect", &Object::Connect,
         "disconnect", &Object::Disconnect,
@@ -12,7 +13,8 @@ void LuaProxyObject::bind(sol::state& lua){
         "localPos", sol::property(&Object::GetPos, &Object::SetPos),
         "size", sol::property(&Object::GetSize, &Object::SetSize),
         "vel", sol::property(&Object::GetVel, &Object::SetVel),
-        "id", sol::property(&Object::GetId)
+        "id", sol::property(&Object::GetId),
+        "label", sol::property(&Object::GetLabel, &Object::SetLabel)
     );
 
     lua.new_simple_usertype<LuaProxyObject>("LuaProxyObject",
