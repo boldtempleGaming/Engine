@@ -12,6 +12,7 @@
 #include <iostream>
 #include <list>
 #include <vector>
+#include <unordered_map>
 
 #include <SDL2/SDL.h>
 
@@ -34,6 +35,8 @@ typedef std::vector<Object*> ObjListType;
 class Object {
 public:
     static ObjListType DeleteCandidates;
+
+    static Object* FindByLabel(const std::string& label);
 
     Object();
     Object(const std::string& label);
@@ -78,6 +81,8 @@ public:
     bool IsClickIgnored();
     bool IsWheelIgnored();
 
+    bool IsDeletedLater();
+
     virtual void OnUpdate();
     virtual void OnRender();
     virtual void OnCollide(Object* obj);
@@ -98,15 +103,12 @@ protected:
     void SetType(obj_type type);
     ObjListType GetChildrenList();
     ObjListType _ChildrenList;
-    std::string _label;
 
 private:
     friend ScrollArea;
 
     static int _last_id; //last created object id
-
-
-    //std::list< /*subsystem type*/ > _subsystems; //TODO subsystem list
+    static std::unordered_map<std::string, Object*> _AllObjects;
 
     bool _delete_later;
     bool _ignore_click;
@@ -121,6 +123,8 @@ private:
     int _id;
     obj_type _type;
     Object* _owner;
+
+    std::string _label;
 
     void SetOwner(Object* obj);
 
