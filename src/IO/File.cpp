@@ -38,6 +38,10 @@ void File::Close(){
 bool File::Read(std::vector<char> &data) const{
     size_t size = GetSize();
 
+    if(size == 0){
+        return false;
+    }
+
     data.resize(size);
 
     return Read(&data[0], size);
