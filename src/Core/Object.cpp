@@ -92,7 +92,11 @@ void Object::SetOwner(Object* obj) {
 
 void Object::Connect(Object* obj) {
     if (obj->_owner != nullptr) {
-        std::cout << "[Warning!] Object " << obj->_id << " already connected to " << obj->_owner->_id << std::endl;
+        std::cout << "[Warning!] Object {label: '"
+                  << obj->_label <<"', id: "
+                  << obj->_id << "} already connected to {label: '"
+                  << this->_label <<"', id: "
+                  << this->_id << "} " << std::endl;
     } 
     else if (FindChild(obj) == _ChildrenList.end()) {
         _ChildrenList.push_back(obj);
