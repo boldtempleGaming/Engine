@@ -25,83 +25,109 @@ void LuaSandbox::Init(){
 
     //FIXME package.path
     _lua.script(R"(
-               package.path = "./../Data/?.lua"
-               count = 0
-               ScriptsArray = {}
-               ObjectsArray = {}
+package.path = "./../Data/?.lua"
+count = 0
+Globals = {}
+ScriptsArray = {}
+ObjectsArray = {}
 
-               function push_script()
-                    count = count + 1
-                    table.insert(ScriptsArray, count, Script)
-               end
+function dump(o)
+  if type(o) == 'table' then
+    local s = '{ '
+    for k,v in pairs(o) do
+      if type(k) ~= 'number' then k = '`'..k..'`' end
+      s = s .. '['..k..'] = ' .. dump(v) .. ','
+    end
+    return s .. '} '
+  else
+    return tostring(o)
+  end
+end
 
-                function push_object(id)
-                    ObjectsArray[id] = Object
-                end
+function push_script()
+  count = count + 1
+  table.insert(ScriptsArray, count, Script)
+end
 
-                function remove_object(id)
-                     ObjectsArray[id] = nil
-                end
+function push_object(id)
+  ObjectsArray[id] = Object
+end
 
-                -- run code under environment [Lua 5.2]
-               function run(untrusted_code, run_object)
-                -- make environment
-                -- add functions you know are safe here
-                local env = {
-                          print = print,
-                          math = math,
-                          table = table,
-                          pcall = pcall,
-                          require = require,
-                          Sprite = Sprite,
-                          Flip = Flip,
-                          Animation = Animation,
-                          Vec2 = Vec2,
-                          Audio = Audio,
-                          Mouse = Mouse,
-                          MouseWheel = MouseWheel,
-                          MouseButton = MouseButton,
-                          Keyboard = Keyboard,
-                          Key = Key,
-                          Timer = Timer,
-                          Time = Time,
-                          Camera = Camera,
-                          Window = Window
-                          }
+function remove_object(id)
+  ObjectsArray[id] = nil
+end
 
-                if run_object then
-                    Object.env = env
-                    Object.find = LuaProxyObject.find
-                    env.Object = Object
-                else
-                    Script.env = env
-                    env.Script = Script
-                end
+function run(untrusted_code, run_object)
+-- run code under environment [Lua 5.2]
+-- make environment
+-- add functions you know are safe here
+local env = {
+  print = print,
+  math = math,
+  table = table,
+  pcall = pcall,
+  require = require,
+  dump = dump,
+  Globals = globals,
 
+  Sprite = Sprite,
+  Flip = Flip,
+  Animation = Animation,
+  Vec2 = Vec2,
+  Audio = Audio,
+  Mouse = Mouse,
+  MouseWheel = MouseWheel,
+  MouseButton = MouseButton,
+  Keyboard = Keyboard,
+  Key = Key,
+  Timer = Timer,
+  Time = Time,
+  Camera = Camera,
+  Window = Window,
+}
 
-                 local untrusted_function = load(untrusted_code, nil, 't', env), message
-                 if not untrusted_function then return nil, message end
-                 return pcall(untrusted_function)
-               end
+if run_object then
+  Object.env = env
+  Object.find = LuaProxyObject.find
 
-               function init()
-                    for i = 1, #ScriptsArray do
-                       pcall(ScriptsArray[i].Init, ScriptsArray[i].env)
-                    end
-               end
+  Object.new = function(table)
+  return LuaProxyObject.new(table, remove_object)
+end
 
-               function update()
-                    for i = 1, #ScriptsArray do
-                         pcall(ScriptsArray[i].Update, ScriptsArray[i].env)
-                    end
-               end
+env.Object = Object
+else
+  Script.env = env
+  env.Script = Script
+end
 
-               function render()
-                    for i = 1, #ScriptsArray do
-                         pcall(ScriptsArray[i].Render, ScriptsArray[i].env)
-                    end
-               end
+local untrusted_function = load(untrusted_code, nil, 't', env), message
+  if not untrusted_function then return nil, message end
+  return pcall(untrusted_function)
+end
 
+function post_objects_init()
+  for i = 1, #ScriptsArray do
+    pcall(ScriptsArray[i].Init, ScriptsArray[i].env)
+  end
+end
+
+function init()
+  for i = 1, #ScriptsArray do
+    pcall(ScriptsArray[i].Init, ScriptsArray[i].env)
+  end
+end
+
+function update()
+  for i = 1, #ScriptsArray do
+    pcall(ScriptsArray[i].Update, ScriptsArray[i].env)
+  end
+end
+
+function render()
+  for i = 1, #ScriptsArray do
+    pcall(ScriptsArray[i].Render, ScriptsArray[i].env)
+  end
+end
                )");
 
 
@@ -127,7 +153,8 @@ void LuaSandbox::AddObject(const std::string& origin, const std::string& script_
         sol::table table = _lua.create_named_table("Object");
         _lua["run"](script_lines, true);
 
-        LuaProxyObject* proxy = new LuaProxyObject(table, _lua["remove_object"]);
+        sol::function remfunc = _lua["remove_object"];
+        LuaProxyObject* proxy = new LuaProxyObject(table, remfunc);
         owner->Connect(proxy);
 
         _lua["push_object"](proxy->GetId());
