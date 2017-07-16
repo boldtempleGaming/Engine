@@ -23,7 +23,7 @@ void LuaSandbox::Init(){
     LuaKeyboard::bind(_lua);
     LuaCamera::bind(_lua);
 
-
+    //FIXME package.path
     _lua.script(R"(
                package.path = "./../Data/?.lua"
                count = 0
