@@ -32,9 +32,10 @@ public:
 
 private:
     static sol::state _lua;
-    static sol::function  _fun_init;
-    static sol::function  _fun_update;
-    static sol::function  _fun_render;
+    static sol::function _fun_init;
+    static sol::function _fun_postinit;
+    static sol::function _fun_update;
+    static sol::function _fun_render;
 
     LuaSandbox();
 };
