@@ -84,6 +84,7 @@ function create_env()
             Time = Time,
             Camera = Camera,
             Window = Window,
+            Color = Color
          }
 end
 

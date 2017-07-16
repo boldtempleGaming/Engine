@@ -12,7 +12,6 @@ Engine::Engine() {
 }
 
 Engine::~Engine() {
-    Core_CleanUp(); //Очищаем все
 }
 
 void SetVideo(int w, int h, bool full_screen, std::string win_title) {
