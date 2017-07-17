@@ -199,7 +199,6 @@ void Window::OnCleanUp() {
 
 void Window::SetBackgroundColor(const SDL_Color& color) {
     _color_background = color;
-    SDL_SetRenderDrawColor(Window::GetRenderer(), _color_background.r, _color_background.g, _color_background.b, _color_background.a);
 }
 
 SDL_Color Window::GetBackgroundColor() {
