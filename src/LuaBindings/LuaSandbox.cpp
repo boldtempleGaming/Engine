@@ -23,6 +23,7 @@ void LuaSandbox::Init(){
     LuaAudio::bind(_lua);
     LuaKeyboard::bind(_lua);
     LuaCamera::bind(_lua);
+    LuaDrawer::bind(_lua);
 
     //FIXME package.path
     _lua.script(R"(
@@ -84,7 +85,8 @@ function create_env()
             Time = Time,
             Camera = Camera,
             Window = Window,
-            Color = Color
+            Color = Color,
+            Drawer = Drawer
          }
 end
 

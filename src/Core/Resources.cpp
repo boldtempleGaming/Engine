@@ -185,7 +185,7 @@ void Resources::FreeSound(Resources::AudiosBufWrapper& wrapper){
 SDL_RWops* Resources::ReadFile(const std::string& file_path, std::vector<char>& buffer){
     File file(file_path);
 
-    if(file.Read(buffer)){
+    if(file.Read(buffer) && !buffer.empty()){
         return SDL_RWFromMem(&buffer[0], buffer.size());
     }
 
@@ -207,7 +207,7 @@ SDL_Texture* Resources::ReadRWtexture(const std::string& file_path){
 
 TTF_Font *Resources::ReadFontFromMem(int ptsize, std::vector<char>& buffer){
     SDL_RWops* data = SDL_RWFromConstMem(&buffer[0], buffer.size());
-    return TTF_OpenFontRW(data, 0, ptsize);
+    return TTF_OpenFontRW(data, 1, ptsize);
 }
 
 TTF_Font* Resources::ReadRWfont(const std::string& file_path, int ptsize, std::vector<char>& buffer){
@@ -215,7 +215,7 @@ TTF_Font* Resources::ReadRWfont(const std::string& file_path, int ptsize, std::v
     TTF_Font* font = nullptr;
 
     if(data != nullptr){
-        font = TTF_OpenFontRW(data, 0, ptsize);
+        font = TTF_OpenFontRW(data, 1, ptsize);
     }
 
     return font;
@@ -228,10 +228,10 @@ void* Resources::ReadRWaudio(const std::string& file_path, bool isMusic, std::ve
     if(data != nullptr){
         // It can load WAVE, AIFF, RIFF, OGG, and VOC format
         if(isMusic){
-            audio = static_cast<void*>(Mix_LoadMUS_RW(data, 0));
+            audio = static_cast<void*>(Mix_LoadMUS_RW(data, 1));
         }
         else{
-            audio = static_cast<void*>(Mix_LoadWAV_RW(data, 0));
+            audio = static_cast<void*>(Mix_LoadWAV_RW(data, 1));
         }
     }
 
