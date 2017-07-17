@@ -18,7 +18,7 @@ Widget(pos, size) {
 
     _box->SetText(label);
     Vec2 txt_size = _box->GetTextSize();
-    _box->SetOffset({static_cast<int>(size.x + 4), (size.y - txt_size.y)/2, 4, 4});
+    _box->SetOffset({static_cast<int>(size.x + 4.0), static_cast<int>((size.y - txt_size.y)/2), 4, 4});
     _box->SetText(label);
 
     Connect(_box);
