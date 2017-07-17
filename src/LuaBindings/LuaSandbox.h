@@ -16,6 +16,7 @@
 #include "LuaBindings/LuaAudio.h"
 #include "LuaBindings/LuaKeyboard.h"
 #include "LuaBindings/LuaCamera.h"
+#include "LuaBindings/LuaDrawer.h"
 
 class LuaSandbox
 {
