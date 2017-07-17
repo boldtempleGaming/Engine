@@ -3,7 +3,6 @@
 
 void LuaProxyObject::bind(sol::state& lua){
     lua.new_simple_usertype<Object>("LuaObject",
-        sol::constructors<sol::types<>>(),
         "find", &Object::FindByLabel,
         "connect", &Object::Connect,
         "delete", &Object::DeleteLater,
