@@ -1,20 +1,20 @@
 [![BGE](https://raw.githubusercontent.com/boldtempleGaming/Engine/readme_data/BGE.png)](#)
 
 `version 0.4a` (pre-alpha) /
-[Main Web](http://gaming.boldtemple.net/engine/bge/ "boldtemple Game Engine Main web") / 
-[Documentation](https://github.com/boldtempleGaming/Engine/wiki "boldtemple Game Engine Documentation") /
+[Docs](https://github.com/boldtempleGaming/Engine/wiki "boldtemple Game Engine Documentation") /
 [TODO](https://github.com/boldtempleGaming/Engine/wiki/TODO "TODO")
 
 
 
-boldtemple Game Engine, build using C++11 and SDL2.
-<br/>Cross Platform: `Windows`, `Linux`, `OS X`.
+:suspect: boldtemple Game Engine, build using C++11 and SDL2 :feelsgood:
+<br/>Cross Platform: `Windows`, `Linux`, `OS X`
 <br/>
 
 [![Build Status](https://travis-ci.org/boldtempleGaming/Engine.svg?branch=master)](https://travis-ci.org/boldtempleGaming/Engine) [![Telegram](https://github.com/boldtempleGaming/Engine/raw/readme_data/chat-on%20telegram-179cde.png)](https://t.me/joinchat/GINNdA09PvPDDmUS3efn7Q) [![Gitter](https://badges.gitter.im/boldtempleGaming/Engine.svg)](https://gitter.im/boldtempleGaming/Engine?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+<br/>
+Feel free to ask :point_up:
 
-
-## Features
+## :zap::zap: Features :zap::zap:
 **boldtemple Game Engine** it's a simple and lightweight 2d game framework:
 * Sprite animation
 * Sound effects
@@ -22,15 +22,16 @@ boldtemple Game Engine, build using C++11 and SDL2.
 * Camera controlling
 * Widget system for making GUI
 * Resource manager
+* Script engine integration (Lua)
  
 **Soon:**
+* OpenGL backend
 * Particle system
 * Vector collision detection / Box2d integration
 * Scene manager
-* Script engine integration
 
 
-## Showcase
+## :star::star: Showcase :star::star:
 
 |                       MyFirstGame                                   |                                      Simple-Game                              |
 | ------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
