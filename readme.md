@@ -6,14 +6,14 @@
 
 
 
-boldtemple Game Engine, build using C++11 and SDL2.
-<br/>Cross Platform: `Windows`, `Linux`, `OS X`.
+:suspect: boldtemple Game Engine, build using C++11 and SDL2 :feelsgood:
+<br/>Cross Platform: `Windows`, `Linux`, `OS X`
 <br/>
 
 [![Build Status](https://travis-ci.org/boldtempleGaming/Engine.svg?branch=master)](https://travis-ci.org/boldtempleGaming/Engine) [![Telegram](https://github.com/boldtempleGaming/Engine/raw/readme_data/chat-on%20telegram-179cde.png)](https://t.me/joinchat/GINNdA09PvPDDmUS3efn7Q) [![Gitter](https://badges.gitter.im/boldtempleGaming/Engine.svg)](https://gitter.im/boldtempleGaming/Engine?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 
-## Features
+## :zap::zap: Features :zap::zap:
 **boldtemple Game Engine** it's a simple and lightweight 2d game framework:
 * Sprite animation
 * Sound effects
@@ -30,7 +30,7 @@ boldtemple Game Engine, build using C++11 and SDL2.
 * Scene manager
 
 
-## Showcase
+## :star::star: Showcase :star::star:
 
 |                       MyFirstGame                                   |                                      Simple-Game                              |
 | ------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
