@@ -22,12 +22,13 @@ boldtemple Game Engine, build using C++11 and SDL2.
 * Camera controlling
 * Widget system for making GUI
 * Resource manager
+* Script engine integration (Lua)
  
 **Soon:**
+* OpenGL backend
 * Particle system
 * Vector collision detection / Box2d integration
 * Scene manager
-* Script engine integration
 
 
 ## Showcase
