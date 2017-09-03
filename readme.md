@@ -1,8 +1,7 @@
 [![BGE](https://raw.githubusercontent.com/boldtempleGaming/Engine/readme_data/BGE.png)](#)
 
 `version 0.4a` (pre-alpha) /
-[Main Web](http://gaming.boldtemple.net/engine/bge/ "boldtemple Game Engine Main web") / 
-[Documentation](https://github.com/boldtempleGaming/Engine/wiki "boldtemple Game Engine Documentation") /
+[Docs](https://github.com/boldtempleGaming/Engine/wiki "boldtemple Game Engine Documentation") /
 [TODO](https://github.com/boldtempleGaming/Engine/wiki/TODO "TODO")
 
 
