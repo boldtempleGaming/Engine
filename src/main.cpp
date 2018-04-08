@@ -7,6 +7,9 @@
  !*/
 #include "Engine.h"
 
+#undef main
+
+#ifndef BUILD_STATIC_LIB
 void Engine::OnInit() {
 
 }
@@ -27,9 +30,9 @@ void Engine::OnCleanUp() {
 
 }
 
-#undef main
 int main() {
     Engine engine;
     engine.Start();
     return 0;
 }
+#endif
