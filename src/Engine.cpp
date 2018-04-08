@@ -27,15 +27,12 @@ void Engine::Start() {
 
     SDL_Event* event = new SDL_Event;
 
-    SetGameSpeed(60);
     //const double MS_PER_UPDATE = double(1000) / _game_speed;
     Uint32 previous = SDL_GetTicks();
     double lag = 0.0;
 
     while (!quit)
     {
-        SDL_Delay(1);
-
         Uint32 current = SDL_GetTicks();
         Uint32 elapsed = current - previous;
         previous = current;
@@ -43,17 +40,17 @@ void Engine::Start() {
 
         Surface::SetInterpolation(lag / _ms_per_update);
 
+        Core_Render();
+        Core_Event(event, keyboardState);
+
         while (lag > _ms_per_update)
         {
-            Core_Event(event, keyboardState);
             Core_Update();
-            Core_Render();
-            
+
             DeleteObjects();
             
             lag -= _ms_per_update;
         }
-
     }
 
     delete (event);
@@ -96,6 +93,8 @@ void Engine::DeleteObjects(){
 
 bool Engine::Core_Init() {
     quit = false;
+
+    SetGameSpeed(60);
 
     #ifdef USE_PHYSFS
     PhysFS::init(nullptr);
@@ -169,13 +168,17 @@ void Engine::Core_Update() {
         _Layers[i]->UpdateChildren();
     }
 
-    GUI::OnUpdate();
+    
     Collider::ProcessCollisions();
     Audio::CalcListenersPanning();
 }
 
 void Engine::Core_Render() {
+    auto bk = Window::GetBackgroundColor();
+
+    SDL_SetRenderDrawColor(Window::GetRenderer(), bk.r, bk.b, bk.g, bk.a);
     SDL_RenderClear(Window::GetRenderer());
+
     OnRender();
 
     int length = _Layers.size();
@@ -183,8 +186,10 @@ void Engine::Core_Render() {
         _Layers[i]->RenderChildren();
     }
 
+    GUI::OnUpdate();
     GUI::OnRender();
     Cursor::Draw();
+
     SDL_RenderPresent(Window::GetRenderer());
 }
 
