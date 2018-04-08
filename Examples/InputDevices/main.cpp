@@ -95,6 +95,14 @@ void Engine::OnRender(){
 
 }
 
+void Engine::OnCleanUp() {
+
+}
+
+void Engine::OnEvent(SDL_Event *event, const Uint8 *keyboardState) {
+
+}
+
 int main(){
     Engine engine;
     engine.Start();

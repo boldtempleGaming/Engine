@@ -19,6 +19,8 @@ public:
     MyObject(){
         cout << "Hello MyObject constructor!" << endl;
 
+        this->CheckTop();
+
         //Setup object pos and size
         Object::SetPos(Vec2(0, 0));
         Object::SetSize(Vec2(32, 64));
@@ -29,7 +31,18 @@ public:
     }
 
     void OnUpdate(){
-        Object::CheckClick(Window::GetCamera());
+        //required for OnTopMouseEvent
+        this->CheckTop();
+    }
+
+    void OnTopMouseEvent(){
+        cout << "MyObject hovered by mouse!" << endl;
+
+        if(Mouse::AnyPressed()){
+            if(Mouse::Pressed(MOUSE_LEFT) || Mouse::Pressed(MOUSE_RIGHT)){
+                cout << "MyObject pressed!" << endl;
+            }
+        }
     }
 
     void OnRender(){
@@ -37,14 +50,9 @@ public:
         torch.Draw(Object::GetGlobalPos(), Object::GetSize(), Window::GetCamera());
     }
 
-    void OnClick(){
-        cout << "MyObject clicked!" << endl;
-    }
-
 private:
     Sprite torch;
 };
-
 
 //All game Objects have to be created in dynamic memory
 MyObject* myObject;
@@ -76,6 +84,10 @@ void Engine::OnRender(){
 
 void Engine::OnCleanUp(){
     cout << "Do something before engine closing :)" << endl;
+}
+
+void Engine::OnEvent(SDL_Event *event, const Uint8 *keyboardState){
+
 }
 
 int main(){
