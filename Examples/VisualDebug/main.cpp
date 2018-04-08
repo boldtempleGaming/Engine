@@ -10,10 +10,6 @@ void Engine::OnInit() {
     pos = center - Vec2(15, 15);
 }
 
-void Engine::OnEvent(SDL_Event *event, const Uint8 *keyboardState) {
-
-}
-
 void Engine::OnUpdate() {
     angle = (Mouse::GetPos() - center).GetAngle();
 
@@ -49,6 +45,10 @@ void Engine::OnRender() {
 
     Drawer::RenderAll(Window::GetRenderer(), Window::GetCamera());
     Window::SetBackgroundColor(Window::GetBackgroundColor());
+}
+
+void Engine::OnEvent(SDL_Event *event, const Uint8 *keyboardState) {
+
 }
 
 void Engine::OnCleanUp() {

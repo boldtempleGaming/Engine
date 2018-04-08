@@ -54,7 +54,7 @@ if(USE_PHYSFS)
 endif()
 
 if(USE_SIMPLE_JSON)
-    add_definitions("-USE_SIMPLE_JSON")
+    add_definitions("-DUSE_SIMPLE_JSON")
 endif()
 
 #include sources root
@@ -89,7 +89,8 @@ if(COVERAGE_ENABLED)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
 endif(COVERAGE_ENABLED)
 
-if(BUILD_DYNAMIC_LIB)
+if(BUILD_STATIC_LIB)
+    add_definitions("-DBUILD_STATIC_LIB")
     add_library(${PROJECT_NAME} STATIC ${SOURCES})
 
 elseif(BUILD_DYNAMIC_LIB)

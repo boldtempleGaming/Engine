@@ -1,8 +1,14 @@
 #include "Resources.h"
 
+#ifdef USE_PHYSFS
 const char*     Resources::SPRITES_PATH = "Data/Sprites/";
 const char*     Resources::FONTS_PATH = "Data/Fonts/";
 const char*     Resources::SOUNDS_PATH = "Data/Sounds/";
+#else
+const char*     Resources::SPRITES_PATH = "../Data/Sprites/";
+const char*     Resources::FONTS_PATH = "../Data/Fonts/";
+const char*     Resources::SOUNDS_PATH = "../Data/Sounds/";
+#endif
 
 std::unordered_map<std::string, SDL_Texture*>                 Resources::_Textures;
 std::unordered_map<std::string, Resources::FontsBufWrapper>   Resources::_Fonts;

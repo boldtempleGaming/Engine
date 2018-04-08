@@ -10,7 +10,9 @@ if(GNU_CLANG)
 endif()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
-set(ENGINE_DIR "../..")
+set(ENGINE_DIR "../../")
+
+set(BUILD_STATIC_LIB ON CACHE BOOL "Build Engine static library")
 
 # Add sub-directories
 add_subdirectory(${ENGINE_DIR} "./EngineBuild")
