@@ -99,7 +99,7 @@ elseif(BUILD_DYNAMIC_LIB)
 elseif(NOT(BUILD_STATIC_LIB AND BUILD_DYNAMIC_LIB))
     #Set binary folder
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
-    #add_executable(${PROJECT_NAME} ${SOURCES})
+    add_executable(${PROJECT_NAME} ${SOURCES})
 endif()
 #======================================================
 
