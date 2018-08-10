@@ -48,21 +48,29 @@ void Surface::Draw(SDL_Texture* texture, SDL_Rect* srcrect, SDL_Rect* dstrect,
 }
 
 void Surface::DrawRect(SDL_Rect* rect, const Uint8 r, const Uint8 g,
-        const Uint8 b, const Uint8 a) {
+        const Uint8 b, const Uint8 a, bool filled) {
     SDL_Rect tmp = MoveToViewport(rect);
 
     SDL_SetRenderDrawColor(Window::GetRenderer(), r, g, b, a);
-    SDL_RenderFillRect(Window::GetRenderer(), &tmp);
+    if(filled){
+        SDL_RenderFillRect(Window::GetRenderer(), &tmp);
+    }else{
+        SDL_RenderDrawRect(Window::GetRenderer(), &tmp);
+    }
     SDL_Color background = Window::GetBackgroundColor();
     SDL_SetRenderDrawColor(Window::GetRenderer(), background.r,
                            background.g, background.b, 255);
 }
 
-void Surface::DrawRect(SDL_Rect* rect, SDL_Color color) {
+void Surface::DrawRect(SDL_Rect* rect, SDL_Color color, bool filled) {
     SDL_Rect tmp = MoveToViewport(rect);
 
     SDL_SetRenderDrawColor(Window::GetRenderer(), color.r, color.g, color.b, color.a);
-    SDL_RenderFillRect(Window::GetRenderer(), &tmp);
+    if(filled){
+        SDL_RenderFillRect(Window::GetRenderer(), &tmp);
+    }else{
+        SDL_RenderDrawRect(Window::GetRenderer(), &tmp);
+    }
     SDL_Color background = Window::GetBackgroundColor();
     SDL_SetRenderDrawColor(Window::GetRenderer(), background.r,
                            background.g, background.b, 255);

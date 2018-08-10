@@ -7,6 +7,8 @@
 
 #include <vector>
 #include <algorithm>
+#include <unordered_set>
+#include <unordered_map>
 #include <cmath>
 
 #include "Core/Vec2.h"
@@ -20,7 +22,7 @@ public:
     };
 
     static void ProcessCollisions();
-    static void RegisterObject(Object* obj, const Vec2& offset = Vec2::ZERO, const Vec2& size = Vec2::ZERO, bool is_static = true);
+    static Collider* RegisterObject(Object* obj, const Vec2& offset = Vec2::ZERO, const Vec2& size = Vec2::ZERO, bool is_static = true);
     static void UnregisterObject(Object* obj);
     static Collider* GetCollider(Object* obj);
 
@@ -41,8 +43,8 @@ public:
     float _radius = 0;
 
 private:
-    static std::vector<Collider*> _Colliders;
-    static std::vector<Collider*>::iterator Find(Object* obj);
+    static std::unordered_map<Object*, Collider*> _Colliders;
+    static std::unordered_map<Object*, Collider*>::iterator Find(Object* obj);
 
     Object* _owner = nullptr;
     TYPE_COLLIDER  _type = COLLIDER_RECT;

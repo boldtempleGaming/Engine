@@ -17,12 +17,16 @@ Widget::Widget(const Vec2& pos, const Vec2& size):
     _back.SetFrameSize(size);
 
     IgnoreWheel(true);
+
+    Object::SetCamera(GUI::GetCamera());
 }
 
 Widget::~Widget() {
     if (_back.GetTexture() != nullptr) {
         SDL_DestroyTexture(_back.GetTexture());
     }
+
+    Object::SetCamera(GUI::GetCamera());
 }
 
 void Widget::Show(bool show){

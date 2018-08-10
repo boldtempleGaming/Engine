@@ -72,6 +72,9 @@ public:
     void SetSize(const Vec2& size);
     const Vec2& GetSize() const;
 
+    void SetCamera(Camera* cam);
+    Camera* GetCamera();
+
     //Check top object for mouse events
     void CheckTop();
 
@@ -117,6 +120,8 @@ private:
     Vec2 _size;
     Vec2 _global_pos;
     Vec2 _vel;
+
+    Camera* _camera = nullptr;
 
     SDL_Rect _draw_rect;
 

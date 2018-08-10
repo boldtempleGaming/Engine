@@ -172,6 +172,16 @@ const Vec2& Object::GetSize() const {
     return _size;
 }
 
+void Object::SetCamera(Camera* cam)
+{
+    _camera = cam;
+}
+
+Camera* Object::GetCamera()
+{
+    return _camera;
+}
+
 void Object::MoveChildern(const Vec2& delta_pos) {
     for (auto it = _ChildrenList.begin(); it != _ChildrenList.end(); it++) {
         (*it)->Move(delta_pos);
@@ -201,7 +211,11 @@ void Object::CheckTop() {
     if(Mouse::Intersect(this)){
         const Surface::viewport* view = &(Surface::GetLastViewport());
 
-        if(Mouse::Intersect(view->_offset, view->_size)){
+        if(!_camera){
+            SetCamera(Window::GetCamera());
+        }
+
+        if(Mouse::Intersect(view->_offset, view->_size, _camera)){
             OnMouse();
 
             if (!_ignore_click) {

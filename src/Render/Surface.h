@@ -40,9 +40,9 @@ public:
             SDL_Rect* dstrect);
     static void Draw(SDL_Texture* texture, SDL_Rect* srcrect, SDL_Rect* dstrect,
             const double angle);
-    static void DrawRect(SDL_Rect* rect, SDL_Color color);
+    static void DrawRect(SDL_Rect* rect, SDL_Color color, bool filled = true);
     static void DrawRect(SDL_Rect* rect, const Uint8 r, const Uint8 g,
-            const Uint8 b, const Uint8 a);
+            const Uint8 b, const Uint8 a, bool filled = true);
     static void Draw(SDL_Texture* texture, SDL_Rect* srcrect, SDL_Rect* dstrect,
             const double angle, SDL_RendererFlip flip);
     static void DrawTexturedRect(SDL_Texture* src, SDL_Rect* src_rect,
