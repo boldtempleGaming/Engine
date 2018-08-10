@@ -41,7 +41,7 @@ public:
     static Vec2 GetWheel();
     static void GetWheel(int* x, int* y);
     
-    static bool Intersect(const Vec2 &pos, const Vec2& size);
+    static bool Intersect(const Vec2 &pos, const Vec2& size, Camera* cam);
     static bool Intersect(Object* object);
 
     static bool Captured();
@@ -52,8 +52,6 @@ public:
     
     static bool AnyPressed();
     static bool AnyWheeled();
-    
-    
 
 private:
     Mouse();
@@ -105,8 +103,8 @@ void Mouse::GetWheel(int* x, int* y){
 }
 
 inline
-bool Mouse::Intersect(const Vec2& pos, const Vec2 &size){
-    Vec2 mouse_pos = GetPos() + Window::GetCamera()->GetPos();
+bool Mouse::Intersect(const Vec2& pos, const Vec2 &size, Camera* cam){
+    Vec2 mouse_pos = GetPos() + cam->GetPos();
     if(mouse_pos.x < pos.x || mouse_pos.x > pos.x + size.x) return false;
     if(mouse_pos.y < pos.y || mouse_pos.y > pos.y + size.y) return false;
     return true;
@@ -114,7 +112,13 @@ bool Mouse::Intersect(const Vec2& pos, const Vec2 &size){
 
 inline
 bool Mouse::Intersect(Object* object){
-    return Intersect(object->GetGlobalPos(), object->GetSize());
+    Camera* cam = object->GetCamera();
+
+    if(!cam){
+        cam = Window::GetCamera();
+    }
+
+    return Intersect(object->GetGlobalPos(), object->GetSize(), cam);
 }
 
 inline

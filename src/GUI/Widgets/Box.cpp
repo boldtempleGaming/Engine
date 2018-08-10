@@ -31,11 +31,11 @@ Box::~Box() {
 void Box::OnRender() {
     if (_visible) {
         if (_bg_visible){
-            _back.Draw(Object::GetGlobalPos(), Object::GetSize(), GUI::GetCamera());
+            _back.Draw(Object::GetGlobalPos(), Object::GetSize(), Object::GetCamera());
         }
 
         if(_has_icon){
-            _icon.Draw(Object::GetGlobalPos(), Object::GetSize(), GUI::GetCamera());
+            _icon.Draw(Object::GetGlobalPos(), Object::GetSize(), Object::GetCamera());
         }
 
         if(_text_texture != nullptr){
