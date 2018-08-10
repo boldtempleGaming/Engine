@@ -1,6 +1,6 @@
 #include "Collider.h"
 
-std::vector<Collider*> Collider::_Colliders;
+std::unordered_map<Object* ,Collider*> Collider::_Colliders;
 
 Collider::Collider(Object *obj){
     SetOwner(obj);
@@ -15,87 +15,126 @@ void Collider::ProcessCollisions() {
     static Vec2 vel;
 
     int size = _Colliders.size();
-    for(int i = 0; i < size; ++i){
-        #define I_POS_X (_Colliders[i]->_owner->GetGlobalPos().x + _Colliders[i]->_offset.x)
-        #define I_POS_Y (_Colliders[i]->_owner->GetGlobalPos().y + _Colliders[i]->_offset.y)
-        #define I_SIZE_W (_Colliders[i]->_size.x)
-        #define I_SIZE_H (_Colliders[i]->_size.y)
 
-        #define J_POS_X (_Colliders[j]->_owner->GetGlobalPos().x + _Colliders[j]->_offset.x)
-        #define J_POS_Y (_Colliders[j]->_owner->GetGlobalPos().y + _Colliders[j]->_offset.y)
-        #define J_SIZE_W (_Colliders[j]->_size.x)
-        #define J_SIZE_H (_Colliders[j]->_size.y)
+    static std::unordered_set<Collider*> collided;
+    collided.reserve(size);
 
+    for(auto it_i : _Colliders){
+        auto collider_i = it_i.second;
 
-        //Vec2 prev_pos_i = _Colliders[i]->_owner->GetGlobalPos();
-        _Colliders[i]->_owner->Move(Vec2(_Colliders[i]->_owner->GetVel().x, 0));
-        vel = _Colliders[i]->_owner->GetVel();
+        #define I_POS_X (collider_i->_owner->GetGlobalPos().x + collider_i->_offset.x)
+        #define I_POS_Y (collider_i->_owner->GetGlobalPos().y + collider_i->_offset.y)
+        #define I_SIZE_W (collider_i->_size.x)
+        #define I_SIZE_H (collider_i->_size.y)
 
-        if(_Colliders[i]->_is_static){
-            _Colliders[i]->_owner->SetVel(vel);
+        #define J_POS_X (collider_j->_owner->GetGlobalPos().x + collider_j->_offset.x)
+        #define J_POS_Y (collider_j->_owner->GetGlobalPos().y + collider_j->_offset.y)
+        #define J_SIZE_W (collider_j->_size.x)
+        #define J_SIZE_H (collider_j->_size.y)
+
+        collided.clear();
+
+        if(collider_i->_is_static){
             continue;
         }
 
-        for(int j = 0; j < size; ++j){
-            if(i == j) continue;
-            if(_Colliders[i]->CheckCollision(_Colliders[j], dif)){
-                if(_Colliders[i]->_owner->GetVel().x >= 0) {
-                    dif.x = J_POS_X - (I_POS_X + I_SIZE_W);
-                }else{
-                    dif.x = (J_POS_X + J_SIZE_W) - I_POS_X;
+        //Vec2 prev_pos_i = collider_i->_owner->GetGlobalPos();
+        collider_i->_owner->Move(Vec2(collider_i->_owner->GetVel().x, 0));
+        vel = collider_i->_owner->GetVel();
+
+        for(auto it_j : _Colliders){
+            if(it_i.first == it_j.first) continue;
+            auto collider_j = it_j.second;
+
+            if(collider_i->CheckCollision(collider_j, dif)){
+
+                collided.insert(it_j.second);
+
+                switch(collider_j->_type){
+                case COLLIDER_RECT:
+                    if(collider_i->_owner->GetVel().x >= 0) {
+                        dif.x = J_POS_X - (I_POS_X + I_SIZE_W);
+                    }else{
+                        dif.x = (J_POS_X + J_SIZE_W) - I_POS_X;
+                    }
+
+                    collider_i->_owner->Move(Vec2(dif.x, 0));
+
+                    vel.x = 0;
+                    collider_i->_owner->SetVel(vel);
+
+                    break;
+
+                case COLLIDER_CIRCLE:
+
+                    break;
                 }
 
-                _Colliders[i]->_owner->Move(Vec2(dif.x, 0));
-
-                vel.x = 0;
-                _Colliders[i]->_owner->SetVel(vel);
-
-                _Colliders[i]->_owner->OnCollide(_Colliders[j]->_owner);
+                collider_i->_owner->OnCollide(collider_j->_owner);
             }
         }
 
-        _Colliders[i]->_owner->Move(Vec2(0, _Colliders[i]->_owner->GetVel().y));
-        for(int j = 0; j < size; ++j) {
-            if(i == j) continue;
-            if(_Colliders[i]->CheckCollision(_Colliders[j], dif)){
+        collider_i->_owner->Move(Vec2(0, collider_i->_owner->GetVel().y));
+        for(auto it_j : _Colliders) {
+            if(it_i.first == it_j.first) continue;
+            auto collider_j = it_j.second;
 
-                if(_Colliders[i]->_owner->GetVel().y >= 0) {
-                    dif.y = J_POS_Y - (I_POS_Y + I_SIZE_H);
-                }else{
-                    dif.y = (J_POS_Y + J_SIZE_H) - I_POS_Y;
+            if(collided.find(it_j.second) == collided.end())
+            if(collider_i->CheckCollision(collider_j, dif)){
+
+                switch(collider_j->_type){
+                case COLLIDER_RECT:
+                    if(collider_i->_owner->GetVel().y >= 0) {
+                        dif.y = J_POS_Y - (I_POS_Y + I_SIZE_H);
+                    }else{
+                        dif.y = (J_POS_Y + J_SIZE_H) - I_POS_Y;
+                    }
+
+                    collider_i->_owner->Move(Vec2(0, dif.y));
+
+                    vel.y = 0;
+                    collider_i->_owner->SetVel(vel);
+
+                    break;
+
+                case COLLIDER_CIRCLE:
+
+                    break;
                 }
 
-                _Colliders[i]->_owner->Move(Vec2(0, dif.y));
-
-                vel.y = 0;
-                _Colliders[i]->_owner->SetVel(vel);
-
-                _Colliders[i]->_owner->OnCollide(_Colliders[j]->_owner);
+                collider_i->_owner->OnCollide(collider_j->_owner);
 
             }
         }
     }
 }
 
-void Collider::RegisterObject(Object* obj, const Vec2& offset, const Vec2& size, bool is_static) {
+Collider* Collider::RegisterObject(Object* obj, const Vec2& offset, const Vec2& size, bool is_static) {
     if(obj != nullptr){
-        if(Find(obj) == _Colliders.end()){
+        auto iter = Find(obj);
+        if(iter == _Colliders.end()){
             Collider* coll = new Collider(obj);
 
             coll->_offset = offset;
             coll->_size = size;
             coll->_is_static = is_static;
 
-            _Colliders.push_back(coll);
+            _Colliders[obj] = coll;
+
+            return coll;
+        }else{
+            return iter->second;
         }
     }
+
+    return nullptr;
 }
 
 void Collider::UnregisterObject(Object *obj) {
     if(obj != nullptr){
         auto iter = Find(obj);
         if(iter != _Colliders.end()){
-            delete(*iter);
+            delete(iter->second);
             _Colliders.erase(iter);
         }
     }
@@ -105,7 +144,7 @@ Collider* Collider::GetCollider(Object* obj){
     if(obj != nullptr){
         auto iter = Find(obj);
         if(iter != _Colliders.end()){
-            return(*iter);
+            return(iter->second);
         }
     }
     return nullptr;
@@ -202,22 +241,10 @@ bool Collider::CheckCollision(Collider* col, Vec2& dif){
     return false;
 }
 
-std::vector<Collider*>::iterator Collider::Find(Object *obj) {
+std::unordered_map<Object*, Collider*>::iterator Collider::Find(Object *obj) {
     if(obj == nullptr){
         return _Colliders.end();
     }
 
-    auto it = _Colliders.begin();
-    for(; it != _Colliders.end(); it++){
-        if( (*it)->_owner != nullptr ){
-            if((*it)->_owner == obj){
-                break; // collider was founded
-            }
-        }else{
-            delete(*it);
-            _Colliders.erase(it);
-        }
-    }
-
-    return it;
+    return _Colliders.find(obj);
 }
