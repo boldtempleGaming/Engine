@@ -6,15 +6,15 @@
 std::vector<Drawer::shape> Drawer::RenQueue;
 
 void Drawer::Line(const Vec2& point1, const Vec2& point2, const SDL_Color& color){
-    SDL_Point pt1 = {(int)point1.x, (int)point1.y};
-    SDL_Point pt2 = {(int)point2.x, (int)point2.y};
+    SDL_Point pt1 = {static_cast<int>(std::round(point1.x)), static_cast<int>(std::round(point1.y))};
+    SDL_Point pt2 = {static_cast<int>(std::round(point2.x)), static_cast<int>(std::round(point2.y))};
 
     RenQueue.push_back({SHAPE_LINE, color, 0, 0, {0, 0}, {pt1, pt2}});
 }
 
 void Drawer::Rect(const Vec2& pos, const Vec2& size, const SDL_Color &color, bool dynamic, float angle){
-    SDL_Point pt1 = {(int)pos.x, (int)pos.y};
-    SDL_Point pt2 = {(int)size.x, (int)size.y};
+    SDL_Point pt1 = {static_cast<int>(std::round(pos.x)), static_cast<int>(std::round(pos.y))};
+    SDL_Point pt2 = {static_cast<int>(std::round(size.x)), static_cast<int>(std::round(size.y))};
 
     if(dynamic){
         RenQueue.push_back({SHAPE_RECT_DYN, color, angle * Vec2::GRADUS, 0, {0, 0}, {pt1, pt2}});

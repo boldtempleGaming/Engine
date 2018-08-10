@@ -9,6 +9,8 @@
 #define SRC_RENDER_SPRITE_H_
 
 
+#include <cmath>
+
 #include "Core/Resources.h"
 
 #include "Render/Surface.h"

@@ -19,10 +19,10 @@ Sprite::~Sprite() {
 
 void Sprite::Draw(const Vec2& pos, const Vec2& size, const Camera* camera) {
     SDL_Rect dst_rect = {
-        static_cast<int>(pos.x),
-        static_cast<int>(pos.y),
-        static_cast<int>(size.x),
-        static_cast<int>(size.y)
+        static_cast<int>(std::round(pos.x)),
+        static_cast<int>(std::round(pos.y)),
+        static_cast<int>(std::round(size.x)),
+        static_cast<int>(std::round(size.y))
     };
 
     //Camera culling
