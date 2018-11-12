@@ -1,4 +1,5 @@
 [![BGE](https://raw.githubusercontent.com/boldtempleGaming/Engine/readme_data/BGE.png)](#)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FboldtempleGaming%2FEngine.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FboldtempleGaming%2FEngine?ref=badge_shield)
 
 `version 0.4a` (pre-alpha) /
 [Docs](https://github.com/boldtempleGaming/Engine/wiki "boldtemple Game Engine Documentation") /
@@ -47,3 +48,7 @@ Feel free to ask :point_up:
 
 
 <!-- **boldtemple Game Engine** -->
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FboldtempleGaming%2FEngine.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FboldtempleGaming%2FEngine?ref=badge_large)
