@@ -1,5 +1,4 @@
 [![BGE](https://raw.githubusercontent.com/boldtempleGaming/Engine/readme_data/BGE.png)](#)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FboldtempleGaming%2FEngine.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FboldtempleGaming%2FEngine?ref=badge_shield)
 
 `version 0.4a` (pre-alpha) /
 [Docs](https://github.com/boldtempleGaming/Engine/wiki "boldtemple Game Engine Documentation") /
@@ -11,7 +10,7 @@
 <br/>Cross Platform: `Windows`, `Linux`, `OS X`
 <br/>
 
-[![Build Status](https://travis-ci.org/boldtempleGaming/Engine.svg?branch=master)](https://travis-ci.org/boldtempleGaming/Engine) [![Telegram](https://github.com/boldtempleGaming/Engine/raw/readme_data/chat-on%20telegram-179cde.png)](https://t.me/joinchat/GINNdA09PvPDDmUS3efn7Q) [![Gitter](https://badges.gitter.im/boldtempleGaming/Engine.svg)](https://gitter.im/boldtempleGaming/Engine?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Build Status](https://travis-ci.org/boldtempleGaming/Engine.svg?branch=master)](https://travis-ci.org/boldtempleGaming/Engine) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FboldtempleGaming%2FEngine.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FboldtempleGaming%2FEngine?ref=badge_shield) [![Telegram](https://github.com/boldtempleGaming/Engine/raw/readme_data/chat-on%20telegram-179cde.png)](https://t.me/joinchat/GINNdA09PvPDDmUS3efn7Q) [![Gitter](https://badges.gitter.im/boldtempleGaming/Engine.svg)](https://gitter.im/boldtempleGaming/Engine?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 <br/>
 Feel free to ask :point_up:
 
