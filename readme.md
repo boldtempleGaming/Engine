@@ -1,6 +1,6 @@
 [![BGE](https://raw.githubusercontent.com/boldtempleGaming/Engine/readme_data/BGE.png)](#)
 
-`version 0.4a` (pre-alpha) /
+`version 0.5a` (pre-alpha) /
 [Docs](https://github.com/boldtempleGaming/Engine/wiki "boldtemple Game Engine Documentation") /
 [TODO](https://github.com/boldtempleGaming/Engine/wiki/TODO "TODO")
 
@@ -14,7 +14,7 @@
 <br/>
 Feel free to ask :point_up:
 
-## :zap::zap: Features :zap::zap:
+## Features
 **boldtemple Game Engine** it's a simple and lightweight 2d game framework:
 * Sprite animation
 * Sound effects
@@ -31,7 +31,7 @@ Feel free to ask :point_up:
 * Scene manager
 
 
-## :star::star: Showcase :star::star:
+## Showcase
 
 |                       MyFirstGame                                   |                                      Simple-Game                              |
 | ------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
