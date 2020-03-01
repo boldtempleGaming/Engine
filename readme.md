@@ -51,3 +51,9 @@ Feel free to ask :point_up:
 
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FboldtempleGaming%2FEngine.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FboldtempleGaming%2FEngine?ref=badge_large)
+
+
+## Team
+* **Developers & Maintainers**: boldtemple Gaming team: Winpooh32 / Emil
+* **Quality Assurance**: Chumingsun
+
